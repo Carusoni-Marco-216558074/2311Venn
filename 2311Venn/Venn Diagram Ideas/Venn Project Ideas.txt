@@ -9,3 +9,5 @@ make the text resize to a certain point to help with spacing
 give them the option to add their own points with a limited word count
 
 change colour of text
+
+more than 2 circles
