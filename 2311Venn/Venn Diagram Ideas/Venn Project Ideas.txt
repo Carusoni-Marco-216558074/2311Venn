@@ -12,4 +12,6 @@ change colour of text
 
 more than 2 circles
 
-test jeffNew
+have a shape generator so client can pick what type of shape they want
+
+have break points in the bounds of our text so we can insert text above,below, or between text blocks
