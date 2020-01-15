@@ -2154,3 +2154,6 @@ java.lang.IllegalStateException: Call stack for thread main
 
 !ENTRY org.eclipse.oomph.setup.ui 1 0 2020-01-15 18:35:03.883
 !MESSAGE Setup tasks were performed during startup updating 89 preferences. See 'C:\Users\arjun\eclipse\java-2018-093\eclipse\configuration\org.eclipse.oomph.setup\setup.log' for details
+
+!ENTRY org.eclipse.ui 4 4 2020-01-15 18:47:04.821
+!MESSAGE Conflicting handlers for org.eclipse.ui.navigate.backwardHistory: {ActionHandler(org.eclipse.ui.internal.dialogs.PreferencePageHistory$1@1e0815f4)} vs {ActionHandler(org.eclipse.ui.internal.NavigationHistoryAction@96be1ae)}
