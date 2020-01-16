@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 public class InteractionFrame extends JFrame {
 	
 	
