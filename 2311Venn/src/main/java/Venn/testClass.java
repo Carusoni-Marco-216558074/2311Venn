@@ -21,11 +21,7 @@ public class testClass extends Application {
     	primaryStage.setResizable(false);
         primaryStage.setTitle("Test Main Frame");
         
-        SubScene secScene;
-        
-        
         Button btn = new Button();
-        
         
         
         btn.setText("Say 'Hello World'");
@@ -40,6 +36,9 @@ public class testClass extends Application {
         StackPane root = new StackPane();
         root.getChildren().add(btn);
         primaryStage.setScene(new Scene(root, 1000, 720));
+        SubScene secScene = new SubScene(root, 200, 200);
+        
+        
         primaryStage.show();
     }
 }
