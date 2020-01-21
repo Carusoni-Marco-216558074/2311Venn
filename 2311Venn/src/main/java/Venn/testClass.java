@@ -1,13 +1,23 @@
 package Venn;
 
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import com.sun.javafx.geom.Shape;
+
+//Java program to implement Slider Class 
+//using ChangeListener 
+import javafx.application.Application; 
+import javafx.beans.value.ChangeListener; 
+import javafx.beans.value.ObservableValue; 
+import javafx.geometry.Insets; 
+import javafx.scene.Scene; 
+import javafx.scene.control.Label; 
+import javafx.scene.control.Slider; 
+import javafx.scene.layout.VBox; 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Sphere;
+import javafx.scene.text.Font;
+import javafx.stage.Stage; 
 
 public class testClass extends Application { 
 
@@ -18,17 +28,21 @@ public class testClass extends Application {
 
 		l.setTextFill(Color.BLACK); 
 		l.setFont(new Font("Arial", 30));
-		
-		
+	
 		Slider slider = new Slider(); 
-		
+					
 		Circle Ven1 = new Circle(100);
 		Ven1.setStroke(Color.DARKSLATEBLUE);
 		Ven1.setFill(Color.TRANSPARENT);
-	
+
+		
 		Circle Ven2 = new Circle(100);
 		Ven2.setStroke(Color.DARKRED);
 		Ven2.setFill(Color.TRANSPARENT);
+		
+		
+
+		
 		
 		slider.setMin(0); 
 		slider.setMax(100); 
@@ -60,10 +74,11 @@ public class testClass extends Application {
 
 		stage.setTitle("Slider"); 
 
-		Scene scene = new Scene(root, 1920, 1080); 
+		Scene scene = new Scene(root, 1900, 1000); 
 		stage.setScene(scene); 
 		stage.show(); 
 	} 
+
 
 	public static void main(String[] args) 
 	{ 
