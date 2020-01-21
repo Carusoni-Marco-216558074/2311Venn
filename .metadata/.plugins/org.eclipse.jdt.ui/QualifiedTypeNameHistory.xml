@@ -19,4 +19,7 @@
 <fullyQualifiedTypeName name="javafx.scene.shape.ArcType"/>
 <fullyQualifiedTypeName name="javafx.scene.shape.Arc"/>
 <fullyQualifiedTypeName name="com.sun.xml.internal.bind.v2.schemagen.xmlschema.Union"/>
+<fullyQualifiedTypeName name="javafx.scene.shape.Shape"/>
+<fullyQualifiedTypeName name="java.awt.Shape"/>
+<fullyQualifiedTypeName name="com.sun.javafx.geom.Shape"/>
 </qualifiedTypeNameHistroy>

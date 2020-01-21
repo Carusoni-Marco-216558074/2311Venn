@@ -1,7 +1,7 @@
 package Venn;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.NumberType;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Union;
+
+import com.sun.javafx.geom.Shape;
 
 //Java program to implement Slider Class 
 //using ChangeListener 
@@ -28,17 +28,21 @@ public class testClass extends Application {
 
 		l.setTextFill(Color.BLACK); 
 		l.setFont(new Font("Arial", 30));
-		
-		
+	
 		Slider slider = new Slider(); 
-		
+					
 		Circle Ven1 = new Circle(100);
 		Ven1.setStroke(Color.DARKSLATEBLUE);
 		Ven1.setFill(Color.TRANSPARENT);
-	
+
+		
 		Circle Ven2 = new Circle(100);
 		Ven2.setStroke(Color.DARKRED);
 		Ven2.setFill(Color.TRANSPARENT);
+		
+		
+
+		
 		
 		slider.setMin(0); 
 		slider.setMax(100); 
@@ -70,10 +74,11 @@ public class testClass extends Application {
 
 		stage.setTitle("Slider"); 
 
-		Scene scene = new Scene(root, 1920, 1080); 
+		Scene scene = new Scene(root, 1900, 1000); 
 		stage.setScene(scene); 
 		stage.show(); 
 	} 
+
 
 	public static void main(String[] args) 
 	{ 
