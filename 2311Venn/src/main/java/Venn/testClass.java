@@ -1,23 +1,13 @@
 package Venn;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.NumberType;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Union;
 
-//Java program to implement Slider Class 
-//using ChangeListener 
-import javafx.application.Application; 
-import javafx.beans.value.ChangeListener; 
-import javafx.beans.value.ObservableValue; 
-import javafx.geometry.Insets; 
-import javafx.scene.Scene; 
-import javafx.scene.control.Label; 
-import javafx.scene.control.Slider; 
-import javafx.scene.layout.VBox; 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Sphere;
-import javafx.scene.text.Font;
-import javafx.stage.Stage; 
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class testClass extends Application { 
 
