@@ -30,28 +30,37 @@ public class Main extends Application {
 
 		Slider slider = new Slider();
 
-		Circle Ven1 = new Circle(200);
+		Circle Ven1 = new Circle(325.2);
 		Ven1.setStroke(Color.DARKSLATEBLUE);
 		Ven1.setFill(Color.TRANSPARENT);
 
-		Circle Ven2 = new Circle(200);
+		Circle Ven2 = new Circle(325.2);
 		Ven2.setStroke(Color.DARKRED);
 		Ven2.setFill(Color.TRANSPARENT);
 
-		slider.setMin(0);
-		slider.setMax(100);
-		slider.setValue(50);
+		slider.setMin(50);
+		slider.setMax(115);
+		slider.setValue(81.3);
 
-		slider.setShowTickLabels(true);
 		slider.setShowTickMarks(true);
-		slider.setSnapToTicks(true);
-		slider.setBlockIncrement(10);
+		slider.setBlockIncrement(5);
 
+		Insets in = new Insets(-2.1 * 81.3);
+		
+		HBox levelUp = new HBox(10);
+		
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				Ven1.setRadius(4 * newValue.doubleValue());
 				Ven2.setRadius(4 * newValue.doubleValue());
+				
+				Insets in = new Insets(-2.1 * newValue.doubleValue());
+
+				
+				levelUp.setMargin(Ven1, in);
+				levelUp.setMargin(Ven2, in);
+				
 			}
 		});
 
@@ -59,11 +68,8 @@ public class Main extends Application {
 
 		root.setBottom(slider);
 
-		HBox levelUp = new HBox(10);
 
 		levelUp.setAlignment(Pos.CENTER);
-
-		Insets in = new Insets(-75);
 
 		levelUp.setHgrow(Ven1, Priority.ALWAYS);
 		levelUp.setHgrow(Ven2, Priority.ALWAYS);
