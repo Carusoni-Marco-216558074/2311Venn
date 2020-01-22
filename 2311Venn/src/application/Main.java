@@ -53,7 +53,7 @@ public class Main extends Application {
 		slider.setMin(50);
 		slider.setMax(100);
 		slider.setValue(75);
-		slider.setMaxWidth(200);
+		slider.setMaxWidth(200); //arjun do this shit
 		slider.setShowTickMarks(true);
 		slider.setBlockIncrement(5);
 
