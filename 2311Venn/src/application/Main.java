@@ -1,6 +1,8 @@
 package application;
 
 import com.sun.javafx.geom.Shape;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 
 //Java program to implement Slider Class 
 //using ChangeListener 
@@ -33,6 +35,8 @@ public class Main extends Application {
 	@SuppressWarnings("static-access")
 	public void start(Stage stage) {
 
+		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+		
 		BorderPane root = new BorderPane();
 
 		ColorPicker cpV1 = new ColorPicker();
@@ -58,8 +62,9 @@ public class Main extends Application {
 		slider.setBlockIncrement(5);
 
 		TextField Title = new TextField("Insert Title Here");
-
+		
 		Font font = new Font("TimesRoman", 36);
+		
 
 		Title.setFont(font);
 		Title.setAlignment(Pos.CENTER);
@@ -74,8 +79,8 @@ public class Main extends Application {
 		Insets in = new Insets(-2.1 * 81.3);
 
 		HBox levelUp = new HBox(10);
-
 		VBox left = new VBox();
+		
 		left.getChildren().addAll(cpV1, cpV2, slider);
 		left.setAlignment(Pos.CENTER_LEFT);
 
@@ -87,6 +92,9 @@ public class Main extends Application {
 		levelUp.setMargin(Ven1, in);
 		levelUp.setMargin(Ven2, in);
 
+		
+		
+		
 		// listeners
 
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -102,6 +110,7 @@ public class Main extends Application {
 
 			}
 		});
+	
 
 		//
 
@@ -133,10 +142,12 @@ public class Main extends Application {
 
 		});
 
+		
+		
 		levelUp.getChildren().addAll(Ven1, Ven2);
 		root.setCenter(levelUp);
 		stage.setTitle("Slider");
-		Scene scene = new Scene(root, 1900, 1000);
+		Scene scene = new Scene(root, screenBounds.getMaxX()-100, screenBounds.getMaxY()-100);
 		stage.setScene(scene);
 		stage.show();
 	}
