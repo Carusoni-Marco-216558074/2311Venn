@@ -44,12 +44,12 @@ public class Main extends Application {
 
 		Slider slider = new Slider();
 
-		Circle Ven1 = new Circle(325.2);
+		Circle Ven1 = new Circle(325.2);//change to screen size
 		//Ven1.setStroke(Color.DARKSLATEBLUE); // get rid of constants for colour picker
 		Ven1.setStroke(Color.BLACK);
 		Ven1.setFill(Color.rgb(0, 0, 150, 0.2)); // get rid of constants for colour picker
 
-		Circle Ven2 = new Circle(325.2);
+		Circle Ven2 = new Circle(325.2); //change to screen size
 		//Ven2.setStroke(Color.DARKRED); // get rid of constants for colour picker
 		Ven2.setStroke(Color.BLACK);
 		Ven2.setFill(Color.rgb(150, 0, 0, 0.2)); // get rid of constants for colour picker
@@ -57,7 +57,7 @@ public class Main extends Application {
 		slider.setMin(50);
 		slider.setMax(100);
 		slider.setValue(75);
-		slider.setMaxWidth(200); //arjun do this shit
+		slider.setMaxWidth(200); //change to screen size
 		slider.setShowTickMarks(true);
 		slider.setBlockIncrement(5);
 
@@ -76,7 +76,7 @@ public class Main extends Application {
 
 		root.setTop(TitleBox);
 
-		Insets in = new Insets(-2.1 * 81.3);
+		Insets in = new Insets(-2.1 * 81.3); //change to screen size
 
 		HBox levelUp = new HBox(10);
 		VBox left = new VBox();
@@ -103,7 +103,7 @@ public class Main extends Application {
 				Ven1.setRadius(4 * newValue.doubleValue());
 				Ven2.setRadius(4 * newValue.doubleValue());
 
-				Insets in = new Insets(-2 * newValue.doubleValue());
+				Insets in = new Insets(-2 * newValue.doubleValue()); //change screen size
 
 				levelUp.setMargin(Ven1, in);
 				levelUp.setMargin(Ven2, in);
