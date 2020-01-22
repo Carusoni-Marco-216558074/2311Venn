@@ -41,11 +41,13 @@ public class Main extends Application {
 		Slider slider = new Slider();
 
 		Circle Ven1 = new Circle(325.2);
-		Ven1.setStroke(Color.DARKSLATEBLUE); // get rid of constants for colour picker
+		//Ven1.setStroke(Color.DARKSLATEBLUE); // get rid of constants for colour picker
+		Ven1.setStroke(Color.BLACK);
 		Ven1.setFill(Color.rgb(0, 0, 150, 0.2)); // get rid of constants for colour picker
 
 		Circle Ven2 = new Circle(325.2);
-		Ven2.setStroke(Color.DARKRED); // get rid of constants for colour picker
+		//Ven2.setStroke(Color.DARKRED); // get rid of constants for colour picker
+		Ven2.setStroke(Color.BLACK);
 		Ven2.setFill(Color.rgb(150, 0, 0, 0.2)); // get rid of constants for colour picker
 
 		slider.setMin(50);
@@ -117,7 +119,6 @@ public class Main extends Application {
 			int blue =	(int) (255 * newValue.getBlue());
 			int green =	(int) (255 * newValue.getGreen());
 
-			
 			Ven1.setFill(Color.rgb(red, green, blue, 0.2));
 			
 		});
@@ -128,7 +129,6 @@ public class Main extends Application {
 			int blue =	(int) (255 * newValue.getBlue());
 			int green =	(int) (255 * newValue.getGreen());
 
-			
 			Ven2.setFill(Color.rgb(red, green, blue, 0.2));
 
 		});
