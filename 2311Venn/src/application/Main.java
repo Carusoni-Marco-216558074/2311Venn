@@ -7,9 +7,11 @@ import com.sun.javafx.geom.Shape;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
@@ -33,42 +35,36 @@ public class Main extends Application {
 
 		BorderPane root = new BorderPane();
 
+		ColorPicker cpV1 = new ColorPicker();
+		ColorPicker cpV2 = new ColorPicker();
+
 		Slider slider = new Slider();
 
 		Circle Ven1 = new Circle(325.2);
-		Ven1.setStroke(Color.DARKSLATEBLUE);
-		Ven1.setFill(Color.TRANSPARENT);
+		Ven1.setStroke(Color.DARKSLATEBLUE); // get rid of constants for colour picker
+		Ven1.setFill(Color.rgb(0, 0, 150, 0.2)); // get rid of constants for colour picker
 
 		Circle Ven2 = new Circle(325.2);
-		Ven2.setStroke(Color.DARKRED);
-		Ven2.setFill(Color.TRANSPARENT);
+		Ven2.setStroke(Color.DARKRED); // get rid of constants for colour picker
+		Ven2.setFill(Color.rgb(150, 0, 0, 0.2)); // get rid of constants for colour picker
 
 		slider.setMin(50);
 		slider.setMax(100);
 		slider.setValue(75);
-
+		slider.setMaxWidth(200);
 		slider.setShowTickMarks(true);
 		slider.setBlockIncrement(5);
 
 		TextField Title = new TextField("Insert Title Here");
 
 		Font font = new Font("TimesRoman", 36);
-		Title.setFont(font);
 
+		Title.setFont(font);
 		Title.setAlignment(Pos.CENTER);
 		Title.setBackground(null);
 
-		Title.setOnKeyTyped(event -> {
-			int maxCharacters = 60;
-			if (Title.getText().length() > maxCharacters)
-				event.consume();
-		});
-		
-
 		VBox TitleBox = new VBox(1);
-
 		TitleBox.getChildren().addAll(Title);
-
 		TitleBox.setAlignment(Pos.BASELINE_CENTER);
 
 		root.setTop(TitleBox);
@@ -76,6 +72,20 @@ public class Main extends Application {
 		Insets in = new Insets(-2.1 * 81.3);
 
 		HBox levelUp = new HBox(10);
+
+		VBox left = new VBox();
+		left.getChildren().addAll(cpV1, cpV2, slider);
+		left.setAlignment(Pos.CENTER_LEFT);
+
+		root.setBottom(left);
+
+		levelUp.setAlignment(Pos.CENTER);
+		levelUp.setHgrow(Ven1, Priority.ALWAYS);
+		levelUp.setHgrow(Ven2, Priority.ALWAYS);
+		levelUp.setMargin(Ven1, in);
+		levelUp.setMargin(Ven2, in);
+
+		// listeners
 
 		slider.valueProperty().addListener(new ChangeListener<Number>() {
 
@@ -91,24 +101,42 @@ public class Main extends Application {
 			}
 		});
 
-		root.setBottom(slider);
+		//
 
-		levelUp.setAlignment(Pos.CENTER);
+		Title.setOnKeyTyped(event -> {
+			int maxCharacters = 60;
+			if (Title.getText().length() > maxCharacters)
+				event.consume();
+		});
 
-		levelUp.setHgrow(Ven1, Priority.ALWAYS);
-		levelUp.setHgrow(Ven2, Priority.ALWAYS);
+		//
+		// color picker for ven1
+		cpV1.valueProperty().addListener((observable, oldValue, newValue) -> {
+			
+			int red =  	(int) (255 * newValue.getRed());
+			int blue =	(int) (255 * newValue.getBlue());
+			int green =	(int) (255 * newValue.getGreen());
 
-		levelUp.setMargin(Ven1, in);
-		levelUp.setMargin(Ven2, in);
+			
+			Ven1.setFill(Color.rgb(red, green, blue, 0.2));
+			
+		});
+		// color picker for ven2
+		cpV2.valueProperty().addListener((observable, oldValue, newValue) -> {
+
+			int red =  	(int) (255 * newValue.getRed());
+			int blue =	(int) (255 * newValue.getBlue());
+			int green =	(int) (255 * newValue.getGreen());
+
+			
+			Ven2.setFill(Color.rgb(red, green, blue, 0.2));
+
+		});
 
 		levelUp.getChildren().addAll(Ven1, Ven2);
-
 		root.setCenter(levelUp);
-
 		stage.setTitle("Slider");
-
 		Scene scene = new Scene(root, 1900, 1000);
-
 		stage.setScene(scene);
 		stage.show();
 	}
