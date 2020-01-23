@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,11 +19,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Font;
@@ -40,13 +45,13 @@ public class Main extends Application {
 		double scalar = 1 / ((1920 * 1080) / (screenBounds.getMaxX() * screenBounds.getMaxY()));
 
 		BorderPane root = new BorderPane();
-
+		
 		ColorPicker cpV1 = new ColorPicker();
 		ColorPicker cpV2 = new ColorPicker();
-		
+
 		cpV1.setValue(Color.rgb(0, 0, 150, 0.2));
 		cpV2.setValue(Color.rgb(150, 0, 0, 0.2));
-		
+
 		Slider slider = new Slider();
 		slider.setMin(50 * scalar);
 		slider.setMax(100 * scalar);
@@ -64,13 +69,12 @@ public class Main extends Application {
 		Ven2.setFill(Color.rgb(150, 0, 0, 0.2));
 
 		CheckBox chk1 = new CheckBox("Subtitles");
-		chk1.setFont(new Font("TimesRoman", Ven1.getRadius() / (scalar * 15)));
-		
+		chk1.setFont(new Font("Arial", Ven1.getRadius() / (scalar * 13)));
+
 		HBox subTitle = new HBox();
 		subTitle.setAlignment(Pos.TOP_CENTER);
 		TextField ven1Title = new TextField("Insert Title Here");
 		TextField ven2Title = new TextField("Insert Title Here");
-
 		ven1Title.setAlignment(Pos.CENTER);
 		ven2Title.setAlignment(Pos.CENTER);
 		ven1Title.setDisable(true);
@@ -78,7 +82,7 @@ public class Main extends Application {
 		ven1Title.setVisible(false);
 		ven2Title.setVisible(false);
 
-		Font subTitleFont = new Font("TimesRoman", Ven1.getRadius() / (scalar * 15));
+		Font subTitleFont = new Font("Arial Bold", Ven1.getRadius() / (scalar * 13));
 		ven1Title.setFont(subTitleFont);
 		ven2Title.setFont(subTitleFont);
 		ven1Title.setBackground(null);
@@ -89,14 +93,16 @@ public class Main extends Application {
 		ven2Title.setTranslateX(Ven1.getRadius() * 0.35);
 
 		TextField Title = new TextField("Insert Title Here");
-		Font Titlefont = new Font("TimesRoman", 36);
+
+		Font Titlefont = new Font("Arial Bold", 36);
+
 		Title.setFont(Titlefont);
 		Title.setAlignment(Pos.CENTER);
 		Title.setBackground(null);
 		VBox TitleBox = new VBox(1);
 		TitleBox.getChildren().addAll(Title);
 		TitleBox.setAlignment(Pos.BASELINE_CENTER);
-		TitleBox.setTranslateY(-(20 * scalar));
+		TitleBox.setTranslateY(-(30 * scalar));
 		root.setTop(TitleBox);
 
 		Insets in = new Insets(-(151 * scalar));
@@ -133,13 +139,57 @@ public class Main extends Application {
 				ven1Title.setTranslateX(-(Ven1.getRadius() * 0.35));
 				ven2Title.setTranslateX(Ven1.getRadius() * 0.35);
 
-				Font changedSubFont = new Font("TimesRoman", Ven1.getRadius() / (scalar * 15));
+				Font changedSubFont = new Font("Arial Bold", Ven1.getRadius() / (scalar * 13));
 
 				ven1Title.setFont(changedSubFont);
 				ven2Title.setFont(changedSubFont);
-				
+
 			}
 		});
+//
+
+		ven1Title.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			
+			
+			@Override
+			public void handle(MouseEvent arg0) {
+				
+				if (ven1Title.getText().contains("Insert"))
+					ven1Title.setText("");
+			}
+
+		});
+
+//
+
+		ven2Title.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				
+				if (ven2Title.getText().contains("Insert"))
+					ven2Title.setText("");
+					
+
+			}
+
+		});
+
+//
+
+		Title.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+
+				if (Title.getText().contains("Insert")) {
+					Title.setText("");
+
+				}
+			}
+
+		});
+
 //
 		chk1.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
@@ -149,6 +199,9 @@ public class Main extends Application {
 				ven2Title.setDisable(!newValue);
 				ven1Title.setVisible(newValue);
 				ven2Title.setVisible(newValue);
+
+				ven1Title.setText("Insert Title Here");
+				ven2Title.setText("Insert Title Here");
 
 			}
 		});

@@ -13,4 +13,9 @@
 <fullyQualifiedTypeName name="javafx.geometry.Pos"/>
 <fullyQualifiedTypeName name="javafx.scene.text.Font"/>
 <fullyQualifiedTypeName name="javafx.scene.control.CheckBox"/>
+<fullyQualifiedTypeName name="javafx.event.EventHandler"/>
+<fullyQualifiedTypeName name="javafx.scene.input.MouseEvent"/>
+<fullyQualifiedTypeName name="javafx.scene.layout.Background"/>
+<fullyQualifiedTypeName name="javafx.scene.layout.BackgroundFill"/>
+<fullyQualifiedTypeName name="javafx.scene.paint.Paint"/>
 </qualifiedTypeNameHistroy>
