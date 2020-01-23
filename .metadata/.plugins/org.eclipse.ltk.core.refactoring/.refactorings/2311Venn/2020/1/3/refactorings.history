@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Move element &apos;&apos; to &apos;Venn.Main.java&apos;&#x0D;&#x0A;- Original project: &apos;2311Venn&apos;&#x0D;&#x0A;- Destination element: &apos;Venn.Main.java&apos;&#x0D;&#x0A;- Original element: &apos;Venn.Library.someLibraryMethod()&apos;&#x0D;&#x0A;- Textual move only&#x0D;&#x0A;- Update references to refactored element" description="Move method" destination="/src\/main\/java&lt;Venn{Main.java" element1="/src\/main\/java&lt;Venn{Library.java[Library~someLibraryMethod" flags="589830" id="org.eclipse.jdt.ui.move" members="1" policy="org.eclipse.jdt.ui.moveMembers" stamp="1578935219171" version="1.0"/>
-</session>
