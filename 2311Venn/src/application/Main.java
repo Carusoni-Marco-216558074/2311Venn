@@ -45,8 +45,8 @@ public class Main extends Application {
 		ColorPicker cpV2 = new ColorPicker();
 		
 		
-		cpV1.setValue(Color.rgb(0, 0, 150));
-		cpV2.setValue(Color.rgb(150, 0, 0));
+		cpV1.setValue(Color.rgb(0, 0, 150, 0.2));
+		cpV2.setValue(Color.rgb(150, 0, 0, 0.2));
 
 
 		Slider slider = new Slider();
