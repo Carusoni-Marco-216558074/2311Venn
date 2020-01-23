@@ -36,7 +36,7 @@ public class Main extends Application {
 
 		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 		
-		double scalar = (1920 * 1080) / (screenBounds.getMaxX() * screenBounds.getMaxY());
+		double scalar = 1/((1920 * 1080) / (screenBounds.getMaxX() * screenBounds.getMaxY()));
 		
 		
 		BorderPane root = new BorderPane();
@@ -51,21 +51,23 @@ public class Main extends Application {
 
 		Slider slider = new Slider();
 		
-		Circle Ven1 = new Circle(325 * scalar);//change to screen size		
-		Ven1.setStroke(Color.BLACK);
-		Ven1.setFill(Color.rgb(0, 0, 150, 0.2));
-
-		Circle Ven2 = new Circle(325 * scalar); //change to screen size
-		Ven2.setStroke(Color.BLACK);
-		Ven2.setFill(Color.rgb(150, 0, 0, 0.2));
-
-		slider.setMin(50);
-		slider.setMax(100);
-		slider.setValue(75);
+		slider.setMin(50*scalar);
+		slider.setMax(100*scalar);
+		slider.setValue(75*scalar);
 		slider.setMaxWidth(200 * scalar); //change to screen size
 		slider.setShowTickMarks(true);
 		slider.setBlockIncrement(5);
+		
+		Circle Ven1 = new Circle(4 * slider.getValue());//change to screen size		
+		Ven1.setStroke(Color.BLACK);
+		Ven1.setFill(Color.rgb(0, 0, 150, 0.2));
 
+		Circle Ven2 = new Circle(4 * slider.getValue()); //change to screen size
+		Ven2.setStroke(Color.BLACK);
+		Ven2.setFill(Color.rgb(150, 0, 0, 0.2));
+
+		
+		
 		TextField Title = new TextField("Insert Title Here");
 		
 		Font font = new Font("TimesRoman", 36);
@@ -108,7 +110,7 @@ public class Main extends Application {
 				Ven1.setRadius(4 * newValue.doubleValue());
 				Ven2.setRadius(4 * newValue.doubleValue());
 
-				Insets in = new Insets((-2 * newValue.doubleValue()) * scalar); //change screen size
+				Insets in = new Insets((-2 * newValue.doubleValue())); //change screen size
 
 				levelUp.setMargin(Ven1, in);
 				levelUp.setMargin(Ven2, in);
