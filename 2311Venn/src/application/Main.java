@@ -43,9 +43,14 @@ public class Main extends Application {
 
 		ColorPicker cpV1 = new ColorPicker();
 		ColorPicker cpV2 = new ColorPicker();
+		
+		
+		cpV1.setValue(Color.rgb(0, 0, 150));
+		cpV2.setValue(Color.rgb(150, 0, 0));
+
 
 		Slider slider = new Slider();
-
+		
 		Circle Ven1 = new Circle(325 * scalar);//change to screen size		
 		Ven1.setStroke(Color.BLACK);
 		Ven1.setFill(Color.rgb(0, 0, 150, 0.2));
@@ -65,7 +70,7 @@ public class Main extends Application {
 		
 		Font font = new Font("TimesRoman", 36);
 		
-
+		
 		Title.setFont(font);
 		Title.setAlignment(Pos.CENTER);
 		Title.setBackground(null);
@@ -147,7 +152,7 @@ public class Main extends Application {
 		levelUp.getChildren().addAll(Ven1, Ven2);
 		root.setCenter(levelUp);
 		stage.setTitle("Slider");
-		Scene scene = new Scene(root, screenBounds.getMaxX()-100, screenBounds.getMaxY()-100);
+		Scene scene = new Scene(root, screenBounds.getMaxX()-(100 * scalar), screenBounds.getMaxY()-(100 * scalar));
 		stage.setScene(scene);
 		stage.show();
 	}
