@@ -59,7 +59,7 @@ public class Main extends Application {
 		Ven1.setFill(Color.rgb(0, 0, 150, 0.2));
 
 		double radius = Ven1.getRadius()*scalar;
-		double mainFontSize = Ven1.getRadius() / (scalar * 15);
+		double mainFontSize = Ven1.getRadius() / (scalar * 13);
 		double smallFont = mainFontSize / 2;
 		double subTitleTranslate = 0.35*scalar;
 
@@ -174,7 +174,7 @@ public class Main extends Application {
 				Ven1Slider.setValue(newValue.doubleValue());
 				Ven2Slider.setValue(newValue.doubleValue());
 
-				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 15));
+				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 13));
 
 				ven1Title.setFont(changedSubFont);
 				ven2Title.setFont(changedSubFont);
@@ -195,7 +195,7 @@ public class Main extends Application {
 				ven1Title.setTranslateY(-(radius * 1.25));
 				//
 				ven1Title.setTranslateX((-(radius * subTitleTranslate)*scalar));
-				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 15));
+				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 13));
 				ven1Title.setFont(changedSubFont);
 
 			}
@@ -215,7 +215,7 @@ public class Main extends Application {
 				ven2Title.setTranslateY(-(radius * 1.25));
 				//
 				ven2Title.setTranslateX((radius * subTitleTranslate)*scalar);
-				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 15));
+				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 13));
 				ven2Title.setFont(changedSubFont);
 
 			}
