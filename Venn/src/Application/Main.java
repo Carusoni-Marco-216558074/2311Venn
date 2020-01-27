@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 import Application.objectMaker;
 
 public class Main extends Application {
-	
+	//test
 	Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 	public double scalar = 1 / ((1920 * 1080) / (screenBounds.getMaxX() * screenBounds.getMaxY()));
 
