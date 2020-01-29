@@ -31,8 +31,6 @@ public class objectMaker {
 		txt.setDisable(true);
 		txt.setVisible(false);
 		txt.setFont(font);
-		txt.setFont(font);
-		txt.setBackground(null);
 		txt.setBackground(null);
 		
 	}
