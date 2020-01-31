@@ -10,10 +10,16 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
@@ -37,8 +43,104 @@ public class Main extends Application {
 
 	@SuppressWarnings("static-access")
 	public void start(Stage stage) {
-
+		
+		
+		
+		
 		BorderPane root = new BorderPane();
+		
+		//buttons
+		//dropdowns
+		ChoiceBox<String> File = new ChoiceBox<>();
+		File.getItems().addAll("File","New","Open File","Save","Print","Exit");
+		
+		//normal
+		HBox topMenu = new HBox();
+		Button buttonTop1 = new Button("File");
+		Button buttonTop2 = new Button("Edit");
+		Button buttonTop3 = new Button("View");
+		
+		topMenu.getChildren().addAll(File,buttonTop2,buttonTop3);
+		File.setValue("File");
+		VBox sideMenu = new VBox();
+		Button buttonSide1 = new Button("d");
+		Button buttonSide2 = new Button("e");
+		Button buttonSide3 = new Button("f");
+		
+		sideMenu.getChildren().addAll(buttonSide1,buttonSide2,buttonSide3);
+		
+		
+		//file menu
+		Menu fileMenu = new Menu("_File");
+		
+		MenuItem newFile = new MenuItem("New...");
+		newFile.setOnAction(e->{
+			newPopUp.display("New", "making a new Venn Diagram...");
+		});
+		
+		MenuItem openFile = new MenuItem("Open...");
+		openFile.setOnAction(e->{
+			newPopUp.display("Open", "opening a file...");
+		});
+		
+		MenuItem saveFile = new MenuItem("Save As...");
+		saveFile.setOnAction(e->{
+			newPopUp.display("Save As", "saving a file...");
+		});
+		
+		MenuItem importFile = new MenuItem("Import...");
+		importFile.setOnAction(e->{
+			newPopUp.display("Import", "importing a file...");
+		});
+		
+		
+		
+		
+		
+		fileMenu.getItems().add(newFile);
+		fileMenu.getItems().add(openFile);
+		fileMenu.getItems().add(new SeparatorMenuItem());
+		fileMenu.getItems().add(new MenuItem("Save"));
+		fileMenu.getItems().add(saveFile);
+		fileMenu.getItems().add(new SeparatorMenuItem());
+		fileMenu.getItems().add(importFile);
+		fileMenu.getItems().add(new MenuItem("Export..."));
+		fileMenu.getItems().add(new SeparatorMenuItem());
+	
+		fileMenu.getItems().add(new MenuItem("Print"));
+		fileMenu.getItems().add(new SeparatorMenuItem());
+		fileMenu.getItems().add(new MenuItem("Exit"));
+		
+		
+		
+		
+		
+		
+		//edit menu
+		Menu editMenu = new Menu("_Edit");
+		editMenu.getItems().add(new MenuItem("Undo"));
+		editMenu.getItems().add(new MenuItem("Redo"));
+		editMenu.getItems().add(new SeparatorMenuItem());
+		editMenu.getItems().add(new MenuItem("Cut"));
+		editMenu.getItems().add(new MenuItem("Copy"));
+		editMenu.getItems().add(new MenuItem("Paste"));
+		editMenu.getItems().add(new SeparatorMenuItem());
+		editMenu.getItems().add(new MenuItem("Delete"));
+		
+		//view menu
+		Menu viewMenu = new Menu("_View");
+		viewMenu.getItems().add(new MenuItem("inset"));
+		
+		//help menu
+		Menu helpMenu = new Menu("_Help");
+		helpMenu.getItems().add(new MenuItem("Search"));
+		helpMenu.getItems().add(new MenuItem("About"));
+		helpMenu.getItems().add(new MenuItem("Tutorial"));
+		
+		
+		//mainMenuBar
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().addAll(fileMenu,editMenu,viewMenu,helpMenu);
 
 		ColorPicker cpV1 = new ColorPicker();
 		ColorPicker cpV2 = new ColorPicker();
@@ -109,12 +211,12 @@ public class Main extends Application {
 		ven2Title.setTranslateX((radius * subTitleTranslate)*scalar);
 
 		VBox TitleBox = new VBox(1);
-
+		topMenu.setAlignment(Pos.TOP_LEFT);
 		TextField Title = new TextField("Insert Title Here");
 		Title.setFont(Titlefont);
 		Title.setAlignment(Pos.CENTER);
 		Title.setBackground(null);
-		TitleBox.getChildren().addAll(Title);
+		TitleBox.getChildren().addAll(Title,menuBar);
 		TitleBox.setAlignment(Pos.BASELINE_CENTER);
 		TitleBox.setTranslateY(-(30 * scalar));
 		TitleBox.setTranslateX((50 * scalar));
@@ -124,7 +226,7 @@ public class Main extends Application {
 		Insets in = new Insets(-(151 * scalar));
 
 		VBox leftPanal = new VBox(1);
-		
+		sideMenu.setAlignment(Pos.TOP_LEFT);
 		Separator leftSeparator = new Separator();
 		leftSeparator.setOrientation(Orientation.VERTICAL);
 		
@@ -369,7 +471,21 @@ public class Main extends Application {
 
 		});		
 		
-
+		stage.setOnCloseRequest(e->{
+			confirmBox.display("Venn Diagram Maker", "are you sure you want to close?");
+			e.consume();
+			
+			if(confirmBox.answer==true) {
+				stage.close();
+			}
+			
+		});
+		
+		
+		
+		
+		
+		
 		stage.setTitle("Slider");
 		Scene scene = new Scene(root, screenBounds.getMaxX() - (30 * scalar), screenBounds.getMaxY() - (60 * scalar));
 		stage.setResizable(false);
