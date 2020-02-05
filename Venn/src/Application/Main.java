@@ -28,11 +28,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-
 import Application.objectMaker;
 
 public class Main extends Application {
-	
+	//test
 	Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 	public double scalar = 1 / ((1920 * 1080) / (screenBounds.getMaxX() * screenBounds.getMaxY()));
 
@@ -59,10 +58,10 @@ public class Main extends Application {
 		Ven1.setStroke(Color.BLACK);
 		Ven1.setFill(Color.rgb(0, 0, 150, 0.2));
 
-		double radius = Ven1.getRadius();
+		double radius = Ven1.getRadius()*scalar;
 		double mainFontSize = Ven1.getRadius() / (scalar * 13);
 		double smallFont = mainFontSize / 2;
-		double subTitleTranslate = 0.35;
+		double subTitleTranslate = 0.35*scalar;
 
 		Font subTitleFont = new Font("Arial Bold", mainFontSize);
 		Font chkBoxFont = new Font("Arial", smallFont);
@@ -103,11 +102,11 @@ public class Main extends Application {
 
 		// subTitle.setTranslateY(-(radius * 1.25));
 		//
-		ven1Title.setTranslateY(-(radius * 1.25));
-		ven2Title.setTranslateY(-(radius * 1.25));
+		ven1Title.setTranslateY(-(radius * 1.25)/scalar);
+		ven2Title.setTranslateY(-(radius * 1.25)/scalar);
 		//
-		ven1Title.setTranslateX(-(radius * subTitleTranslate));
-		ven2Title.setTranslateX(radius * subTitleTranslate);
+		ven1Title.setTranslateX((-(radius * subTitleTranslate)*scalar));
+		ven2Title.setTranslateX((radius * subTitleTranslate)*scalar);
 
 		VBox TitleBox = new VBox(1);
 
@@ -168,9 +167,9 @@ public class Main extends Application {
 
 				ven1Title.setTranslateY(-(radius * 1.25));
 				ven2Title.setTranslateY(-(radius * 1.25));
-
-				ven1Title.setTranslateX(-(radius * subTitleTranslate));
-				ven2Title.setTranslateX(radius * subTitleTranslate);
+				//
+				ven1Title.setTranslateX((-(radius * subTitleTranslate)*scalar));
+				ven2Title.setTranslateX((radius * subTitleTranslate)*scalar);
 
 				Ven1Slider.setValue(newValue.doubleValue());
 				Ven2Slider.setValue(newValue.doubleValue());
@@ -194,7 +193,8 @@ public class Main extends Application {
 
 				MainCenter.setMargin(Ven1, in);
 				ven1Title.setTranslateY(-(radius * 1.25));
-				ven1Title.setTranslateX(-(radius * subTitleTranslate));
+				//
+				ven1Title.setTranslateX((-(radius * subTitleTranslate)*scalar));
 				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 13));
 				ven1Title.setFont(changedSubFont);
 
@@ -213,7 +213,8 @@ public class Main extends Application {
 
 				MainCenter.setMargin(Ven2, in);
 				ven2Title.setTranslateY(-(radius * 1.25));
-				ven2Title.setTranslateX((radius * subTitleTranslate));
+				//
+				ven2Title.setTranslateX((radius * subTitleTranslate)*scalar);
 				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 13));
 				ven2Title.setFont(changedSubFont);
 
