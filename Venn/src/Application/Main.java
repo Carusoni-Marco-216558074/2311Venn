@@ -48,7 +48,7 @@ public class Main extends Application {
 		
 		
 		BorderPane root = new BorderPane();
-		//new 
+		//ne
 		//buttons
 		//dropdowns
 		ChoiceBox<String> File = new ChoiceBox<>();
