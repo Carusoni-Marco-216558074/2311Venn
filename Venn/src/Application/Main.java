@@ -11,9 +11,11 @@ import javafx.geometry.Rectangle2D;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
@@ -29,6 +31,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 
 import Application.objectMaker;
 
@@ -41,6 +46,115 @@ public class Main extends Application {
 	public void start(Stage stage) {
 
 		StackPane root = new StackPane();
+		
+		ChoiceBox<String> File = new ChoiceBox<>();
+		File.getItems().addAll("File","New","Open File","Save","Print","Exit");
+
+
+		Menu fileMenu = new Menu("_File");
+		
+		MenuItem newFile = new MenuItem("New...");
+		newFile.setOnAction(e->{
+			newPopUp.display("New", "making a new Venn Diagram...");
+		});
+		
+		MenuItem openFile = new MenuItem("Open...");
+		openFile.setOnAction(e->{
+			newPopUp.display("Open", "opening a file...");
+		});
+		
+		MenuItem saveFile = new MenuItem("Save As...");
+		saveFile.setOnAction(e->{
+			newPopUp.display("Save As", "saving a file...");
+		});
+		
+		MenuItem importFile = new MenuItem("Import...");
+		importFile.setOnAction(e->{
+			newPopUp.display("Import", "importing a file...");
+		});
+		
+		MenuItem exportFile = new MenuItem("Export...");
+		exportFile.setOnAction(e->{
+			newPopUp.display("Export", "exporting a file...");
+		});
+		
+		MenuItem searchFile = new MenuItem("Search");
+		searchFile.setOnAction(e->{
+			newPopUp.displaySearch();
+		});
+		
+		MenuItem exitFile = new MenuItem("Exit");
+		exitFile.setOnAction(e->{
+			confirmBox.display("Venn Diagram Maker", "are you sure you want to close?");
+			e.consume();
+			
+			if(confirmBox.answer==true) {
+				stage.close();
+			}
+		});
+		
+		// search button
+		
+		
+		
+		fileMenu.getItems().add(newFile);
+		fileMenu.getItems().add(openFile);
+		fileMenu.getItems().add(new SeparatorMenuItem());
+		fileMenu.getItems().add(new MenuItem("Save"));
+		fileMenu.getItems().add(saveFile);
+		fileMenu.getItems().add(new SeparatorMenuItem());
+		fileMenu.getItems().add(importFile);
+		fileMenu.getItems().add(exportFile);
+		fileMenu.getItems().add(new SeparatorMenuItem());
+	
+		fileMenu.getItems().add(new MenuItem("Print"));
+		fileMenu.getItems().add(new SeparatorMenuItem());
+		fileMenu.getItems().add(exitFile);
+		
+		
+		
+		
+		
+		
+		//edit menu
+		Menu editMenu = new Menu("_Edit");
+		editMenu.getItems().add(new MenuItem("Undo"));
+		editMenu.getItems().add(new MenuItem("Redo"));
+		editMenu.getItems().add(new SeparatorMenuItem());
+		editMenu.getItems().add(new MenuItem("Cut"));
+		editMenu.getItems().add(new MenuItem("Copy"));
+		editMenu.getItems().add(new MenuItem("Paste"));
+		editMenu.getItems().add(new SeparatorMenuItem());
+		editMenu.getItems().add(new MenuItem("Delete"));
+		
+		//view menu
+		Menu viewMenu = new Menu("_View");
+		viewMenu.getItems().add(new MenuItem("insert"));
+		
+		//help menu
+		Menu helpMenu = new Menu("_Help");
+		helpMenu.getItems().add(searchFile);
+		helpMenu.getItems().add(new MenuItem("About"));
+		helpMenu.getItems().add(new MenuItem("Tutorial"));
+		
+		
+		//mainMenuBar
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().addAll(fileMenu,editMenu,viewMenu,helpMenu);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 		ColorPicker cpV1 = new ColorPicker();
 		ColorPicker cpV2 = new ColorPicker();
