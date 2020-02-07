@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 import Application.objectMaker;
 
 public class Main extends Application {
-	//this test commits to jeffs branch
+	
 	Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 	public double scalar = 1 / ((1920 * 1080) / (screenBounds.getMaxX() * screenBounds.getMaxY()));
 
@@ -48,7 +48,7 @@ public class Main extends Application {
 		
 		
 		BorderPane root = new BorderPane();
-		//ne
+	
 		//buttons
 		//dropdowns
 		ChoiceBox<String> File = new ChoiceBox<>();
@@ -93,7 +93,27 @@ public class Main extends Application {
 			newPopUp.display("Import", "importing a file...");
 		});
 		
+		MenuItem exportFile = new MenuItem("Export...");
+		exportFile.setOnAction(e->{
+			newPopUp.display("Export", "exporting a file...");
+		});
 		
+		MenuItem searchFile = new MenuItem("Search");
+		searchFile.setOnAction(e->{
+			newPopUp.displaySearch();
+		});
+		
+		MenuItem exitFile = new MenuItem("Exit");
+		exitFile.setOnAction(e->{
+			confirmBox.display("Venn Diagram Maker", "are you sure you want to close?");
+			e.consume();
+			
+			if(confirmBox.answer==true) {
+				stage.close();
+			}
+		});
+		
+		// search button
 		
 		
 		
@@ -104,12 +124,12 @@ public class Main extends Application {
 		fileMenu.getItems().add(saveFile);
 		fileMenu.getItems().add(new SeparatorMenuItem());
 		fileMenu.getItems().add(importFile);
-		fileMenu.getItems().add(new MenuItem("Export..."));
+		fileMenu.getItems().add(exportFile);
 		fileMenu.getItems().add(new SeparatorMenuItem());
 	
 		fileMenu.getItems().add(new MenuItem("Print"));
 		fileMenu.getItems().add(new SeparatorMenuItem());
-		fileMenu.getItems().add(new MenuItem("Exit"));
+		fileMenu.getItems().add(exitFile);
 		
 		
 		
@@ -129,11 +149,11 @@ public class Main extends Application {
 		
 		//view menu
 		Menu viewMenu = new Menu("_View");
-		viewMenu.getItems().add(new MenuItem("inset"));
+		viewMenu.getItems().add(new MenuItem("insert"));
 		
 		//help menu
 		Menu helpMenu = new Menu("_Help");
-		helpMenu.getItems().add(new MenuItem("Search"));
+		helpMenu.getItems().add(searchFile);
 		helpMenu.getItems().add(new MenuItem("About"));
 		helpMenu.getItems().add(new MenuItem("Tutorial"));
 		

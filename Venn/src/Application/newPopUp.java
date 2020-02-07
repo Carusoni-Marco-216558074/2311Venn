@@ -1,5 +1,7 @@
 package Application;
 import javafx.stage.*;
+import javafx.scene.layout.HBox;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -25,5 +27,28 @@ public class newPopUp {
 		window.showAndWait();
 		
 		
+	}
+	
+	public static void displaySearch() {
+		Stage window = new Stage();
+		
+		window.setMinWidth(100);
+		window.setMinHeight(100);
+		
+		
+		TextField search = new TextField();
+		search.setPromptText("Search");
+		search.setFocusTraversable(false);
+		search.setMinHeight(15);
+		search.setMinWidth(15);
+		
+		
+		HBox layout = new HBox(35);
+		layout.setPadding(new Insets(10,10,10,10));
+		layout.getChildren().addAll(search);
+		layout.setAlignment(Pos.CENTER);
+		Scene scene = new Scene(layout);
+		window.setScene(scene);
+		window.showAndWait();
 	}
 }
