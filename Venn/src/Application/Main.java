@@ -54,20 +54,7 @@ public class Main extends Application {
 		ChoiceBox<String> File = new ChoiceBox<>();
 		File.getItems().addAll("File","New","Open File","Save","Print","Exit");
 		
-		//normal
-		HBox topMenu = new HBox();
-		Button buttonTop1 = new Button("File");
-		Button buttonTop2 = new Button("Edit");
-		Button buttonTop3 = new Button("View");
-		
-		topMenu.getChildren().addAll(File,buttonTop2,buttonTop3);
-		File.setValue("File");
-		VBox sideMenu = new VBox();
-		Button buttonSide1 = new Button("d");
-		Button buttonSide2 = new Button("e");
-		Button buttonSide3 = new Button("f");
-		
-		sideMenu.getChildren().addAll(buttonSide1,buttonSide2,buttonSide3);
+	
 		
 		
 		//file menu
@@ -231,7 +218,7 @@ public class Main extends Application {
 		ven2Title.setTranslateX((radius * subTitleTranslate)*scalar);
 
 		VBox TitleBox = new VBox(1);
-		topMenu.setAlignment(Pos.TOP_LEFT);
+		//topMenu.setAlignment(Pos.TOP_LEFT);
 		TextField Title = new TextField("Insert Title Here");
 		Title.setFont(Titlefont);
 		Title.setAlignment(Pos.CENTER);
@@ -246,7 +233,7 @@ public class Main extends Application {
 		Insets in = new Insets(-(151 * scalar));
 
 		VBox leftPanal = new VBox(1);
-		sideMenu.setAlignment(Pos.TOP_LEFT);
+		//sideMenu.setAlignment(Pos.TOP_LEFT);
 		Separator leftSeparator = new Separator();
 		leftSeparator.setOrientation(Orientation.VERTICAL);
 		
