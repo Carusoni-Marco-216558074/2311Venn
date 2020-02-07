@@ -475,6 +475,20 @@ public class Main extends Application {
 			Ven2.setFill(Color.rgb(red, green, blue, 0.2));
 
 		});
+		
+		
+		
+		stage.setOnCloseRequest(e->{
+			confirmBox.display("Venn Diagram Maker", "are you sure you want to close?");
+			e.consume();
+			
+			if(confirmBox.answer==true) {
+				stage.close();
+			}
+			
+		});
+		
+		
 
 		stage.setTitle("Slider");
 		// Scene scene = new Scene(root, screenBounds.getMaxX() - (30 * scalar),
