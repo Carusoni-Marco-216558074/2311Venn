@@ -19,8 +19,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -33,12 +35,12 @@ import Application.objectMaker;
 public class Main extends Application {
 	//test
 	Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-	public double scalar = 1 / ((1920 * 1080) / (screenBounds.getMaxX() * screenBounds.getMaxY()));
-
+	//public double scalar = 1 / ((1920 * 1080) / (screenBounds.getMaxX() * screenBounds.getMaxY()));
+	double scalar = 1;
 	@SuppressWarnings("static-access")
 	public void start(Stage stage) {
 
-		BorderPane root = new BorderPane();
+		StackPane root = new StackPane();
 
 		ColorPicker cpV1 = new ColorPicker();
 		ColorPicker cpV2 = new ColorPicker();
@@ -46,13 +48,13 @@ public class Main extends Application {
 		cpV2.setValue(Color.rgb(150, 0, 0, 0.2));
 
 		Slider sizeSlider = new Slider();
-		objectMaker.createSlider(sizeSlider, scalar);
+		objectMaker.createSlider(sizeSlider, scalar-0.17);
 
 		Slider Ven1Slider = new Slider();
-		objectMaker.createSlider(Ven1Slider, scalar);
+		objectMaker.createSlider(Ven1Slider, scalar-0.17);
 
 		Slider Ven2Slider = new Slider();
-		objectMaker.createSlider(Ven2Slider, scalar);
+		objectMaker.createSlider(Ven2Slider, scalar-0.17);
 
 		Circle Ven1 = new Circle(4 * sizeSlider.getValue());// change to screen size
 		Ven1.setStroke(Color.BLACK);
@@ -61,8 +63,9 @@ public class Main extends Application {
 		double radius = Ven1.getRadius()*scalar;
 		double mainFontSize = Ven1.getRadius() / (scalar * 13);
 		double smallFont = mainFontSize / 2;
-		double subTitleTranslate = 0.35*scalar;
-
+		//double subTitleTranslate = 0.35*scalar;
+		double subTitleTranslate = 0;
+		
 		Font subTitleFont = new Font("Arial Bold", mainFontSize);
 		Font chkBoxFont = new Font("Arial", smallFont);
 		Font Titlefont = new Font("Arial Bold", 36);
@@ -102,11 +105,11 @@ public class Main extends Application {
 
 		// subTitle.setTranslateY(-(radius * 1.25));
 		//
-		ven1Title.setTranslateY(-(radius * 1.25)/scalar);
-		ven2Title.setTranslateY(-(radius * 1.25)/scalar);
+		//ven1Title.setTranslateY(-(radius * 1.25)/scalar);
+		//ven2Title.setTranslateY(-(radius * 1.25)/scalar);
 		//
-		ven1Title.setTranslateX((-(radius * subTitleTranslate)*scalar));
-		ven2Title.setTranslateX((radius * subTitleTranslate)*scalar);
+		//ven1Title.setTranslateX((-(radius * subTitleTranslate)*scalar));
+		//ven2Title.setTranslateX((radius * subTitleTranslate)*scalar);
 
 		VBox TitleBox = new VBox(1);
 
@@ -116,10 +119,10 @@ public class Main extends Application {
 		Title.setBackground(null);
 		TitleBox.getChildren().addAll(Title);
 		TitleBox.setAlignment(Pos.BASELINE_CENTER);
-		TitleBox.setTranslateY(-(30 * scalar));
-		TitleBox.setTranslateX((50 * scalar));
+		//TitleBox.setTranslateY(-(30 * scalar));
+		//TitleBox.setTranslateX((50 * scalar));
 
-		root.setTop(TitleBox);
+	//	root.setTop(TitleBox);
 
 		Insets in = new Insets(-(151 * scalar));
 
@@ -131,27 +134,43 @@ public class Main extends Application {
 		leftPanal.getChildren().addAll(leftSeparator, text, Numbers, chkTitle, chkSub, cpV1, cpV2, Ven1Slider, Ven2Slider, sizeSlider);
 		leftPanal.setAlignment(Pos.BOTTOM_LEFT);
 		
+		
+		
+		//root.setLeftAnchor(leftPanal, 8.0);
 		HBox divider = new HBox();
 		divider.getChildren().addAll(leftPanal,leftSeparator);
-		
-		root.setLeft(divider);
+		root.setAlignment(divider, Pos.BASELINE_LEFT);
+		//root.setAlignment(leftSeparator, Pos.BASELINE_LEFT);
 
 		HBox MainCenter = new HBox(10);
 
 		MainCenter.setMargin(Ven1, in);
 		MainCenter.setMargin(Ven2, in);
-
+		
 		VBox centerBox = new VBox();
 		centerBox.setAlignment(Pos.CENTER);
 		MainCenter.setAlignment(Pos.BOTTOM_CENTER);
+		//MainCenter.setAlignment(Pos.CENTER);
+		MainCenter.setTranslateY(20);
 		MainCenter.getChildren().addAll(Ven1, Ven2);
 		centerBox.getChildren().addAll(MainCenter, subTitle);
-		root.setCenter(centerBox);
-
+	//	root.setCenter(centerBox);
+	//	root.getChildren().add(centerBox );
+		
+		/*thing below makes the panal layer and titlebox layer transparent to the mouse
+		 * so that mouse can be used on every layer and not blocking each other
+		 * otherwise mouse wont work on the ui elements
+		 */
+		leftPanal.setPickOnBounds(false);
+		TitleBox.setPickOnBounds(false);
+	
+		root.getChildren().addAll(  centerBox,  TitleBox, leftPanal );
+	
+		
 		
 		
 		// listeners - figure out how to better format, maybe separate file?
-
+		
 		sizeSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -371,10 +390,12 @@ public class Main extends Application {
 		
 
 		stage.setTitle("Slider");
-		Scene scene = new Scene(root, screenBounds.getMaxX() - (30 * scalar), screenBounds.getMaxY() - (60 * scalar));
-		stage.setResizable(false);
-
+		//Scene scene = new Scene(root, screenBounds.getMaxX() - (30 * scalar), screenBounds.getMaxY() - (60 * scalar));
+	//	stage.setResizable(false);
+		Scene scene = new Scene(root, screenBounds.getMaxX() -20, screenBounds.getMaxY() -30);
+		
 		stage.setScene(scene);
+		stage.setMaximized(true);
 		stage.show();
 	}
 
