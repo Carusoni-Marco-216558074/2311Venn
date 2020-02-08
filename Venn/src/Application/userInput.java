@@ -10,6 +10,5 @@ public class userInput {
 		// TODO Auto-generated method stub
 
 	}
-	
-	
+
 }
