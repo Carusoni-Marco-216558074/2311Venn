@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
@@ -149,11 +150,14 @@ public class Main extends Application {
 		Slider Ven2Slider = new Slider();
 		objectMaker.createSlider(Ven2Slider, scalar - 0.17);
 
+		Slider InsetSlider = new Slider();
+		objectMaker.createSlider(InsetSlider, scalar - 0.17);
+
 		Circle Ven1 = new Circle(4 * sizeSlider.getValue());// change to screen size
 		Ven1.setStroke(Color.BLACK);
 		Ven1.setFill(Color.rgb(0, 0, 150, 0.2));
 
-		double radius = Ven1.getRadius() * scalar;
+		double radius = Ven1.getRadius();
 		double mainFontSize = Ven1.getRadius() / (scalar * 13);
 		double smallFont = mainFontSize / 2;
 		// double subTitleTranslate = 0.35*scalar;
@@ -194,15 +198,13 @@ public class Main extends Application {
 		objectMaker.createSubtitle(ven1Title, subTitleFont);
 		objectMaker.createSubtitle(ven2Title, subTitleFont);
 
+		ven1Title.setTranslateY(-(radius * 1.25));
+		ven2Title.setTranslateY(-(radius * 1.25));
+		//
+		ven1Title.setTranslateX((-(radius * subTitleTranslate) * scalar));
+		ven2Title.setTranslateX((radius * subTitleTranslate) * scalar);		
+		
 		subTitle.getChildren().addAll(ven1Title, ven2Title);
-
-		// subTitle.setTranslateY(-(radius * 1.25));
-		//
-		// ven1Title.setTranslateY(-(radius * 1.25)/scalar);
-		// ven2Title.setTranslateY(-(radius * 1.25)/scalar);
-		//
-		// ven1Title.setTranslateX((-(radius * subTitleTranslate)*scalar));
-		// ven2Title.setTranslateX((radius * subTitleTranslate)*scalar);
 
 		VBox TitleBox = new VBox(1);
 
@@ -224,7 +226,7 @@ public class Main extends Application {
 		Separator leftSeparator = new Separator();
 		leftSeparator.setOrientation(Orientation.VERTICAL);
 
-		leftPanal.getChildren().addAll(leftSeparator, text, Numbers, chkTitle, chkSub, cpV1, cpV2, Ven1Slider,
+		leftPanal.getChildren().addAll(leftSeparator, text, Numbers, chkTitle, chkSub, cpV1, cpV2, InsetSlider, Ven1Slider,
 				Ven2Slider, sizeSlider);
 		leftPanal.setAlignment(Pos.BOTTOM_LEFT);
 
@@ -329,7 +331,26 @@ public class Main extends Application {
 
 			}
 		});
+//
+		InsetSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
+				double radius = Ven1.getRadius();
+
+				Insets in = new Insets((-2 * newValue.doubleValue())); // change screen size
+
+				MainCenter.setMargin(Ven1, in);
+				MainCenter.setMargin(Ven2, in);
+				
+
+				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 13));
+
+				ven1Title.setFont(changedSubFont);
+				ven2Title.setFont(changedSubFont);
+
+			}
+		});
 //
 		ven1Title.setOnMouseClicked(new EventHandler<MouseEvent>() {
 

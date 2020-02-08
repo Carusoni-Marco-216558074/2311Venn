@@ -19,4 +19,5 @@
     <fullyQualifiedTypeName name="javafx.scene.layout.BackgroundFill"/>
     <fullyQualifiedTypeName name="javafx.scene.paint.Paint"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.StackPane"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.Button"/>
 </qualifiedTypeNameHistroy>
