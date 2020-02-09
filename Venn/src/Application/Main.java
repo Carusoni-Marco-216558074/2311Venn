@@ -3,16 +3,21 @@ package Application;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.SeparatorMenuItem;
@@ -23,17 +28,28 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Button;
+
+
+
+import javax.swing.JLabel;
 
 import Application.objectMaker;
 
@@ -220,12 +236,16 @@ public class Main extends Application {
 		Insets in = new Insets(-(151 * scalar));
 
 		VBox leftPanal = new VBox(1);
-
+		//
+		HBox lowerBar = new HBox(1);
+		lowerBar.setAlignment(Pos.BOTTOM_LEFT);
+		
 		Separator leftSeparator = new Separator();
 		leftSeparator.setOrientation(Orientation.VERTICAL);
 
-		leftPanal.getChildren().addAll(leftSeparator, text, Numbers, chkTitle, chkSub, cpV1, cpV2, Ven1Slider,
-				Ven2Slider, sizeSlider);
+		leftPanal.getChildren().addAll(leftSeparator, text, Numbers, chkTitle,
+				chkSub, cpV1, cpV2, Ven1Slider,
+				Ven2Slider, sizeSlider, lowerBar);
 		leftPanal.setAlignment(Pos.BOTTOM_LEFT);
 
 		// root.setLeftAnchor(leftPanal, 8.0);
@@ -248,7 +268,63 @@ public class Main extends Application {
 		centerBox.getChildren().addAll(MainCenter, subTitle);
 		// root.setCenter(centerBox);
 		// root.getChildren().add(centerBox );
+		FlowPane flow = new FlowPane();
+		FlowPane flow2 = new FlowPane();
+		FlowPane flow3 = new FlowPane();
+		FlowPane gridPane1 = new FlowPane();    
+	      flow.getChildren().addAll(gridPane1);
+	      flow.setAlignment(Pos.CENTER);
+	     
+	      //Setting size for the pane  
+	      //gridPane1.setMinSize(400, 200); 
+	       
+	      //Setting the padding  
+	      gridPane1.setPadding(new Insets(10, 10, 10, 10)); 
+	      
+	      //Setting the vertical and horizontal gaps between the columns 
+	     // gridPane1.setVgap(5); 
+	    //  gridPane1.setHgap(5);       
+	      
+	      //Setting the Grid alignment 
+	      gridPane1.setAlignment(Pos.CENTER); 
+	      
+	      FlowPane gridPane2 = new FlowPane();    
+	      flow2.getChildren().addAll(gridPane2);
+	      flow2.setAlignment(Pos.CENTER);
+	      //Setting size for the pane  
+	   //   gridPane2.setMaxSize(200, 300); 
+	     // flow2.setMaxSize(200, 300); 
+	       
+	      //Setting the padding  
+	      gridPane2.setPadding(new Insets(10, 10, 10, 10)); 
+	      
+	      //Setting the vertical and horizontal gaps between the columns 
+	      gridPane2.setVgap(3); 
+	      gridPane2.setHgap(3);
+	      gridPane1.setVgap(3); 
+	      gridPane1.setHgap(3);
+	     
 
+	     // gridPane1.setGridLinesVisible(true);
+	     // gridPane2.setGridLinesVisible(true);
+	      
+	      
+		
+		Button addTextButton = new Button("Add new text");
+		
+		TextField vennTextField = new TextField("Insert");
+		vennTextField.setMaxWidth(1000);
+		vennTextField.setMinWidth(100);
+		ObservableList<String> options = 
+			    FXCollections.observableArrayList(
+			        "Ven 1",
+			        "Ven 2",
+			        "Ven 1 & 2 (not working yet)"
+			    );
+		final ComboBox comboBox = new ComboBox(options);
+		comboBox.getSelectionModel().selectFirst();
+		lowerBar.getChildren().addAll(comboBox, vennTextField, addTextButton);
+		
 		/*
 		 * thing below makes the panal layer and titlebox layer transparent to the mouse
 		 * so that mouse can be used on every layer and not blocking each other
@@ -256,11 +332,75 @@ public class Main extends Application {
 		 */
 		leftPanal.setPickOnBounds(false);
 		TitleBox.setPickOnBounds(false);
-
-		root.getChildren().addAll(centerBox, TitleBox, leftPanal);
+		gridPane1.setPickOnBounds(false);
+		flow.setPickOnBounds(false);
+		flow2.setPickOnBounds(false);
+		
+		gridPane1.setAlignment(Pos.CENTER);
+		gridPane2.setAlignment(Pos.CENTER);
+		
+	
+		flow.setTranslateX(-(radius * 1.25));
+		flow2.setTranslateX((radius * 0.7));
+		
+	//	gridPane2.setPrefWrapLength(250);
+	//	gridPane1.setPrefWrapLength(250);
+	
+		root.getChildren().addAll(centerBox, TitleBox, leftPanal, flow,flow2);
 
 		// listeners - figure out how to better format, maybe separate file?
+		
+		EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
 
+			
+		    @Override
+		    public void handle(ActionEvent event) {
+		    	TextFlow textFlow = new TextFlow();
+		    	Text t = new Text("-" +vennTextField.getText());	    	
+		    	textFlow.getChildren().add(t);
+		    	textFlow.setMaxWidth(200);
+		    	t.setFont(new Font(15));
+		    	//t.wrappingWidth(800);
+		    	// if(!comboBox.getValue().equals(""))
+		    	//	 root.getChildren().add(t);
+		    	 
+		    	if(!vennTextField.getText().equals("")) 
+		    	{
+		    		
+		    		if(comboBox.getValue().equals("Ven 1")) {
+		    			gridPane1.getChildren().add(textFlow);
+			    		 
+			    		 
+			    	}else if(comboBox.getValue().equals("Ven 2")) {
+			    		gridPane2.getChildren().add(textFlow);
+			    		 
+			    	}else if(comboBox.getValue().equals("Ven 1 & 2")) {
+			    		 
+			    		 
+			    	}
+		    		
+		    		
+		    	}
+		         event.consume();
+		    }
+		};
+		addTextButton.setOnAction(buttonHandler);
+		
+		
+		vennTextField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+
+				if (vennTextField.getText().contains("Insert")) {
+					vennTextField.setText("");
+
+				}
+			}
+
+		});
+		
+		
 		sizeSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -287,7 +427,7 @@ public class Main extends Application {
 
 				ven1Title.setFont(changedSubFont);
 				ven2Title.setFont(changedSubFont);
-
+				
 			}
 		});
 
@@ -306,6 +446,11 @@ public class Main extends Application {
 				ven1Title.setTranslateX((-(radius * subTitleTranslate) * scalar));
 				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 13));
 				ven1Title.setFont(changedSubFont);
+				
+				flow.setTranslateX(-(radius * 1.25));
+				flow.setScaleX(newValue.doubleValue()/62.25);
+				flow.setScaleY(newValue.doubleValue()/62.25);
+				 
 
 			}
 		});
@@ -326,7 +471,10 @@ public class Main extends Application {
 				ven2Title.setTranslateX((radius * subTitleTranslate) * scalar);
 				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 13));
 				ven2Title.setFont(changedSubFont);
-
+				
+				flow2.setTranslateX((radius * 0.7));
+				flow2.setScaleX(newValue.doubleValue()/62.25);
+				flow2.setScaleY(newValue.doubleValue()/62.25);
 			}
 		});
 
@@ -495,6 +643,22 @@ public class Main extends Application {
 		stage.setScene(scene);
 		stage.setMaximized(true);
 		stage.show();
+	}
+	
+	void addToGrid(int x, int y, Text t, GridPane gridPane1) {
+   		 if(x%5!=0 || x==0) {
+   		 gridPane1.add(t, x, y);
+   		 x++;
+   		 }else  { 
+   		
+   		 gridPane1.addRow(y, t); 
+   		 y++;
+   		 x=0;
+   		
+   		 }
+		
+		
+		//}
 	}
 
 	public static void main(String[] args) {

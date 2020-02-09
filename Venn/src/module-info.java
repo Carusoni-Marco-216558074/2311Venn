@@ -3,6 +3,7 @@ module Example {
     requires javafx.controls;
 	requires java.desktop;
 	requires javafx.graphics;
+	requires javafx.base;
 
     opens Application;
 } 
