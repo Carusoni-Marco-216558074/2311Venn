@@ -316,8 +316,8 @@ public class Main extends Application {
 		Button addTextButton = new Button("Add new text");
 		
 		TextField vennTextField = new TextField("Insert");
-		vennTextField.setMaxWidth(1000);
-		vennTextField.setMinWidth(100);
+		vennTextField.setMinWidth(800);
+		//vennTextField.setMinWidth(100);
 		ObservableList<String> options = 
 			    FXCollections.observableArrayList(
 			        "Ven 1",
@@ -667,21 +667,7 @@ public class Main extends Application {
 		stage.show();
 	}
 	
-	void addToGrid(int x, int y, Text t, GridPane gridPane1) {
-   		 if(x%5!=0 || x==0) {
-   		 gridPane1.add(t, x, y);
-   		 x++;
-   		 }else  { 
-   		
-   		 gridPane1.addRow(y, t); 
-   		 y++;
-   		 x=0;
-   		
-   		 }
-		
-		
-		//}
-	}
+
 
 	public static void main(String[] args) {
 
