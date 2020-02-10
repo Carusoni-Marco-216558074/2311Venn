@@ -47,6 +47,7 @@
 		<item key="JarManifestWizardPage.MANIFEST_LOCATION" value=""/>
 		<item key="JarManifestWizardPage.SEAL_JAR" value="false"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="C:\Users\Marco\Documents\Desktop\test.jar"/>
 			<item value="C:\Users\marco.DESKTOP-A1BETVC\Desktop\test.jar"/>
 		</list>
 	</section>
@@ -65,7 +66,7 @@
 	<section name="FatJarPackageWizard">
 		<item key="FatJarPackageWizardPage.ANTSCRIPT_SAVE" value="false"/>
 		<item key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION" value="C:\Users\Marco\Documents\GitHub\2311Venn"/>
-		<item key="FatJarPackageWizardPage.LIBRARY_HANDLING" value="1"/>
+		<item key="FatJarPackageWizardPage.LIBRARY_HANDLING" value="2"/>
 		<item key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME" value="Main - Venn"/>
 		<item key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION" value="C:\Users\Marco\Documents\Desktop\Venn.jar"/>
 		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
