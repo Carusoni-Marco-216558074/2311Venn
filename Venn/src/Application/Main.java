@@ -11,14 +11,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.SeparatorMenuItem;
@@ -27,16 +26,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -46,11 +40,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Button;
-
-
-
-import javax.swing.JLabel;
 
 import Application.objectMaker;
 
@@ -65,7 +54,8 @@ public class Main extends Application {
 	public void start(Stage stage) {
 
 		StackPane root = new StackPane();
-
+		//Menu box
+		
 		ChoiceBox<String> File = new ChoiceBox<>();
 		File.getItems().addAll("File", "New", "Open File", "Save", "Print", "Exit");
 
@@ -100,7 +90,7 @@ public class Main extends Application {
 		searchFile.setOnAction(e -> {
 			newPopUp.displaySearch();
 		});
-
+		//exit message
 		MenuItem exitFile = new MenuItem("Exit");
 		exitFile.setOnAction(e -> {
 			confirmBox.display("Venn Diagram Maker", "are you sure you want to close?");
@@ -152,11 +142,17 @@ public class Main extends Application {
 		MenuBar menuBar = new MenuBar();
 		menuBar.getMenus().addAll(fileMenu, editMenu, viewMenu, helpMenu);
 
+		
+		//colour pickers
+		
 		ColorPicker cpV1 = new ColorPicker();
 		ColorPicker cpV2 = new ColorPicker();
 		cpV1.setValue(Color.rgb(0, 0, 150, 0.2));
 		cpV2.setValue(Color.rgb(150, 0, 0, 0.2));
 
+		
+		//sliders for changing the size of the circles
+		
 		Slider sizeSlider = new Slider();
 		objectMaker.createSlider(sizeSlider, scalar - 0.17);
 
@@ -169,16 +165,20 @@ public class Main extends Application {
 		Slider InsetSlider = new Slider();
 		objectMaker.createSlider(InsetSlider, scalar - 0.17);
 
+		//drawing the circles
+		
 		Circle Ven1 = new Circle(4 * sizeSlider.getValue());// change to screen size
 		Ven1.setStroke(Color.BLACK);
 		Ven1.setFill(Color.rgb(0, 0, 150, 0.2));
-
 		double radius = Ven1.getRadius();
 		double mainFontSize = Ven1.getRadius() / (scalar * 13);
-		double smallFont = mainFontSize / 2;
+		double smallFont = mainFontSize / 1.5;
 		// double subTitleTranslate = 0.35*scalar;
 		double subTitleTranslate = 0;
 
+		
+		//making fonts for elements with text
+		
 		Font subTitleFont = new Font("Arial Bold", mainFontSize);
 		Font chkBoxFont = new Font("Arial", smallFont);
 		Font Titlefont = new Font("Arial Bold", 36);
@@ -187,6 +187,8 @@ public class Main extends Application {
 		Ven2.setStroke(Color.BLACK);
 		Ven2.setFill(Color.rgb(150, 0, 0, 0.2));
 
+		//user input of variables
+		
 		CheckBox chkSub = new CheckBox("Subtitles");
 		CheckBox chkTitle = new CheckBox("Title");
 
@@ -208,18 +210,26 @@ public class Main extends Application {
 
 		subTitle.setAlignment(Pos.TOP_CENTER);
 
+		//making subtitles
+		
 		TextField ven1Title = new TextField("Insert Title Here");
 		TextField ven2Title = new TextField("Insert Title Here");
 
 		objectMaker.createSubtitle(ven1Title, subTitleFont);
 		objectMaker.createSubtitle(ven2Title, subTitleFont);
 
+		Label LeftSizeTitle = new Label("Size Sliders");
+
+		LeftSizeTitle.setAlignment(Pos.CENTER);
+		LeftSizeTitle.setFont(chkBoxFont);
+		LeftSizeTitle.setBackground(null);
+
 		ven1Title.setTranslateY(-(radius * 1.25));
 		ven2Title.setTranslateY(-(radius * 1.25));
 		//
 		ven1Title.setTranslateX((-(radius * subTitleTranslate) * scalar));
-		ven2Title.setTranslateX((radius * subTitleTranslate) * scalar);		
-		
+		ven2Title.setTranslateX((radius * subTitleTranslate) * scalar);
+
 		subTitle.getChildren().addAll(ven1Title, ven2Title);
 
 		VBox TitleBox = new VBox(1);
@@ -235,19 +245,18 @@ public class Main extends Application {
 
 		// root.setTop(TitleBox);
 
-		Insets in = new Insets(-(151 * scalar));
+		Insets in = new Insets(-151 * scalar);
 
 		VBox leftPanal = new VBox(1);
 		//
 		HBox lowerBar = new HBox(1);
 		lowerBar.setAlignment(Pos.BOTTOM_LEFT);
-		
+
 		Separator leftSeparator = new Separator();
 		leftSeparator.setOrientation(Orientation.VERTICAL);
-
-
-		leftPanal.getChildren().addAll(leftSeparator, text, Numbers, chkTitle, chkSub, cpV1, cpV2, InsetSlider, Ven1Slider,
-				Ven2Slider, sizeSlider, lowerBar);
+		//left side bar
+		leftPanal.getChildren().addAll(leftSeparator, text, Numbers, chkTitle, chkSub, cpV1, cpV2, LeftSizeTitle,
+				InsetSlider, Ven1Slider, Ven2Slider, sizeSlider, lowerBar);
 
 		leftPanal.setAlignment(Pos.BOTTOM_LEFT);
 
@@ -273,61 +282,54 @@ public class Main extends Application {
 		// root.getChildren().add(centerBox );
 		FlowPane flow = new FlowPane();
 		FlowPane flow2 = new FlowPane();
-		FlowPane flow3 = new FlowPane();
-		FlowPane gridPane1 = new FlowPane();    
-	      flow.getChildren().addAll(gridPane1);
-	      flow.setAlignment(Pos.CENTER);
-	     
-	      //Setting size for the pane  
-	      //gridPane1.setMinSize(400, 200); 
-	       
-	      //Setting the padding  
-	      gridPane1.setPadding(new Insets(10, 10, 10, 10)); 
-	      
-	      //Setting the vertical and horizontal gaps between the columns 
-	     // gridPane1.setVgap(5); 
-	    //  gridPane1.setHgap(5);       
-	      
-	      //Setting the Grid alignment 
-	      gridPane1.setAlignment(Pos.CENTER); 
-	      
-	      FlowPane gridPane2 = new FlowPane();    
-	      flow2.getChildren().addAll(gridPane2);
-	      flow2.setAlignment(Pos.CENTER);
-	      //Setting size for the pane  
-	   //   gridPane2.setMaxSize(200, 300); 
-	     // flow2.setMaxSize(200, 300); 
-	       
-	      //Setting the padding  
-	      gridPane2.setPadding(new Insets(10, 10, 10, 10)); 
-	      
-	      //Setting the vertical and horizontal gaps between the columns 
-	      gridPane2.setVgap(3); 
-	      gridPane2.setHgap(3);
-	      gridPane1.setVgap(3); 
-	      gridPane1.setHgap(3);
-	     
+		//FlowPane flow3 = new FlowPane();
+		FlowPane gridPane1 = new FlowPane();
+		flow.getChildren().addAll(gridPane1);
+		flow.setAlignment(Pos.CENTER);
 
-	     // gridPane1.setGridLinesVisible(true);
-	     // gridPane2.setGridLinesVisible(true);
-	      
-	      
-		
+		// Setting size for the pane
+		// gridPane1.setMinSize(400, 200);
+
+		// Setting the padding
+		gridPane1.setPadding(new Insets(10, 10, 10, 10));
+
+		// Setting the vertical and horizontal gaps between the columns
+		// gridPane1.setVgap(5);
+		// gridPane1.setHgap(5);
+
+		// Setting the Grid alignment
+		gridPane1.setAlignment(Pos.CENTER);
+
+		FlowPane gridPane2 = new FlowPane();
+		flow2.getChildren().addAll(gridPane2);
+		flow2.setAlignment(Pos.CENTER);
+		// Setting size for the pane
+		// gridPane2.setMaxSize(200, 300);
+		// flow2.setMaxSize(200, 300);
+
+		// Setting the padding
+		gridPane2.setPadding(new Insets(10, 10, 10, 10));
+
+		// Setting the vertical and horizontal gaps between the columns
+		gridPane2.setVgap(3);
+		gridPane2.setHgap(3);
+		gridPane1.setVgap(3);
+		gridPane1.setHgap(3);
+
+		// gridPane1.setGridLinesVisible(true);
+		// gridPane2.setGridLinesVisible(true);
+
 		Button addTextButton = new Button("Add new text");
-		
+
 		TextField vennTextField = new TextField("Insert");
 		vennTextField.setMinWidth(800);
-		//vennTextField.setMinWidth(100);
-		ObservableList<String> options = 
-			    FXCollections.observableArrayList(
-			        "Ven 1",
-			        "Ven 2",
-			        "Ven 1 & 2 (not working yet)"
-			    );
-		final ComboBox comboBox = new ComboBox(options);
+		// vennTextField.setMinWidth(100);
+		ObservableList<String> options = FXCollections.observableArrayList("Ven 1", "Ven 2",
+				"Ven 1 & 2 (not working yet)");
+		final ComboBox<String> comboBox = new ComboBox<String>(options);
 		comboBox.getSelectionModel().selectFirst();
 		lowerBar.getChildren().addAll(comboBox, vennTextField, addTextButton);
-		
+
 		/*
 		 * thing below makes the panal layer and titlebox layer transparent to the mouse
 		 * so that mouse can be used on every layer and not blocking each other
@@ -338,58 +340,51 @@ public class Main extends Application {
 		gridPane1.setPickOnBounds(false);
 		flow.setPickOnBounds(false);
 		flow2.setPickOnBounds(false);
-		
+
 		gridPane1.setAlignment(Pos.CENTER);
 		gridPane2.setAlignment(Pos.CENTER);
-		
-	
+
 		flow.setTranslateX(-(radius * 1.25));
 		flow2.setTranslateX((radius * 0.7));
-		
-	//	gridPane2.setPrefWrapLength(250);
-	//	gridPane1.setPrefWrapLength(250);
-	
-		root.getChildren().addAll(centerBox, TitleBox, leftPanal, flow,flow2);
+
+		// gridPane2.setPrefWrapLength(250);
+		// gridPane1.setPrefWrapLength(250);
+
+		root.getChildren().addAll(centerBox, TitleBox, leftPanal, flow, flow2);
 
 		// listeners - figure out how to better format, maybe separate file?
-		
+
 		EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
 
-			
-		    @Override
-		    public void handle(ActionEvent event) {
-		    	TextFlow textFlow = new TextFlow();
-		    	Text t = new Text("-" +vennTextField.getText());	    	
-		    	textFlow.getChildren().add(t);
-		    	textFlow.setMaxWidth(200);
-		    	t.setFont(new Font(15));
-		    	//t.wrappingWidth(800);
-		    	// if(!comboBox.getValue().equals(""))
-		    	//	 root.getChildren().add(t);
-		    	 
-		    	if(!vennTextField.getText().equals("")) 
-		    	{
-		    		
-		    		if(comboBox.getValue().equals("Ven 1")) {
-		    			gridPane1.getChildren().add(textFlow);
-			    		 
-			    		 
-			    	}else if(comboBox.getValue().equals("Ven 2")) {
-			    		gridPane2.getChildren().add(textFlow);
-			    		 
-			    	}else if(comboBox.getValue().equals("Ven 1 & 2")) {
-			    		 
-			    		 
-			    	}
-		    		
-		    		
-		    	}
-		         event.consume();
-		    }
+			@Override
+			public void handle(ActionEvent event) {
+				TextFlow textFlow = new TextFlow();
+				Text t = new Text("-" + vennTextField.getText());
+				textFlow.getChildren().add(t);
+				textFlow.setMaxWidth(200);
+				t.setFont(new Font(15));
+				// t.wrappingWidth(800);
+				// if(!comboBox.getValue().equals(""))
+				// root.getChildren().add(t);
+
+				if (!vennTextField.getText().equals("")) {
+
+					if (comboBox.getValue().equals("Ven 1")) {
+						gridPane1.getChildren().add(textFlow);
+
+					} else if (comboBox.getValue().equals("Ven 2")) {
+						gridPane2.getChildren().add(textFlow);
+
+					} else if (comboBox.getValue().equals("Ven 1 & 2")) {
+
+					}
+
+				}
+				event.consume();
+			}
 		};
 		addTextButton.setOnAction(buttonHandler);
-		
-		
+
 		vennTextField.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -402,8 +397,7 @@ public class Main extends Application {
 			}
 
 		});
-		
-		
+
 		sizeSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -430,7 +424,7 @@ public class Main extends Application {
 
 				ven1Title.setFont(changedSubFont);
 				ven2Title.setFont(changedSubFont);
-				
+
 			}
 		});
 
@@ -449,11 +443,10 @@ public class Main extends Application {
 				ven1Title.setTranslateX((-(radius * subTitleTranslate) * scalar));
 				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 13));
 				ven1Title.setFont(changedSubFont);
-				
+
 				flow.setTranslateX(-(radius * 1.25));
-				flow.setScaleX(newValue.doubleValue()/62.25);
-				flow.setScaleY(newValue.doubleValue()/62.25);
-				 
+				flow.setScaleX(newValue.doubleValue() / 62.25);
+				flow.setScaleY(newValue.doubleValue() / 62.25);
 
 			}
 		});
@@ -474,10 +467,10 @@ public class Main extends Application {
 				ven2Title.setTranslateX((radius * subTitleTranslate) * scalar);
 				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 13));
 				ven2Title.setFont(changedSubFont);
-				
+
 				flow2.setTranslateX((radius * 0.7));
-				flow2.setScaleX(newValue.doubleValue()/62.25);
-				flow2.setScaleY(newValue.doubleValue()/62.25);
+				flow2.setScaleX(newValue.doubleValue() / 62.25);
+				flow2.setScaleY(newValue.doubleValue() / 62.25);
 			}
 		});
 //
@@ -491,7 +484,6 @@ public class Main extends Application {
 
 				MainCenter.setMargin(Ven1, in);
 				MainCenter.setMargin(Ven2, in);
-				
 
 				Font changedSubFont = new Font("Arial Bold", radius / (scalar * 13));
 
@@ -666,8 +658,6 @@ public class Main extends Application {
 		stage.setMaximized(true);
 		stage.show();
 	}
-	
-
 
 	public static void main(String[] args) {
 
