@@ -324,8 +324,8 @@ public class Main extends Application {
 		TextField vennTextField = new TextField("Insert");
 		vennTextField.setMinWidth(800);
 		// vennTextField.setMinWidth(100);
-		ObservableList<String> options = FXCollections.observableArrayList("Ven 1", "Ven 2",
-				"Ven 1 & 2 (not working yet)");
+		ObservableList<String> options = FXCollections.observableArrayList("Venn 1", "Venn 2",
+				"Venn 1 & 2 (not working yet)");
 		final ComboBox<String> comboBox = new ComboBox<String>(options);
 		comboBox.getSelectionModel().selectFirst();
 		lowerBar.getChildren().addAll(comboBox, vennTextField, addTextButton);
@@ -369,13 +369,13 @@ public class Main extends Application {
 
 				if (!vennTextField.getText().equals("")) {
 
-					if (comboBox.getValue().equals("Ven 1")) {
+					if (comboBox.getValue().equals("Venn 1")) {
 						gridPane1.getChildren().add(textFlow);
 
-					} else if (comboBox.getValue().equals("Ven 2")) {
+					} else if (comboBox.getValue().equals("Venn 2")) {
 						gridPane2.getChildren().add(textFlow);
 
-					} else if (comboBox.getValue().equals("Ven 1 & 2")) {
+					} else if (comboBox.getValue().equals("Venn 1 & 2")) {
 
 					}
 
