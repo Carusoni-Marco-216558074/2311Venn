@@ -142,7 +142,7 @@ public class Main extends Application {
 		MenuBar menuBar = new MenuBar();
 		menuBar.getMenus().addAll(fileMenu, editMenu, viewMenu, helpMenu);
 
-		
+		//this is a comment
 		//colour pickers
 		
 		ColorPicker cpV1 = new ColorPicker();
