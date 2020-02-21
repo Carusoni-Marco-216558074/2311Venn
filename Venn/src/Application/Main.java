@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.SeparatorMenuItem;
@@ -29,11 +30,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.io.File;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import Application.objectMaker;
 
@@ -48,6 +56,16 @@ public class Main extends Application {
 	public void start(Stage stage) {
 
 		StackPane root = new StackPane();
+		
+		//file chooser
+		
+		ListView listview;
+		
+        
+		
+		
+		
+		//menu
 
 		ChoiceBox<String> File = new ChoiceBox<>();
 		File.getItems().addAll("File", "New", "Open File", "Save", "Print", "Exit");
@@ -63,10 +81,25 @@ public class Main extends Application {
 		openFile.setOnAction(e -> {
 			newPopUp.display("Open", "opening a file...");
 		});
-
+		
 		MenuItem saveFile = new MenuItem("Save As...");
 		saveFile.setOnAction(e -> {
-			newPopUp.display("Save As", "saving a file...");
+			ImageView imageView = new ImageView();
+			FileChooser fc = new FileChooser();
+			//fc.setInitialDirectory(new File("C:\\Users"));   some people may not have same directory so im leaving this line out for now
+			fc.setTitle("Save");
+			fc.setInitialFileName("VennDiagram");
+			fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text file", "*.txt"),
+					new FileChooser.ExtensionFilter("pdf file", "*.pdf"),new FileChooser.ExtensionFilter("png file", "*.png"));
+			
+			File saveFileAction = fc.showSaveDialog(stage);
+			
+			
+			fc.setInitialDirectory(saveFileAction.getParentFile());  //saves directory of last chosen location
+			
+			
+			
+			//newPopUp.display("Save As", "saving a file...");
 		});
 
 		MenuItem importFile = new MenuItem("Import...");
