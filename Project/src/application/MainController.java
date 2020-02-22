@@ -1,10 +1,16 @@
 package application;
 
 import java.awt.AWTException;
-import java.awt.Paint;
-import java.io.File;
 
+import java.awt.Paint;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -165,22 +171,47 @@ public class MainController {
 
 	// method is called when a new label is created, all have incremented id's
 
+	String[] textObjects = new String[100];
+
 	@FXML
 	private void enterWordEvnt(KeyEvent e) throws IOException {
 
 		if (e.getCode().toString() == "ENTER") {
-			// each new lbl object has an incremented id
-			Label lbl = new Label(submitText.getText());
-			lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:14px;");
-			lbl.setId("" + (counter++));
-			lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
-			WordBox.add(lbl, 11, counter - 1);
 
-			submitText.setText("");
+			createObj();
 
 		}
 
 	}
+
+	private void createObj() {
+
+		// each new lbl object has an incremented id
+		Label lbl = new Label(submitText.getText());
+		lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:14px;");
+		textObjects[counter] = submitText.getText();
+		lbl.setId("" + (counter++));
+		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
+		WordBox.add(lbl, 11, counter - 1);
+
+		submitText.setText("");
+
+	}
+	
+	private void createObjFromFile(String str) {
+
+		// each new lbl object has an incremented id
+		Label lbl = new Label(str);
+		lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:14px;");
+		textObjects[counter] = str;
+		lbl.setId("" + (counter++));
+		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
+		WordBox.add(lbl, 11, counter - 1);
+
+	}
+	
+	
+	
 
 	// used for showing/reseting the textfields for only separating numbers
 
@@ -245,9 +276,66 @@ public class MainController {
 			Title.setStyle("-fx-text-inner-color: black;");
 			NumVen1.setStyle("-fx-text-inner-color: black;");
 			NumVen2.setStyle("-fx-text-inner-color: black;");
-			
+
 			mainPane.setBackground(
 					new Background(new BackgroundFill(Color.web("#f2f2f2"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+		}
+
+	}
+
+	@FXML
+	private void saveEvnt() throws FileNotFoundException {
+
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Text file", "txt"));
+
+		if (fileChooser.showSaveDialog(fileChooser) == JFileChooser.APPROVE_OPTION) {
+
+			String filename = fileChooser.getSelectedFile().toString();
+
+			if (!filename.endsWith(".txt"))
+				filename += ".txt";
+
+			PrintWriter writer = new PrintWriter(filename);
+
+			int i = 0;
+
+			while (textObjects[i] != null) {
+
+				writer.println(textObjects[i]);
+				i++;
+			}
+
+			writer.close();
+
+		}
+
+	}
+
+	@FXML
+	private void openEvnt() throws IOException {
+
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Text file", "txt"));
+
+		if (fileChooser.showOpenDialog(fileChooser) == JFileChooser.APPROVE_OPTION) {
+
+			String filename = fileChooser.getSelectedFile().toString();
+
+			BufferedReader read;
+
+			read = new BufferedReader(new FileReader(filename));
+			String line = read.readLine();
+
+			while (line != null) {
+				
+				createObjFromFile(line);
+				
+				line = read.readLine();
+			}
+
+			read.close();
 
 		}
 
@@ -258,22 +346,6 @@ public class MainController {
 
 	@FXML
 	private void screenshot() throws AWTException, IOException {
-
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setFileFilter(new FileNameExtensionFilter("png file", "png"));
-
-		if (fileChooser.showSaveDialog(fileChooser) == JFileChooser.APPROVE_OPTION) {
-
-			String filename = fileChooser.getSelectedFile().toString();
-			if (!filename.endsWith(".png"))
-				filename += ".png";
-
-			File file = fileChooser.getSelectedFile();
-
-			// take screenshot here, using above file as the name/extension. then use an
-			// image writer to actually save the data
-
-		}
 
 	}
 
