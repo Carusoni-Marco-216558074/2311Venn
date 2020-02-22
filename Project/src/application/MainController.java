@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -18,13 +19,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -197,7 +201,7 @@ public class MainController {
 		submitText.setText("");
 
 	}
-	
+
 	private void createObjFromFile(String str) {
 
 		// each new lbl object has an incremented id
@@ -209,9 +213,6 @@ public class MainController {
 		WordBox.add(lbl, 11, counter - 1);
 
 	}
-	
-	
-	
 
 	// used for showing/reseting the textfields for only separating numbers
 
@@ -329,9 +330,9 @@ public class MainController {
 			String line = read.readLine();
 
 			while (line != null) {
-				
+
 				createObjFromFile(line);
-				
+
 				line = read.readLine();
 			}
 
@@ -346,6 +347,23 @@ public class MainController {
 
 	@FXML
 	private void screenshot() throws AWTException, IOException {
+
+	}
+
+	@FXML
+
+	private void close() {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Exit Venn Software");
+		alert.setHeaderText("Are you sure you want exit?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+
+			System.exit(0);
+
+		}
 
 	}
 
