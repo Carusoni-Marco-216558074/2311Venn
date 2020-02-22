@@ -175,7 +175,7 @@ public class MainController {
 
 	// method is called when a new label is created, all have incremented id's
 
-	String[] textObjects = new String[100];
+	static String[] textObjects = new String[100];
 
 	@FXML
 	private void enterWordEvnt(KeyEvent e) throws IOException {
@@ -196,7 +196,7 @@ public class MainController {
 		textObjects[counter] = submitText.getText();
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
-		WordBox.add(lbl, 11, counter - 1);
+		WordBox.add(lbl, 7, counter - 1);
 
 		submitText.setText("");
 
@@ -210,7 +210,7 @@ public class MainController {
 		textObjects[counter] = str;
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
-		WordBox.add(lbl, 11, counter - 1);
+		WordBox.add(lbl, 7, counter - 1);
 
 	}
 
@@ -285,15 +285,42 @@ public class MainController {
 
 	}
 
+	 String filename = "";
+	
+
 	@FXML
 	private void saveEvnt() throws FileNotFoundException {
+
+		if (filename != "") {
+
+			File file = new File(filename);
+			file.delete();
+
+			PrintWriter writer = new PrintWriter(filename);
+
+			int i = 0;
+
+			while (textObjects[i] != null) {
+
+				writer.println(textObjects[i]);
+				i++;
+			}
+
+			writer.close();
+
+		}
+
+	}
+
+	@FXML
+	private void saveAsEvnt() throws FileNotFoundException {
 
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Text file", "txt"));
 
 		if (fileChooser.showSaveDialog(fileChooser) == JFileChooser.APPROVE_OPTION) {
 
-			String filename = fileChooser.getSelectedFile().toString();
+			filename = fileChooser.getSelectedFile().toString();
 
 			if (!filename.endsWith(".txt"))
 				filename += ".txt";
