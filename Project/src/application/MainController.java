@@ -285,8 +285,7 @@ public class MainController {
 
 	}
 
-	 String filename = "";
-	
+	String filename = "";
 
 	@FXML
 	private void saveEvnt() throws FileNotFoundException {
@@ -308,6 +307,11 @@ public class MainController {
 
 			writer.close();
 
+		}
+		
+		else {
+
+			saveAsEvnt();
 		}
 
 	}
