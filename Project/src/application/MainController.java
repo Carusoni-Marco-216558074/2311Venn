@@ -1,7 +1,7 @@
 package application;
 
 import java.awt.AWTException;
-
+import java.awt.Paint;
 import java.io.File;
 
 import java.io.IOException;
@@ -11,32 +11,40 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class MainController {
 
-	
-	//used for tracking dynamic labels
+	// used for tracking dynamic labels
 	public static int counter = 0;
 
-	//used for moving elements to gridpane
+	// used for moving elements to gridpane
 	public String text;
 	public static Integer colIndex;
 	public static Integer rowIndex;
 
-	//refrencing objects from the fxml page via their fx:id 
-	//do not edit anything without scenebuilder downloaded, and change their id from scenebuilder
-	
+	// refrencing objects from the fxml page via their fx:id
+	// do not edit anything without scenebuilder downloaded, and change their id
+	// from scenebuilder
+
+	@FXML
+	Pane mainPane;
 	@FXML
 	GridPane WordBox;
 	@FXML
@@ -71,9 +79,12 @@ public class MainController {
 	RadioButton radText;
 	@FXML
 	RadioButton radNum;
+	@FXML
+	ToggleButton darkToggle;
 
-	//stuff to initialize before the frame is shown (adding listeners, setting defaults)
-	
+	// stuff to initialize before the frame is shown (adding listeners, setting
+	// defaults)
+
 	public void initialize() {
 
 		Title.setBackground(null);
@@ -102,8 +113,7 @@ public class MainController {
 		cpkVen2.getStyleClass().add("split-button");
 	}
 
-	
-	//shows/hides titles
+	// shows/hides titles
 
 	@FXML
 	private void chkTitleEvnt() {
@@ -115,9 +125,8 @@ public class MainController {
 
 	}
 
-	
-	//shows/hides subtitles
-	
+	// shows/hides subtitles
+
 	@FXML
 	private void chkSubEvnt() {
 
@@ -131,9 +140,9 @@ public class MainController {
 		subTitle2.setText("");
 		subTitle2.setPromptText("Insert Title Here");
 	}
-	
-	//color picker for ven1(left)
-	
+
+	// color picker for ven1(left)
+
 	@FXML
 	private void cpkVen1Evnt() {
 
@@ -143,8 +152,8 @@ public class MainController {
 
 	}
 
-	//color picker for ven2(right)
-	
+	// color picker for ven2(right)
+
 	@FXML
 	private void cpkVen2Evnt() {
 
@@ -154,8 +163,8 @@ public class MainController {
 
 	}
 
-	//method is called when a new label is created, all have incremented id's
-	
+	// method is called when a new label is created, all have incremented id's
+
 	@FXML
 	private void enterWordEvnt(KeyEvent e) throws IOException {
 
@@ -172,9 +181,9 @@ public class MainController {
 		}
 
 	}
-	
-	//used for showing/reseting the textfields for only separating numbers
-	
+
+	// used for showing/reseting the textfields for only separating numbers
+
 	@FXML
 	private void radNumClick() {
 
@@ -199,8 +208,8 @@ public class MainController {
 		NumVen3.setPromptText("#");
 	}
 
-	//used for hiding the textfields for only separating numbers
-	
+	// used for hiding the textfields for only separating numbers
+
 	@FXML
 	private void radTextClick() {
 
@@ -215,7 +224,37 @@ public class MainController {
 
 	}
 
-	// not complete, supposed to take screenshot of just center pane, or just the window if too hard
+	@FXML
+	private void darkToggleEvnt() {
+
+		if (darkToggle.isSelected() == true) {
+			// dark mode
+
+			Title.setStyle("-fx-text-inner-color: white;");
+			NumVen1.setStyle("-fx-text-inner-color: white;");
+			NumVen2.setStyle("-fx-text-inner-color: white;");
+
+			mainPane.setBackground(
+					new Background(new BackgroundFill(Color.web("#333333"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+		}
+
+		else {
+			// light mode
+
+			Title.setStyle("-fx-text-inner-color: black;");
+			NumVen1.setStyle("-fx-text-inner-color: black;");
+			NumVen2.setStyle("-fx-text-inner-color: black;");
+			
+			mainPane.setBackground(
+					new Background(new BackgroundFill(Color.web("#f2f2f2"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+		}
+
+	}
+
+	// not complete, supposed to take screenshot of just center pane, or just the
+	// window if too hard
 
 	@FXML
 	private void screenshot() throws AWTException, IOException {
@@ -231,17 +270,16 @@ public class MainController {
 
 			File file = fileChooser.getSelectedFile();
 
-			
-			//take screenshot here, using above file as the name/extension. then use an image writer to actually save the data
-			
+			// take screenshot here, using above file as the name/extension. then use an
+			// image writer to actually save the data
+
 		}
 
 	}
 
 	// event handlers
-	
-	
-	//used for setting the max length a textfield can be
+
+	// used for setting the max length a textfield can be
 	public EventHandler<KeyEvent> maxLength(final Integer len) {
 		return new EventHandler<KeyEvent>() {
 
@@ -256,13 +294,12 @@ public class MainController {
 		};
 	}
 
-	//need a listener for TextBox that will check where the mouse releases a drag
-	//use above listener to get coordinates in grid
-	//call method to make identical label in grid
-	//??delete previous label??
-	
-	
-	//used for checking which lbl is being dragged
+	// need a listener for TextBox that will check where the mouse releases a drag
+	// use above listener to get coordinates in grid
+	// call method to make identical label in grid
+	// ??delete previous label??
+
+	// used for checking which lbl is being dragged
 	public EventHandler<MouseEvent> drag(final int id) {
 
 		return new EventHandler<MouseEvent>() {
@@ -271,9 +308,8 @@ public class MainController {
 			public void handle(MouseEvent arg0) {
 
 				// drag event on lbl.id
-				Label lbl = (Label) arg0.getSource(); //this specifies which label is being dragged
+				Label lbl = (Label) arg0.getSource(); // this specifies which label is being dragged
 				System.out.println("dragged: " + lbl.getId());
-				
 
 			}
 		};
