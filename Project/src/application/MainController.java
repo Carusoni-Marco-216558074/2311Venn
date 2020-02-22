@@ -265,7 +265,7 @@ public class MainController {
 			Title.setStyle("-fx-text-inner-color: white;");
 			NumVen1.setStyle("-fx-text-inner-color: white;");
 			NumVen2.setStyle("-fx-text-inner-color: white;");
-
+			darkToggle.setText("Light Mode");
 			mainPane.setBackground(
 					new Background(new BackgroundFill(Color.web("#333333"), CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -273,7 +273,7 @@ public class MainController {
 
 		else {
 			// light mode
-
+			darkToggle.setText("Dark Mode");
 			Title.setStyle("-fx-text-inner-color: black;");
 			NumVen1.setStyle("-fx-text-inner-color: black;");
 			NumVen2.setStyle("-fx-text-inner-color: black;");
@@ -308,7 +308,7 @@ public class MainController {
 			writer.close();
 
 		}
-		
+
 		else {
 
 			saveAsEvnt();
