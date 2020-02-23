@@ -51,6 +51,7 @@ public class MainController {
 	public static int lastDragged;
 	public static boolean dragged;
 	public static String lastDraggedText;
+	public static boolean toDelete = true;
 	// used for moving elements to gridpane
 	public String text;
 	public static Integer colIndex;
@@ -111,7 +112,7 @@ public class MainController {
 
 				draggedObj(colIndex, rowIndex);
 			}
-			
+
 			dragged = false;
 		});
 
@@ -242,14 +243,12 @@ public class MainController {
 		textObjects[counter] = submitText.getText();
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
-		
-		
+
 		WordBox.add(lbl, 7, counter - 1);
 
 		submitText.setText("");
 
 	}
-	
 
 	private void createObjFromFile(String str) {
 
@@ -262,7 +261,6 @@ public class MainController {
 		WordBox.add(lbl, 7, counter - 1);
 
 	}
-	
 
 	private void draggedObj(int col, int row) {
 
@@ -270,12 +268,10 @@ public class MainController {
 		lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:14px;");
 		lbl.setId("" + lastDragged);
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(lastDragged));
-
+		toDelete = true;
 		WordBox.add(lbl, col, row);
-		
-	}
 
-	
+	}
 
 	// used for showing/reseting the textfields for only separating numbers
 
@@ -492,7 +488,15 @@ public class MainController {
 			public void handle(MouseEvent arg0) {
 
 				// drag event on lbl.id
+
 				Label lbl = (Label) arg0.getSource(); // this specifies which label is being dragged
+
+				if (toDelete == true) {
+
+					WordBox.getChildren().remove(arg0.getSource());
+					toDelete = false;
+				}
+
 				lastDragged = Integer.valueOf(lbl.getId());
 				dragged = true;
 				lastDraggedText = lbl.getText();
