@@ -45,7 +45,6 @@ public class Main extends Application {
 					} else {
 
 						t.consume();
-
 					}
 
 				}

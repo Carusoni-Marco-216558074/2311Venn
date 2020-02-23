@@ -48,6 +48,8 @@ public class MainController {
 	// used for tracking dynamic labels
 	public static int counter = 0;
 
+	public static int lastDragged;
+	public static boolean dragged;
 	// used for moving elements to gridpane
 	public String text;
 	public static Integer colIndex;
@@ -99,15 +101,20 @@ public class MainController {
 	// stuff to initialize before the frame is shown (adding listeners, setting
 	// defaults)
 
-	
-	
 	private void addPane(int colIndex, int rowIndex) {
 		Pane pane = new Pane();
+
 		pane.setOnMouseEntered(e -> {
+
+			if (dragged == true) {
+
+				System.out.println("this should only trigger if its dropped at " + colIndex + rowIndex + lastDragged);
+
+			}
 			
-			System.out.printf("Mouse enetered cell [%d, %d]%n", colIndex, rowIndex);
-			// trigger a method if the (drag) mouse event is called directly before this one
+			dragged = false;
 		});
+
 		WordBox.add(pane, colIndex, rowIndex);
 	}
 
@@ -235,6 +242,7 @@ public class MainController {
 		textObjects[counter] = submitText.getText();
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
+
 		WordBox.add(lbl, 7, counter - 1);
 
 		submitText.setText("");
@@ -469,8 +477,8 @@ public class MainController {
 
 				// drag event on lbl.id
 				Label lbl = (Label) arg0.getSource(); // this specifies which label is being dragged
-				System.out.println("dragged: " + lbl.getId());
-				
+				lastDragged = Integer.valueOf(lbl.getId());
+				dragged = true;
 			}
 		};
 
