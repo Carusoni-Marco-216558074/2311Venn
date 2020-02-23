@@ -235,6 +235,8 @@ public class MainController {
 
 	}
 
+	static int i = 0;
+
 	private void createObj() {
 
 		// each new lbl object has an incremented id
@@ -244,7 +246,17 @@ public class MainController {
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
 
-		WordBox.add(lbl, 8, counter - 1);
+		if (counter > 15) {
+			if (i < 15) {
+				WordBox.add(lbl, 8, i);
+				i++;
+
+			} else
+				i = 0;
+		} else {
+
+			WordBox.add(lbl, 8, counter - 1);
+		}
 
 		submitText.setText("");
 
