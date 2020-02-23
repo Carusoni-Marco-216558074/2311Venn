@@ -50,6 +50,7 @@ public class MainController {
 
 	public static int lastDragged;
 	public static boolean dragged;
+	public static String lastDraggedText;
 	// used for moving elements to gridpane
 	public String text;
 	public static Integer colIndex;
@@ -108,8 +109,7 @@ public class MainController {
 
 			if (dragged == true) {
 
-				System.out.println("this should only trigger if its dropped at " + colIndex + rowIndex + lastDragged);
-
+				draggedObj(colIndex, rowIndex);
 			}
 			
 			dragged = false;
@@ -242,12 +242,14 @@ public class MainController {
 		textObjects[counter] = submitText.getText();
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
-
+		
+		
 		WordBox.add(lbl, 7, counter - 1);
 
 		submitText.setText("");
 
 	}
+	
 
 	private void createObjFromFile(String str) {
 
@@ -260,6 +262,20 @@ public class MainController {
 		WordBox.add(lbl, 7, counter - 1);
 
 	}
+	
+
+	private void draggedObj(int col, int row) {
+
+		Label lbl = new Label(lastDraggedText);
+		lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:14px;");
+		lbl.setId("" + lastDragged);
+		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(lastDragged));
+
+		WordBox.add(lbl, col, row);
+		
+	}
+
+	
 
 	// used for showing/reseting the textfields for only separating numbers
 
@@ -479,6 +495,7 @@ public class MainController {
 				Label lbl = (Label) arg0.getSource(); // this specifies which label is being dragged
 				lastDragged = Integer.valueOf(lbl.getId());
 				dragged = true;
+				lastDraggedText = lbl.getText();
 			}
 		};
 
