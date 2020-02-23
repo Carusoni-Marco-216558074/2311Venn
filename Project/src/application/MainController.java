@@ -19,6 +19,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -33,9 +34,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -95,8 +99,46 @@ public class MainController {
 	// stuff to initialize before the frame is shown (adding listeners, setting
 	// defaults)
 
+	
+	  private void addPane(int colIndex, int rowIndex) {
+	        Pane pane = new Pane();
+	        pane.setOnMouseEntered(e -> {
+	            System.out.printf("Mouse enetered cell [%d, %d]%n", colIndex, rowIndex);
+	        });
+	        WordBox.add(pane, colIndex, rowIndex);
+	    }
+	
 	public void initialize() {
 
+        int numCols = 7 ;
+        int numRows = 17 ;
+
+        for (int i = 0 ; i < numCols ; i++) {
+            ColumnConstraints colConstraints = new ColumnConstraints();
+            colConstraints.setHgrow(Priority.SOMETIMES);
+            WordBox.getColumnConstraints().add(colConstraints);
+        }
+
+        for (int i = 0 ; i < numRows ; i++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setVgrow(Priority.SOMETIMES);
+            WordBox.getRowConstraints().add(rowConstraints);
+        }
+
+        for (int i = 0 ; i < numCols ; i++) {
+            for (int j = 0; j < numRows; j++) {
+                addPane(i, j);
+            }
+        }
+		
+		
+		///////////////////////////////////////////////////////
+		
+		
+		
+		
+		
+		
 		Title.setBackground(null);
 		Title.addEventFilter(KeyEvent.KEY_TYPED, maxLength(35));
 
@@ -431,10 +473,20 @@ public class MainController {
 				// drag event on lbl.id
 				Label lbl = (Label) arg0.getSource(); // this specifies which label is being dragged
 				System.out.println("dragged: " + lbl.getId());
-
+				
 			}
 		};
 
 	}
+	
+	@FXML
+    private void mouseEntered(MouseEvent e) {
+        Node source = (Node)e.getSource() ;
+        Integer colIndex = GridPane.getColumnIndex(source);
+        Integer rowIndex = GridPane.getRowIndex(source);
+        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+    }
+	
+	
 
 }
