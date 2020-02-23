@@ -48,6 +48,10 @@ public class MainController {
 	// used for tracking dynamic labels
 	public static int counter = 0;
 
+	public static int lastDragged;
+	public static boolean dragged;
+	public static String lastDraggedText;
+	public static boolean toDelete = true;
 	// used for moving elements to gridpane
 	public String text;
 	public static Integer colIndex;
@@ -99,15 +103,19 @@ public class MainController {
 	// stuff to initialize before the frame is shown (adding listeners, setting
 	// defaults)
 
-	
-	
 	private void addPane(int colIndex, int rowIndex) {
 		Pane pane = new Pane();
+
 		pane.setOnMouseEntered(e -> {
-			
-			System.out.printf("Mouse enetered cell [%d, %d]%n", colIndex, rowIndex);
-			// trigger a method if the (drag) mouse event is called directly before this one
+
+			if (dragged == true) {
+
+				draggedObj(colIndex, rowIndex);
+			}
+
+			dragged = false;
 		});
+
 		WordBox.add(pane, colIndex, rowIndex);
 	}
 
@@ -235,6 +243,7 @@ public class MainController {
 		textObjects[counter] = submitText.getText();
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
+
 		WordBox.add(lbl, 7, counter - 1);
 
 		submitText.setText("");
@@ -250,6 +259,17 @@ public class MainController {
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
 		WordBox.add(lbl, 7, counter - 1);
+
+	}
+
+	private void draggedObj(int col, int row) {
+
+		Label lbl = new Label(lastDraggedText);
+		lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:14px;");
+		lbl.setId("" + lastDragged);
+		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(lastDragged));
+		toDelete = true;
+		WordBox.add(lbl, col, row);
 
 	}
 
@@ -468,9 +488,18 @@ public class MainController {
 			public void handle(MouseEvent arg0) {
 
 				// drag event on lbl.id
+
 				Label lbl = (Label) arg0.getSource(); // this specifies which label is being dragged
-				System.out.println("dragged: " + lbl.getId());
-				
+
+				if (toDelete == true) {
+
+					WordBox.getChildren().remove(arg0.getSource());
+					toDelete = false;
+				}
+
+				lastDragged = Integer.valueOf(lbl.getId());
+				dragged = true;
+				lastDraggedText = lbl.getText();
 			}
 		};
 
