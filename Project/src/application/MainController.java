@@ -100,45 +100,42 @@ public class MainController {
 	// defaults)
 
 	
-	  private void addPane(int colIndex, int rowIndex) {
-	        Pane pane = new Pane();
-	        pane.setOnMouseEntered(e -> {
-	            System.out.printf("Mouse enetered cell [%d, %d]%n", colIndex, rowIndex);
-	        });
-	        WordBox.add(pane, colIndex, rowIndex);
-	    }
 	
+	private void addPane(int colIndex, int rowIndex) {
+		Pane pane = new Pane();
+		pane.setOnMouseEntered(e -> {
+			
+			System.out.printf("Mouse enetered cell [%d, %d]%n", colIndex, rowIndex);
+			
+		});
+		WordBox.add(pane, colIndex, rowIndex);
+	}
+
 	public void initialize() {
 
-        int numCols = 7 ;
-        int numRows = 17 ;
+		int numCols = 7;
+		int numRows = 17;
 
-        for (int i = 0 ; i < numCols ; i++) {
-            ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setHgrow(Priority.SOMETIMES);
-            WordBox.getColumnConstraints().add(colConstraints);
-        }
+		for (int i = 0; i < numCols; i++) {
+			ColumnConstraints colConstraints = new ColumnConstraints();
+			colConstraints.setHgrow(Priority.SOMETIMES);
+			WordBox.getColumnConstraints().add(colConstraints);
+		}
 
-        for (int i = 0 ; i < numRows ; i++) {
-            RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setVgrow(Priority.SOMETIMES);
-            WordBox.getRowConstraints().add(rowConstraints);
-        }
+		for (int i = 0; i < numRows; i++) {
+			RowConstraints rowConstraints = new RowConstraints();
+			rowConstraints.setVgrow(Priority.SOMETIMES);
+			WordBox.getRowConstraints().add(rowConstraints);
+		}
 
-        for (int i = 0 ; i < numCols ; i++) {
-            for (int j = 0; j < numRows; j++) {
-                addPane(i, j);
-            }
-        }
-		
-		
+		for (int i = 0; i < numCols; i++) {
+			for (int j = 0; j < numRows; j++) {
+				addPane(i, j);
+			}
+		}
+
 		///////////////////////////////////////////////////////
-		
-		
-		
-		
-		
-		
+
 		Title.setBackground(null);
 		Title.addEventFilter(KeyEvent.KEY_TYPED, maxLength(35));
 
@@ -478,15 +475,5 @@ public class MainController {
 		};
 
 	}
-	
-	@FXML
-    private void mouseEntered(MouseEvent e) {
-        Node source = (Node)e.getSource() ;
-        Integer colIndex = GridPane.getColumnIndex(source);
-        Integer rowIndex = GridPane.getRowIndex(source);
-        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
-    }
-	
-	
 
 }
