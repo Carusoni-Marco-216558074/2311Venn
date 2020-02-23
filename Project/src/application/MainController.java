@@ -106,7 +106,7 @@ public class MainController {
 		pane.setOnMouseEntered(e -> {
 			
 			System.out.printf("Mouse enetered cell [%d, %d]%n", colIndex, rowIndex);
-			
+			// trigger a method if the (drag) mouse event is called directly before this one
 		});
 		WordBox.add(pane, colIndex, rowIndex);
 	}
