@@ -244,7 +244,7 @@ public class MainController {
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
 
-		WordBox.add(lbl, 7, counter - 1);
+		WordBox.add(lbl, 8, counter - 1);
 
 		submitText.setText("");
 
@@ -258,7 +258,7 @@ public class MainController {
 		textObjects[counter] = str;
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
-		WordBox.add(lbl, 7, counter - 1);
+		WordBox.add(lbl, 8, counter - 1);
 
 	}
 
