@@ -78,11 +78,6 @@
 			<children>
 				<Circle fx:id="Ven1" fill="#b5b5ff80" layoutX="326.0" layoutY="350.0" radius="234.0" stroke="BLACK" strokeType="INSIDE" />
 				<Circle fx:id="Ven2" fill="#ffb8b880" layoutX="590.0" layoutY="350.0" radius="234.0" stroke="BLACK" strokeType="INSIDE" />
-				<TextField fx:id="NumVen1" alignment="CENTER" disable="true" layoutX="103.0" layoutY="244.0" prefHeight="177.0" prefWidth="252.0" promptText="#" visible="false">
-					<font>
-						<Font name="Arial Bold" size="48.0" />
-					</font>
-				</TextField>
 				<Separator layoutX="901.0" layoutY="-12.0" orientation="VERTICAL" prefHeight="686.0" prefWidth="16.0" />
 				<Separator layoutX="6.0" layoutY="-12.0" orientation="VERTICAL" prefHeight="686.0" prefWidth="16.0" />
 				<TextField fx:id="Title" alignment="CENTER" layoutX="204.0" layoutY="40.0" prefHeight="37.0" prefWidth="515.0" promptText="Insert Title Here">
@@ -100,48 +95,53 @@
 						<Font name="Arial Bold" size="20.0" />
 					</font>
 				</TextField>
-				<TextField fx:id="NumVen3" alignment="CENTER" disable="true" layoutX="352.0" layoutY="282.0" prefHeight="145.0" prefWidth="205.0" promptText="#" visible="false">
-					<font>
-						<Font name="Arial Bold" size="48.0" />
-					</font>
-				</TextField>
-				<TextField fx:id="NumVen2" alignment="CENTER" disable="true" layoutX="560.0" layoutY="243.0" prefHeight="177.0" prefWidth="259.0" promptText="#" visible="false">
-					<font>
-						<Font name="Arial Bold" size="48.0" />
-					</font>
-				</TextField>
+            <GridPane fx:id="WordBox" alignment="CENTER_LEFT" gridLinesVisible="true" layoutX="57.0" layoutY="181.0" prefHeight="480.0" prefWidth="986.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="186.0" minWidth="10.0" prefWidth="115.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="209.0" minWidth="10.0" prefWidth="122.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="106.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="318.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="227.0" minWidth="10.0" prefWidth="116.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="256.0" minWidth="10.0" prefWidth="138.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" prefWidth="149.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="136.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+      				<TextField fx:id="NumVen1" alignment="CENTER" disable="true" layoutX="103.0" layoutY="244.0" prefHeight="177.0" prefWidth="252.0" promptText="#" visible="false">
+      					<font>
+      						<Font name="Arial Bold" size="48.0" />
+      					</font>
+      				</TextField>
+      				<TextField fx:id="NumVen3" alignment="CENTER" disable="true" layoutX="352.0" layoutY="282.0" prefHeight="145.0" prefWidth="205.0" promptText="#" visible="false">
+      					<font>
+      						<Font name="Arial Bold" size="48.0" />
+      					</font>
+      				</TextField>
+      				<TextField fx:id="NumVen2" alignment="CENTER" disable="true" layoutX="560.0" layoutY="243.0" prefHeight="177.0" prefWidth="259.0" promptText="#" visible="false">
+      					<font>
+      						<Font name="Arial Bold" size="48.0" />
+      					</font>
+      				</TextField>
 			</children>
 		</Pane>
-      <GridPane fx:id="WordBox" alignment="CENTER_LEFT" gridLinesVisible="true" layoutX="295.0" layoutY="221.0" prefHeight="480.0" prefWidth="986.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="186.0" minWidth="10.0" prefWidth="115.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="209.0" minWidth="10.0" prefWidth="122.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="106.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="318.0" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="227.0" minWidth="10.0" prefWidth="116.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="256.0" minWidth="10.0" prefWidth="138.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="185.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
 	</children>
 </Pane>
