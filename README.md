@@ -11,7 +11,7 @@ Testing document
 
 Contact information:
 Jeffrey Walker - jdwalker@myorku.ca
-Joseph Spagnuolo - JosephS@my.yorku.ca
+Joseph Spagnuolo - joe13@my.yorku.ca
  Marco Carusoni - marco123@my.yorku.ca
 Arjun Kaura - arjunka@my.yorku.ca
 
