@@ -31,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -138,6 +139,7 @@ public class MainController {
 
 		for (int i = 0; i < numCols; i++) {
 			for (int j = 0; j < numRows; j++) {
+				if(i != 2 &&  i != 4)
 				addPane(i, j);
 			}
 		}
@@ -245,7 +247,10 @@ public class MainController {
 		textObjects[counter] = submitText.getText();
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
+		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
 
+		
+		
 		if (counter > 15) {
 			if (i < 15) {
 				WordBox.add(lbl, 8, i);
@@ -270,6 +275,7 @@ public class MainController {
 		textObjects[counter] = str;
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
+		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
 		WordBox.add(lbl, 8, counter - 1);
 
 	}
@@ -280,6 +286,8 @@ public class MainController {
 		lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:14px;");
 		lbl.setId("" + lastDragged);
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(lastDragged));
+		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
+
 		toDelete = true;
 		WordBox.add(lbl, col, row);
 
@@ -512,6 +520,31 @@ public class MainController {
 				lastDragged = Integer.valueOf(lbl.getId());
 				dragged = true;
 				lastDraggedText = lbl.getText();
+			}
+		};
+
+	}
+	
+	public EventHandler<MouseEvent> clicked(final int id) {
+
+		return new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				
+			        if (arg0.getButton() == MouseButton.SECONDARY) {
+			        	
+			        	Label lbl = (Label) arg0.getSource(); 
+			        	
+			        	//if a label is right clicked, do something like open a menu or make it editable
+			        	//the filter works perfectly but needs something after activation
+			        	//either delete the object or make the text editable
+			        	
+			        	//to delete it would use
+			        	WordBox.getChildren().remove(arg0.getSource());
+			        }
+
+				
 			}
 		};
 
