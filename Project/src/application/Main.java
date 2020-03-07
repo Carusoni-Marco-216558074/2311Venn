@@ -16,7 +16,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 
 public class Main extends Application {
-
 	public void start(Stage primaryStage) {
 		try {
 

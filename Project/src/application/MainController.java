@@ -19,17 +19,20 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -41,17 +44,23 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 public class MainController {
-
+	final ContextMenu contextMenu = new ContextMenu();
+	MenuItem edit = new MenuItem("Edit");
+	MenuItem delete = new MenuItem("Delete");
+	TextField t = new TextField();
 	// used for tracking dynamic labels
 	public static int counter = 0;
 
 	public static int lastDragged;
 	public static boolean dragged;
 	public static String lastDraggedText;
+	public Object lastSelectedText;
 	public static boolean toDelete = true;
 	// used for moving elements to gridpane
 	public String text;
@@ -100,6 +109,7 @@ public class MainController {
 	RadioButton radNum;
 	@FXML
 	ToggleButton darkToggle;
+	
 
 	// stuff to initialize before the frame is shown (adding listeners, setting
 	// defaults)
@@ -144,6 +154,11 @@ public class MainController {
 			}
 		}
 
+		
+		assembleWindow();
+		
+		
+		
 		///////////////////////////////////////////////////////
 
 		Title.setBackground(null);
@@ -171,8 +186,49 @@ public class MainController {
 		cpkVen1.getStyleClass().add("split-button");
 		cpkVen2.getStyleClass().add("split-button");
 	}
+	
+	
+	public void assembleWindow() 
+	{
+		VBox v = new VBox(2);
+		
+		
+		t.addEventFilter(KeyEvent.KEY_TYPED, maxLength(25));
+		//WordBox.getChildren().get
+		
+		
+		v.getChildren().addAll(new Label("Enter text:"), t );
+		Scene popupScene= new Scene(v, 300, 200);
+		
+		Stage stage = new Stage();
+		stage.setScene(popupScene);
+		
+		t.setOnKeyReleased(event -> {
+			  if (event.getCode() == KeyCode.ENTER){
+				  
+				  ((Label)lastSelectedText).setText(t.getText());
+				  stage.close();
+			  }
+			});
+
+		contextMenu.getItems().addAll(edit, delete);
+		
+		edit.setOnAction((event) -> {
+			t.setText(((Label)lastSelectedText).getText());
+			stage.show();
+
+		});
+		
+		delete.setOnAction((event) -> {
+		    System.out.println("delete clicked!");
+		    WordBox.getChildren().remove(lastSelectedText);
+		});
+
+	}
 
 	// shows/hides titles
+	
+
 
 	@FXML
 	private void chkTitleEvnt() {
@@ -248,7 +304,7 @@ public class MainController {
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
 		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
-
+		
 		
 		
 		if (counter > 15) {
@@ -276,6 +332,9 @@ public class MainController {
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
 		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
+		
+		lbl.setContextMenu(contextMenu);
+		
 		WordBox.add(lbl, 8, counter - 1);
 
 	}
@@ -476,7 +535,7 @@ public class MainController {
 		}
 
 	}
-
+	
 	// event handlers
 
 	// used for setting the max length a textfield can be
@@ -541,7 +600,9 @@ public class MainController {
 			        	//either delete the object or make the text editable
 			        	
 			        	//to delete it would use
-			        	WordBox.getChildren().remove(arg0.getSource());
+			        	lastSelectedText = arg0.getSource();
+			        	contextMenu.show(lbl, arg0.getScreenX(), arg0.getScreenY());
+			        	//WordBox.getChildren().remove(arg0.getSource());
 			        }
 
 				
@@ -549,5 +610,9 @@ public class MainController {
 		};
 
 	}
+	
+
+	
+	
 
 }
