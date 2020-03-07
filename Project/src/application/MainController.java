@@ -2,15 +2,12 @@ package application;
 
 import java.awt.AWTException;
 
-import java.awt.Paint;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 import javax.swing.JFileChooser;
@@ -53,7 +50,7 @@ public class MainController {
 	final ContextMenu contextMenu = new ContextMenu();
 	MenuItem edit = new MenuItem("Edit");
 	MenuItem delete = new MenuItem("Delete");
-	TextField t = new TextField();
+	TextField editText = new TextField();
 	// used for tracking dynamic labels
 	public static int counter = 0;
 
@@ -109,26 +106,9 @@ public class MainController {
 	RadioButton radNum;
 	@FXML
 	ToggleButton darkToggle;
-	
 
 	// stuff to initialize before the frame is shown (adding listeners, setting
 	// defaults)
-
-	private void addPane(int colIndex, int rowIndex) {
-		Pane pane = new Pane();
-
-		pane.setOnMouseEntered(e -> {
-
-			if (dragged == true) {
-
-				draggedObj(colIndex, rowIndex);
-			}
-
-			dragged = false;
-		});
-
-		WordBox.add(pane, colIndex, rowIndex);
-	}
 
 	public void initialize() {
 
@@ -149,17 +129,10 @@ public class MainController {
 
 		for (int i = 0; i < numCols; i++) {
 			for (int j = 0; j < numRows; j++) {
-				if(i != 2 &&  i != 4)
-				addPane(i, j);
+				if (i != 2 && i != 4)
+					addPane(i, j);
 			}
 		}
-
-		
-		assembleWindow();
-		
-		
-		
-		///////////////////////////////////////////////////////
 
 		Title.setBackground(null);
 		Title.addEventFilter(KeyEvent.KEY_TYPED, maxLength(35));
@@ -185,50 +158,61 @@ public class MainController {
 
 		cpkVen1.getStyleClass().add("split-button");
 		cpkVen2.getStyleClass().add("split-button");
+
+		editWindow();
+	}
+
+	private void addPane(int colIndex, int rowIndex) {
+		Pane pane = new Pane();
+
+		pane.setOnMouseEntered(e -> {
+
+			if (dragged == true) {
+
+				draggedObj(colIndex, rowIndex);
+			}
+
+			dragged = false;
+		});
+
+		WordBox.add(pane, colIndex, rowIndex);
 	}
 	
-	
-	public void assembleWindow() 
-	{
+	//create edit scene
+	public void editWindow() {
 		VBox v = new VBox(2);
-		
-		
-		t.addEventFilter(KeyEvent.KEY_TYPED, maxLength(25));
-		//WordBox.getChildren().get
-		
-		
-		v.getChildren().addAll(new Label("Enter text:"), t );
-		Scene popupScene= new Scene(v, 300, 200);
-		
+
+		editText.addEventFilter(KeyEvent.KEY_TYPED, maxLength(25));
+
+		v.getChildren().addAll(new Label("Enter new text here:"), editText);
+		Scene popupScene = new Scene(v, 200, 50);
+
 		Stage stage = new Stage();
 		stage.setScene(popupScene);
-		
-		t.setOnKeyReleased(event -> {
-			  if (event.getCode() == KeyCode.ENTER){
-				  
-				  ((Label)lastSelectedText).setText(t.getText());
-				  stage.close();
-			  }
-			});
+
+		editText.setOnKeyReleased(event -> {
+			if (event.getCode() == KeyCode.ENTER) {
+
+				((Label) lastSelectedText).setText(editText.getText());
+				stage.close();
+			}
+		});
 
 		contextMenu.getItems().addAll(edit, delete);
-		
+
 		edit.setOnAction((event) -> {
-			t.setText(((Label)lastSelectedText).getText());
+			editText.setText(((Label) lastSelectedText).getText());
 			stage.show();
 
 		});
-		
+
 		delete.setOnAction((event) -> {
-		    System.out.println("delete clicked!");
-		    WordBox.getChildren().remove(lastSelectedText);
+			WordBox.getChildren().remove(lastSelectedText);
 		});
 
 	}
 
 	// shows/hides titles
-	
-
 
 	@FXML
 	private void chkTitleEvnt() {
@@ -304,9 +288,7 @@ public class MainController {
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
 		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
-		
-		
-		
+
 		if (counter > 15) {
 			if (i < 15) {
 				WordBox.add(lbl, 8, i);
@@ -332,9 +314,9 @@ public class MainController {
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
 		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
-		
+
 		lbl.setContextMenu(contextMenu);
-		
+
 		WordBox.add(lbl, 8, counter - 1);
 
 	}
@@ -535,7 +517,7 @@ public class MainController {
 		}
 
 	}
-	
+
 	// event handlers
 
 	// used for setting the max length a textfield can be
@@ -583,36 +565,32 @@ public class MainController {
 		};
 
 	}
-	
+
 	public EventHandler<MouseEvent> clicked(final int id) {
 
 		return new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				
-			        if (arg0.getButton() == MouseButton.SECONDARY) {
-			        	
-			        	Label lbl = (Label) arg0.getSource(); 
-			        	
-			        	//if a label is right clicked, do something like open a menu or make it editable
-			        	//the filter works perfectly but needs something after activation
-			        	//either delete the object or make the text editable
-			        	
-			        	//to delete it would use
-			        	lastSelectedText = arg0.getSource();
-			        	contextMenu.show(lbl, arg0.getScreenX(), arg0.getScreenY());
-			        	//WordBox.getChildren().remove(arg0.getSource());
-			        }
 
-				
+				if (arg0.getButton() == MouseButton.SECONDARY) {
+
+					Label lbl = (Label) arg0.getSource();
+
+					// if a label is right clicked, do something like open a menu or make it
+					// editable
+					// the filter works perfectly but needs something after activation
+					// either delete the object or make the text editable
+
+					// to delete it would use
+					lastSelectedText = arg0.getSource();
+					contextMenu.show(lbl, arg0.getScreenX(), arg0.getScreenY());
+					// WordBox.getChildren().remove(arg0.getSource());
+				}
+
 			}
 		};
 
 	}
-	
-
-	
-	
 
 }
