@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -46,6 +47,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+
 public class MainController {
 	final ContextMenu contextMenu = new ContextMenu();
 	MenuItem edit = new MenuItem("Edit");
@@ -63,6 +65,8 @@ public class MainController {
 	public String text;
 	public static Integer colIndex;
 	public static Integer rowIndex;
+	public static int c;
+
 
 	// refrencing objects from the fxml page via their fx:id
 	// do not edit anything without scenebuilder downloaded, and change their id
@@ -109,6 +113,9 @@ public class MainController {
 
 	// stuff to initialize before the frame is shown (adding listeners, setting
 	// defaults)
+	
+	
+	
 
 	public void initialize() {
 
@@ -168,7 +175,7 @@ public class MainController {
 		pane.setOnMouseEntered(e -> {
 
 			if (dragged == true) {
-
+				
 				draggedObj(colIndex, rowIndex);
 			}
 
@@ -176,6 +183,7 @@ public class MainController {
 		});
 
 		WordBox.add(pane, colIndex, rowIndex);
+		
 	}
 	
 	//create edit scene
@@ -265,6 +273,7 @@ public class MainController {
 	// method is called when a new label is created, all have incremented id's
 
 	static String[] textObjects = new String[100];
+	static String[] coord = new String[100];
 
 	@FXML
 	private void enterWordEvnt(KeyEvent e) throws IOException {
@@ -292,6 +301,7 @@ public class MainController {
 		if (counter > 15) {
 			if (i < 15) {
 				WordBox.add(lbl, 8, i);
+			
 				i++;
 
 			} else
@@ -331,6 +341,8 @@ public class MainController {
 
 		toDelete = true;
 		WordBox.add(lbl, col, row);
+		this.coord[c] =col+" "+row;
+		c++;
 
 	}
 
@@ -411,6 +423,7 @@ public class MainController {
 	private void saveEvnt() throws FileNotFoundException {
 
 		if (filename != "") {
+			
 
 			File file = new File(filename);
 			file.delete();
@@ -418,10 +431,10 @@ public class MainController {
 			PrintWriter writer = new PrintWriter(filename);
 
 			int i = 0;
-
+			int j = 0;
 			while (textObjects[i] != null) {
 
-				writer.println(textObjects[i]);
+				writer.println(textObjects[i]+" " + coord[j]);
 				i++;
 			}
 
@@ -430,7 +443,7 @@ public class MainController {
 		}
 
 		else {
-
+			
 			saveAsEvnt();
 		}
 
@@ -452,10 +465,11 @@ public class MainController {
 			PrintWriter writer = new PrintWriter(filename);
 
 			int i = 0;
-
+			int j =0;
 			while (textObjects[i] != null) {
 
-				writer.println(textObjects[i]);
+				writer.println(textObjects[i] +" " + coord[j]);
+				j++;
 				i++;
 			}
 
@@ -531,6 +545,32 @@ public class MainController {
 				if (tx.getText().length() >= len) {
 					arg0.consume();
 				}
+			}
+		};
+	}
+	
+	public EventHandler<KeyEvent> onlyNumber() {
+		return new EventHandler<KeyEvent>() {
+			
+			@Override
+			public void handle(KeyEvent arg0) {
+				
+				
+				TextField tx = (TextField) arg0.getSource();
+				String newText = tx.getText();
+				String testCase = ".*[a-z].*";
+				String testCase2 = ".*[A-Z].*";
+			
+			        if(tx.getText().matches(testCase)||tx.getText().matches(testCase2) || tx.getText().length()>=5)
+			        {
+			        	arg0.consume();
+			        	
+			        }
+			    
+				
+				
+				
+				
 			}
 		};
 	}
