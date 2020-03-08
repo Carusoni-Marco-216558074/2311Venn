@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Optional;
 
-
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -54,13 +53,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-
 public class MainController {
 	final ContextMenu contextMenu = new ContextMenu();
 	MenuItem edit = new MenuItem("Edit");
 	MenuItem delete = new MenuItem("Delete");
 	TextField editText = new TextField();
-	boolean selectionMode =false;
+	boolean selectionMode = false;
 	ArrayList<Object> listOfText = new ArrayList<Object>();
 	ArrayList[][] textGrid = new ArrayList[100][3];
 	// used for tracking dynamic labels
@@ -76,7 +74,6 @@ public class MainController {
 	public static Integer colIndex;
 	public static Integer rowIndex;
 	public static int c;
-
 
 	// refrencing objects from the fxml page via their fx:id
 	// do not edit anything without scenebuilder downloaded, and change their id
@@ -125,11 +122,8 @@ public class MainController {
 	@FXML
 	Label selectionModeLabel;
 
-	// stuff to initialize before the frame is shown (adding listeners, setting
+	// initializing elements before the frame is shown (adding filters, setting
 	// defaults)
-	
-	
-	
 
 	public void initialize() {
 
@@ -180,7 +174,7 @@ public class MainController {
 		cpkVen1.getStyleClass().add("split-button");
 		cpkVen2.getStyleClass().add("split-button");
 
-		//editWindow();
+		// editWindow();
 		contextMenu.getItems().addAll(edit, delete);
 		contextMenu.setStyle("-fx-font-size:14px;");
 		addKeyEvent();
@@ -192,7 +186,7 @@ public class MainController {
 		pane.setOnMouseEntered(e -> {
 
 			if (dragged == true) {
-				
+
 				draggedObj(colIndex, rowIndex);
 			}
 
@@ -200,13 +194,12 @@ public class MainController {
 		});
 
 		WordBox.add(pane, colIndex, rowIndex);
-		
+
 	}
-	
-	//create edit scene
+
+	// create edit scene
 	public void editWindow() {
-		
-		
+
 		VBox v = new VBox(5);
 		HBox h = new HBox(2);
 		Scene popupScene;
@@ -223,65 +216,71 @@ public class MainController {
 		fontSize.addEventFilter(KeyEvent.KEY_TYPED, onlyNumber());
 		editText.setText(((Label) lastSelectedText).getText());
 		editText.addEventFilter(KeyEvent.KEY_TYPED, maxLength(25));
-		
-		if(selectionMode) {
-			if(listOfText.size()==1)
-				
-				v.getChildren().addAll(l,l2, fontSize, l3, cpk, chkBox, new Label("Enter new text here:"), editText, h);
-			
+
+		if (selectionMode) {
+			if (listOfText.size() == 1)
+
+				v.getChildren().addAll(l, l2, fontSize, l3, cpk, chkBox, new Label("Enter new text here:"), editText,
+						h);
+
 			else
-				v.getChildren().addAll(l,l2, fontSize, l3, cpk, chkBox, h);
+				v.getChildren().addAll(l, l2, fontSize, l3, cpk, chkBox, h);
 			popupScene = new Scene(v, 200, 250);
-		}else {
-			
-			v.getChildren().addAll(l,l2, fontSize, l3, cpk, chkBox, new Label("Enter new text here:"), editText, h);
+		} else {
+
+			v.getChildren().addAll(l, l2, fontSize, l3, cpk, chkBox, new Label("Enter new text here:"), editText, h);
 			popupScene = new Scene(v, 200, 250);
 		}
-		
 
 		Stage stage = new Stage();
 		stage.setScene(popupScene);
-		
-		doneEditButton.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		    	
-		    	if(Integer.parseInt(fontSize.getText()) < 0 ||Integer.parseInt(fontSize.getText()) >14) {
-		    		Alert alert = new Alert(AlertType.CONFIRMATION);
-		    		
-		    		alert.setHeaderText("Font size between 0 and 14 is allowed only.");
-		    		alert.show();
-		    		return;
-		    	}
-		    	
-			    	if(listOfText.size()==0)listOfText.add(lastSelectedText);
-			    	for(int i = 0; i < listOfText.size(); i ++) {
-			    		
-			    		((Label)listOfText.get(i)).setBorder(new Border(new BorderStroke(Color.TRANSPARENT, 
-					            null, null, null)));
-			    		((Label)listOfText.get(i)).setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
-					            +fontSize.getText()+"px;");
-			    		
-			    		if(chkBox.isSelected()) {
-				    		//((Label)listOfText.get(i)).setTextFill(cpk.getValue());
-				    		((Label)listOfText.get(i)).setBackground(new Background( new BackgroundFill(cpk.getValue(), null, null)));
-				    	}
-			    		
-			    	}
-			    	((Label) listOfText.get(0)).setText(editText.getText());
-			    	
-		            listOfText.clear();
-		            if(selectionMode) {
-			            showSelectionModeLabel();
-			            selectionMode = false;}
-			    	stage.close();
 
-		    }
+		doneEditButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+
+				if (Integer.parseInt(fontSize.getText()) < 0 || Integer.parseInt(fontSize.getText()) > 14) {
+					Alert alert = new Alert(AlertType.CONFIRMATION);
+
+					alert.setHeaderText("Please select a font size between 0 and 14.");
+					alert.show();
+					return;
+				}
+
+				if (listOfText.size() == 0)
+					listOfText.add(lastSelectedText);
+				for (int i = 0; i < listOfText.size(); i++) {
+
+					((Label) listOfText.get(i))
+							.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, null)));
+					((Label) listOfText.get(i))
+							.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
+									+ fontSize.getText() + "px;");
+
+					if (chkBox.isSelected()) {
+						// ((Label)listOfText.get(i)).setTextFill(cpk.getValue());
+						((Label) listOfText.get(i))
+								.setBackground(new Background(new BackgroundFill(cpk.getValue(), null, null)));
+					}
+
+				}
+				((Label) listOfText.get(0)).setText(editText.getText());
+
+				listOfText.clear();
+				if (selectionMode) {
+					showSelectionModeLabel();
+					selectionMode = false;
+				}
+				stage.close();
+
+			}
 		});
-		
+
 		cancelEditButton.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		       stage.close();
-		    }
+			@Override
+			public void handle(ActionEvent e) {
+				stage.close();
+			}
 		});
 
 		editText.setOnKeyReleased(event -> {
@@ -292,57 +291,50 @@ public class MainController {
 			}
 		});
 
-		
-		
-			edit.setOnAction((event) -> {
-	
-				stage.show();
-	
-			});
+		edit.setOnAction((event) -> {
+
+			stage.show();
+
+		});
 
 		delete.setOnAction((event) -> {
-			if(!selectionMode)
-			WordBox.getChildren().remove(lastSelectedText);
+			if (!selectionMode)
+				WordBox.getChildren().remove(lastSelectedText);
 			else {
-				for(int i =0; i < listOfText.size();i++)
-					WordBox.getChildren().remove(((Label)listOfText.get(i)));
-					listOfText.clear();
-				
-				
+				for (int i = 0; i < listOfText.size(); i++)
+					WordBox.getChildren().remove(((Label) listOfText.get(i)));
+				listOfText.clear();
+
 			}
-				
+
 		});
-		
-		
+
 	}
-	
 
 	// shows/hides titles
-	
+
 	@FXML
 	private void showSelectionModeLabel() {
-		if(selectionModeLabel.isDisabled())
-		selectionModeLabel.setDisable(false);
+		if (selectionModeLabel.isDisabled())
+			selectionModeLabel.setDisable(false);
 		else
 			selectionModeLabel.setDisable(true);
-		
+
 	}
-	
+
 	@FXML
 	private void aboutMenu() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		
-		alert.setHeaderText("Press \"CONTROL\" to go into a multi-edit Selection Mode.\n" +
-							"Then select the text objects you want to edit.\n" +
-							"Once selected, right-click on any one of the selected texts.\n" +
-							"A context menu will pop-up that will let you edit or delete the\n" +
-							"selected text.\n"+
-							"Any individual text can be right-clicked to edit that alone.");
+
+		alert.setHeaderText("Press \"CONTROL\" to go into a multi-edit Selection Mode.\n"
+				+ "Then select the text objects you want to edit.\n"
+				+ "Once selected, right-click on any one of the selected texts.\n"
+				+ "A context menu will pop-up that will let you edit or delete the\n" + "selected text.\n"
+				+ "Any individual text can be right-clicked to edit that alone.");
 		alert.show();
-		
+
 	}
-	
-	
+
 	@FXML
 	private void chkTitleEvnt() {
 
@@ -422,7 +414,7 @@ public class MainController {
 		if (counter > 15) {
 			if (i < 15) {
 				WordBox.add(lbl, 8, i);
-			
+
 				i++;
 
 			} else
@@ -446,24 +438,25 @@ public class MainController {
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
 		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
 
-		//lbl.setContextMenu(contextMenu);
+		// lbl.setContextMenu(contextMenu);
 
 		WordBox.add(lbl, 8, counter - 1);
 
 	}
 
 	private void draggedObj(int col, int row) {
-		//lbl.getStyle()
+		// lbl.getStyle()
 		Label lbl = new Label(lastDraggedText);
-		lbl.setStyle(((Label)lastSelectedText).getStyle());
-		//lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:14px;");
+		lbl.setStyle(((Label) lastSelectedText).getStyle());
+		// lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672);
+		// -fx-font-size:14px;");
 		lbl.setId("" + lastDragged);
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(lastDragged));
 		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
-		
+
 		toDelete = true;
 		WordBox.add(lbl, col, row);
-		this.coord[c] =col+" "+row;
+		this.coord[c] = col + " " + row;
 		c++;
 
 	}
@@ -545,7 +538,6 @@ public class MainController {
 	private void saveEvnt() throws FileNotFoundException {
 
 		if (filename != "") {
-			
 
 			File file = new File(filename);
 			file.delete();
@@ -556,7 +548,7 @@ public class MainController {
 			int j = 0;
 			while (textObjects[i] != null) {
 
-				writer.println(textObjects[i]+" " + coord[j]);
+				writer.println(textObjects[i] + " " + coord[j]);
 				i++;
 			}
 
@@ -565,7 +557,7 @@ public class MainController {
 		}
 
 		else {
-			
+
 			saveAsEvnt();
 		}
 
@@ -587,10 +579,10 @@ public class MainController {
 			PrintWriter writer = new PrintWriter(filename);
 
 			int i = 0;
-			int j =0;
+			int j = 0;
 			while (textObjects[i] != null) {
 
-				writer.println(textObjects[i] +" " + coord[j]);
+				writer.println(textObjects[i] + " " + coord[j]);
 				j++;
 				i++;
 			}
@@ -670,33 +662,26 @@ public class MainController {
 			}
 		};
 	}
-	
+
 	public EventHandler<KeyEvent> onlyNumber() {
 		return new EventHandler<KeyEvent>() {
-			
+
 			@Override
 			public void handle(KeyEvent arg0) {
-				
-				
+
 				TextField tx = (TextField) arg0.getSource();
 				String newText = tx.getText();
 				String testCase = ".*[a-z].*";
 				String testCase2 = ".*[A-Z].*";
-			
-			        if(tx.getText().matches(testCase)||tx.getText().matches(testCase2) || tx.getText().length()>=5)
-			        {
-			        	arg0.consume();
-			        	
-			        }
-			    
-				
-				
-				
-				
+
+				if (tx.getText().matches(testCase) || tx.getText().matches(testCase2) || tx.getText().length() >= 5) {
+					arg0.consume();
+
+				}
+
 			}
 		};
 	}
-
 
 	// need a listener for TextBox that will check where the mouse releases a drag
 	// use above listener to get coordinates in grid
@@ -716,7 +701,7 @@ public class MainController {
 				Label lbl = (Label) arg0.getSource(); // this specifies which label is being dragged
 				lastSelectedText = arg0.getSource();
 				if (toDelete == true) {
-					
+
 					WordBox.getChildren().remove(arg0.getSource());
 					toDelete = false;
 				}
@@ -748,66 +733,57 @@ public class MainController {
 					// to delete it would use
 					lastSelectedText = arg0.getSource();
 					editWindow();
-					//contextMenu.setStyle("-fx-font-size:14px;");
-						
+					// contextMenu.setStyle("-fx-font-size:14px;");
+
 					contextMenu.show(lbl, arg0.getScreenX(), arg0.getScreenY());
 					// WordBox.getChildren().remove(arg0.getSource());
-				}else if(arg0.getButton() == MouseButton.PRIMARY && selectionMode) 
-				{
-					
-					if(listOfText.contains(((Label)arg0.getSource())))
-					{
-						((Label)arg0.getSource()).setBorder(new Border(new BorderStroke(null, 
-					            null, null, null)));
-						listOfText.remove(((Label)arg0.getSource()));
-						
-					}else {
-						
-						
-						((Label)arg0.getSource()).setBorder(new Border(new BorderStroke(Color.RED, 
-					            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-						listOfText.add((Label)arg0.getSource());
-						
-						}
-					
+				} else if (arg0.getButton() == MouseButton.PRIMARY && selectionMode) {
+
+					if (listOfText.contains(((Label) arg0.getSource()))) {
+						((Label) arg0.getSource()).setBorder(new Border(new BorderStroke(null, null, null, null)));
+						listOfText.remove(((Label) arg0.getSource()));
+
+					} else {
+
+						((Label) arg0.getSource()).setBorder(new Border(new BorderStroke(Color.RED,
+								BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+						listOfText.add((Label) arg0.getSource());
+
+					}
+
 				}
 
 			}
 		};
 
 	}
-	
+
 	public void addKeyEvent() {
-		
-		 mainPane.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-		        switch (event.getCode()) {
-		            case CONTROL:
-		            	showSelectionModeLabel();
-		                if(listOfText.size()>0) {
-		                	for(int i = 0; i < listOfText.size(); i ++) {
-		                		
-		                		((Label)listOfText.get(i)).setBorder(new Border(new BorderStroke(Color.TRANSPARENT, 
-							            null, null, null)));
-		                	}
-		                	listOfText.clear();
-		                	selectionMode = false;
-		                	break;
-		                }
-		                selectionMode = true;
-		                	
-		                break;
-		                
-		          
-		          //      
-				default:
+
+		mainPane.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+			switch (event.getCode()) {
+			case CONTROL:
+				showSelectionModeLabel();
+				if (listOfText.size() > 0) {
+					for (int i = 0; i < listOfText.size(); i++) {
+
+						((Label) listOfText.get(i))
+								.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, null)));
+					}
+					listOfText.clear();
+					selectionMode = false;
 					break;
-		        }
-		    });
-		
-		
-		
+				}
+				selectionMode = true;
+
+				break;
+
+			//
+			default:
+				break;
+			}
+		});
+
 	}
-	
-	
 
 }
