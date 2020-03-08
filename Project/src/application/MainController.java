@@ -60,9 +60,12 @@ public class MainController {
 	TextField editText = new TextField();
 	boolean selectionMode = false;
 	ArrayList<Object> listOfText = new ArrayList<Object>();
+	ArrayList<Object> listOfElements = new ArrayList<Object>();
 	ArrayList[][] textGrid = new ArrayList[100][3];
 	// used for tracking dynamic labels
+
 	public static int counter = 0;
+	static int objCounter = 0;
 
 	public static int lastDragged;
 	public static boolean dragged;
@@ -73,7 +76,6 @@ public class MainController {
 	public String text;
 	public static Integer colIndex;
 	public static Integer rowIndex;
-	public static int c;
 
 	// refrencing objects from the fxml page via their fx:id
 	// do not edit anything without scenebuilder downloaded, and change their id
@@ -399,8 +401,6 @@ public class MainController {
 
 	}
 
-	static int i = 0;
-
 	private void createObj() {
 
 		// each new lbl object has an incremented id
@@ -411,37 +411,41 @@ public class MainController {
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
 		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
 
-		if (counter > 15) {
-			if (i < 15) {
-				WordBox.add(lbl, 8, i);
+		listOfElements.add(lbl);
 
-				i++;
+		if (counter > 15) {
+			if (objCounter < 15) {
+				WordBox.add(lbl, 8, objCounter);
+
+				objCounter++;
 
 			} else
-				i = 0;
+				objCounter = 0;
 		} else {
 
 			WordBox.add(lbl, 8, counter - 1);
+			coord[counter-1] = 8 + "," + (counter - 1);
 		}
 
 		submitText.setText("");
 
 	}
 
-	private void createObjFromFile(String str) {
+	private void createObjFromFile(String str[]) {
 
 		// each new lbl object has an incremented id
-		Label lbl = new Label(str);
+		Label lbl = new Label(str[0]);
 		lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:14px;");
-		textObjects[counter] = str;
+		textObjects[counter] = str[0];
 		lbl.setId("" + (counter++));
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(counter));
 		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
+		listOfElements.add(lbl);
 
 		// lbl.setContextMenu(contextMenu);
 
-		WordBox.add(lbl, 8, counter - 1);
-
+		WordBox.add(lbl, Integer.parseInt(str[1]), Integer.parseInt(str[2]));
+		coord[counter] = str[1] + "," + str[2];
 	}
 
 	private void draggedObj(int col, int row) {
@@ -453,11 +457,11 @@ public class MainController {
 		lbl.setId("" + lastDragged);
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(lastDragged));
 		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
+		listOfElements.add(lbl);
 
 		toDelete = true;
 		WordBox.add(lbl, col, row);
-		this.coord[c] = col + " " + row;
-		c++;
+		coord[lastDragged] = col + "," + row;
 
 	}
 
@@ -545,11 +549,11 @@ public class MainController {
 			PrintWriter writer = new PrintWriter(filename);
 
 			int i = 0;
-			int j = 0;
 			while (textObjects[i] != null) {
 
-				writer.println(textObjects[i] + " " + coord[j]);
+				writer.println(textObjects[i] + "," + coord[i]);
 				i++;
+
 			}
 
 			writer.close();
@@ -579,11 +583,9 @@ public class MainController {
 			PrintWriter writer = new PrintWriter(filename);
 
 			int i = 0;
-			int j = 0;
 			while (textObjects[i] != null) {
 
-				writer.println(textObjects[i] + " " + coord[j]);
-				j++;
+				writer.println(textObjects[i] + "," + coord[i]);
 				i++;
 			}
 
@@ -608,11 +610,21 @@ public class MainController {
 			read = new BufferedReader(new FileReader(filename));
 			String line = read.readLine();
 
+			// delete all previous elements and reset the counters
+
+			for (int i = 0; i < listOfElements.size(); i++)
+				WordBox.getChildren().remove(((Label) listOfElements.get(i)));
+			listOfElements.clear();
+
+			counter = 0;
+			objCounter = 0;
+
 			while (line != null) {
 
-				createObjFromFile(line);
-
+				String[] tokens = line.split(",");
+				createObjFromFile(tokens);
 				line = read.readLine();
+				counter++;
 			}
 
 			read.close();
