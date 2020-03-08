@@ -61,7 +61,7 @@ public class MainController {
 	boolean selectionMode = false;
 	ArrayList<Object> listOfText = new ArrayList<Object>();
 	ArrayList<Object> listOfElements = new ArrayList<Object>();
-	ArrayList[][] textGrid = new ArrayList[100][3];
+
 	// used for tracking dynamic labels
 
 	public static int counter = 0;
@@ -424,7 +424,7 @@ public class MainController {
 		} else {
 
 			WordBox.add(lbl, 8, counter - 1);
-			coord[counter-1] = 8 + "," + (counter - 1);
+			coord[counter - 1] = 8 + "," + (counter - 1);
 		}
 
 		submitText.setText("");
@@ -556,6 +556,14 @@ public class MainController {
 
 			}
 
+			writer.println("newLine");
+
+			writer.println(Title.getText());
+			writer.println(subTitle1.getText());
+			writer.println(subTitle2.getText());
+			writer.println(cpkVen1.getValue());
+			writer.println(cpkVen2.getValue());
+
 			writer.close();
 
 		}
@@ -589,6 +597,16 @@ public class MainController {
 				i++;
 			}
 
+			writer.println("newLine");
+
+			writer.println(Title.getText());
+			writer.println(subTitle1.getText());
+			writer.println(subTitle2.getText());
+			writer.println(cpkVen1.getValue().getRed() + "," + cpkVen1.getValue().getGreen() + ","
+					+ cpkVen1.getValue().getBlue());
+			writer.println(cpkVen2.getValue().getRed() + "," + cpkVen2.getValue().getGreen() + ","
+					+ cpkVen2.getValue().getBlue());
+
 			writer.close();
 
 		}
@@ -619,13 +637,32 @@ public class MainController {
 			counter = 0;
 			objCounter = 0;
 
-			while (line != null) {
+			while (!(line.contains("newLine"))) {
 
 				String[] tokens = line.split(",");
 				createObjFromFile(tokens);
 				line = read.readLine();
 				counter++;
+
 			}
+
+			Title.setText(read.readLine());
+			subTitle1.setText((read.readLine()));
+			subTitle2.setText((read.readLine()));
+
+			String[] colours = read.readLine().split(",");
+
+			Color colour = Color.color(Double.parseDouble(colours[0]), Double.parseDouble(colours[1]),
+					Double.parseDouble(colours[2]), 0.5);
+			Ven1.setFill(colour);
+			cpkVen1.setValue(colour);
+
+			colours = read.readLine().split(",");
+
+			colour = Color.color(Double.parseDouble(colours[0]), Double.parseDouble(colours[1]),
+					Double.parseDouble(colours[2]), 0.5);
+			Ven2.setFill(colour);
+			cpkVen2.setValue(colour);
 
 			read.close();
 
@@ -682,7 +719,6 @@ public class MainController {
 			public void handle(KeyEvent arg0) {
 
 				TextField tx = (TextField) arg0.getSource();
-				String newText = tx.getText();
 				String testCase = ".*[a-z].*";
 				String testCase2 = ".*[A-Z].*";
 
