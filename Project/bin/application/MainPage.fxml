@@ -39,13 +39,18 @@
 				</Menu>
 				<Menu mnemonicParsing="false" text="Help">
 					<items>
-						<MenuItem mnemonicParsing="false" text="About" />
+						<MenuItem fx:id="about" mnemonicParsing="false" onAction="#aboutMenu" text="About" />
 					</items>
 				</Menu>
 			</menus>
 		</MenuBar>
 		<VBox alignment="BOTTOM_LEFT" layoutX="14.0" layoutY="25.0" prefHeight="680.0" prefWidth="190.0" spacing="5.0">
 			<children>
+            <Label fx:id="selectionModeLabel" disable="true" text="Selection Mode">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
 				<RadioButton fx:id="radText" mnemonicParsing="false" onAction="#radTextClick" selected="true" style="-fx-background-color: white;" text="Text">
 					<toggleGroup>
 						<ToggleGroup fx:id="radGroup1" />
