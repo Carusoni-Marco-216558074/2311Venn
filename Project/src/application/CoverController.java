@@ -46,7 +46,7 @@ public class CoverController implements Initializable {
     	@Override
     	public void run() {
     		try {
-				Thread.sleep(5000);
+				Thread.sleep(2500);
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
