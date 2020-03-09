@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="537.0" style="-fx-background-color: #6ae1ff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CoverController">
+   <children>
+      <Circle fill="#1f93ff00" layoutX="248.0" layoutY="160.0" radius="42.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="#1f93ff00" layoutX="290.0" layoutY="160.0" radius="42.0" stroke="BLACK" strokeType="INSIDE" />
+      <Text layoutX="226.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="V    D    S">
+         <font>
+            <Font name="Arial Bold" size="20.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
