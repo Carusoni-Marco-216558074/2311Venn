@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#openPage" onMouseClicked="#openPage" prefHeight="320.0" prefWidth="537.0" style="-fx-background-color: #6ae1ff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CoverController">
+<AnchorPane fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="537.0" style="-fx-background-color: #6ae1ff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CoverController">
    <children>
       <Circle fill="#1f93ff00" layoutX="248.0" layoutY="160.0" radius="42.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fill="#1f93ff00" layoutX="290.0" layoutY="160.0" radius="42.0" stroke="BLACK" strokeType="INSIDE" />
