@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,15 +17,17 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 
 public class Main extends Application {
+	
+	public static Boolean isCoverLoaded = false;
+	
 	public void start(Stage primaryStage) {
 		try {
 
-			Parent root = FXMLLoader.load(getClass().getResource("OpeningPage.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("CoverPage.fxml"));
 
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setResizable(false);
-			primaryStage.setTitle("Venn Diagram Software 2.0");
+			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.show();
 			Platform.setImplicitExit(false);
 
