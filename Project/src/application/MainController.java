@@ -207,7 +207,7 @@ public class MainController {
 		Scene popupScene;
 		Label l = new Label("Edit text element(s):");
 		Label l2 = new Label("Edit font size:");
-		Label l3 = new Label("change background color:");
+		Label l3 = new Label("Change background color:");
 		ColorPicker cpk = new ColorPicker();
 		CheckBox chkBox = new CheckBox("Apply color change:");
 		TextField fontSize = new TextField("14");
