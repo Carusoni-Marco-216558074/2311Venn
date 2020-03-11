@@ -180,6 +180,7 @@ public class MainController {
 		contextMenu.getItems().addAll(edit, delete);
 		contextMenu.setStyle("-fx-font-size:14px;");
 		addKeyEvent();
+		
 	}
 
 	private void addPane(int colIndex, int rowIndex) {
