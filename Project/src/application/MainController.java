@@ -123,6 +123,8 @@ public class MainController {
 	MenuItem about;
 	@FXML
 	Label selectionModeLabel;
+	@FXML
+	MenuItem closeButton;
 
 	// initializing elements before the frame is shown (adding filters, setting
 	// defaults)
@@ -336,6 +338,8 @@ public class MainController {
 		alert.show();
 
 	}
+	
+
 
 	@FXML
 	private void chkTitleEvnt() {

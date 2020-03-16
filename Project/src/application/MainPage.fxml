@@ -29,7 +29,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#saveAsEvnt" text="Save As" />
                   <MenuItem mnemonicParsing="false" onAction="#openEvnt" text="Open" />
 						<MenuItem mnemonicParsing="false" onAction="#screenshot" text="Save as screenshot" />
-                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="closeButton" mnemonicParsing="false" onAction="#close" text="Close" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Edit">
