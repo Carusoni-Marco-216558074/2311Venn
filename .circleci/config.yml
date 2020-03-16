@@ -28,30 +28,30 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "2311Venn/Project/build.gradle" }}
+            - v1-dependencies-{{ checksum "Project/build.gradle" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: cd CounterCI && gradle dependencies
+      - run: cd 2311Venn && gradle dependencies
 
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "2311Venn/Project/build.gradle" }}
+          key: v1-dependencies-{{ checksum "Project/build.gradle" }}
 
       # run tests!
-      - run: cd CounterCI && gradle test
+      - run: cd 2311Venn && gradle test
 
       - run: 
           name: "Build and Publish Release on GitHub"
           command: |
             NOW="$(date)" 
-            ZIP_FILE_NAME=CounterCI
+            ZIP_FILE_NAME=2311Venn
             TAG=Release-$(date '+%Y-%m-%d-%H-%M-%S')
-            cd CounterCI
+            cd 2311Venn
             gradle jar
             cd ./build/libs/
-            zip ${ZIP_FILE_NAME}.zip CounterCI.jar 
+            zip ${ZIP_FILE_NAME}.zip 2311Venn.jar 
             github-release upload --token ${GITHUB_TOKEN} --owner ${PROJECT_USERNAME} --repo ${PROJECT_REPONAME} --tag ${TAG} --name ${TAG} --body "Release date: ${NOW}" ${ZIP_FILE_NAME}.zip
 workflows:
   version: 2
