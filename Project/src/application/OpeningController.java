@@ -41,7 +41,7 @@ public class OpeningController{
 	
 	@FXML
 	private void openExistingProject(ActionEvent event) throws IOException {
-		openExisting = true;
+		//openExisting = true;
 		Parent homePageParent = FXMLLoader.load(getClass().getResource("MainPage.fxml"));
 		Scene homePageScene = new Scene(homePageParent);
 		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
