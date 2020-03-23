@@ -39,15 +39,15 @@ public class OpeningController{
 		appStage.show();
 	}
 	
-//	@FXML
-//	private void openExistingProject(ActionEvent event) throws IOException {
-//		openExisting = true;
-//		Parent homePageParent = FXMLLoader.load(getClass().getResource("MainPage.fxml"));
-//		Scene homePageScene = new Scene(homePageParent);
-//		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//		appStage.setScene(homePageScene);
-//		appStage.centerOnScreen();
-//		appStage.show();
-//	}
+	@FXML
+	private void openExistingProject(ActionEvent event) throws IOException {
+		openExisting = true;
+		Parent homePageParent = FXMLLoader.load(getClass().getResource("MainPage.fxml"));
+		Scene homePageScene = new Scene(homePageParent);
+		Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		appStage.setScene(homePageScene);
+		appStage.centerOnScreen();
+		appStage.show();
+	}
 
 }
