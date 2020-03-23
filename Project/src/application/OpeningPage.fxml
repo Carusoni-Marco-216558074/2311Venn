@@ -13,6 +13,5 @@
          </font>
       </Text>
       <Button layoutX="179.0" layoutY="147.0" mnemonicParsing="false" onAction="#makeNewProject" prefHeight="25.0" prefWidth="179.0" text="New Project" />
-      <Button layoutX="179.0" layoutY="198.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="179.0" text="Open Existing Project ..." />
    </children>
 </AnchorPane>
