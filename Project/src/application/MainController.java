@@ -181,6 +181,15 @@ public class MainController {
 		contextMenu.setStyle("-fx-font-size:14px;");
 		addKeyEvent();
 		
+		if(OpeningController.openExisting) {
+			try {
+				openEvnt();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	private void addPane(int colIndex, int rowIndex) {
