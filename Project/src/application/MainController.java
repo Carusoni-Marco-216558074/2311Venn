@@ -278,32 +278,59 @@ public class MainController {
 					}
 
 				}
-				((Label) listOfText.get(0)).setText(editText.getText());
+				if(!editText.getText().equals( (((Label) listOfText.get(0)).getText())) ) 
+				{
+					
+					for(int i =0; i < counter; i ++) 
+					{
+						
+						if(textObjects[i].equals((String)(((Label) listOfText.get(0)).getText())) ) {
+							textObjects[i] = (String)editText.getText();
+							break;
+						}
+							
+					}
+					((Label) listOfText.get(0)).setText(editText.getText());
+				}
 
 				listOfText.clear();
 				if (selectionMode) {
 					showSelectionModeLabel();
 					selectionMode = false;
 				}
-				stage.close();
 
+				stage.close();
 			}
 		});
 
 		cancelEditButton.setOnAction(new EventHandler<ActionEvent>() {
+			
 			@Override
 			public void handle(ActionEvent e) {
+				
+				listOfText.clear();
+				if (selectionMode) {
+					showSelectionModeLabel();
+					selectionMode = false;
+				}
+				
 				stage.close();
 			}
+			
+			
+			
 		});
-
-		editText.setOnKeyReleased(event -> {
-			if (event.getCode() == KeyCode.ENTER) {
-
-				((Label) lastSelectedText).setText(editText.getText());
-				stage.close();
-			}
-		});
+//
+//		editText.setOnKeyReleased(event -> {
+//			if (event.getCode() == KeyCode.ENTER) {
+//
+//				((Label) lastSelectedText).setText(editText.getText());
+//				((Label) lastSelectedText)
+//				.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
+//						+ fontSize.getText() + "px;");
+//				stage.close();
+//			}
+//		});
 
 		edit.setOnAction((event) -> {
 
@@ -319,6 +346,12 @@ public class MainController {
 					WordBox.getChildren().remove(((Label) listOfText.get(i)));
 				listOfText.clear();
 
+			}
+			
+			listOfText.clear();
+			if (selectionMode) {
+				showSelectionModeLabel();
+				selectionMode = false;
 			}
 
 		});
