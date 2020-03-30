@@ -182,8 +182,8 @@ public class MainController {
 		contextMenu.getItems().addAll(edit, delete);
 		contextMenu.setStyle("-fx-font-size:14px;");
 		addKeyEvent();
-		
-		if(OpeningController.openExisting) {
+
+		if (OpeningController.openExisting) {
 			try {
 				openEvnt();
 			} catch (IOException e) {
@@ -191,7 +191,7 @@ public class MainController {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	private void addPane(int colIndex, int rowIndex) {
@@ -348,8 +348,6 @@ public class MainController {
 		alert.show();
 
 	}
-	
-
 
 	@FXML
 	private void chkTitleEvnt() {
