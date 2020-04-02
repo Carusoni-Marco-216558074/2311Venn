@@ -31,7 +31,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -119,6 +118,8 @@ public class MainController {
 	RadioButton radNum;
 	@FXML
 	ToggleButton darkToggle;
+	@FXML
+	MenuItem manual;
 	@FXML
 	MenuItem about;
 	@FXML
@@ -248,6 +249,11 @@ public class MainController {
 
 		Stage stage = new Stage();
 		stage.setScene(popupScene);
+		
+		if (listOfText.size() == 0)
+			listOfText.add(lastSelectedText);
+		if(listOfText.size()==1)
+			fontSize.setText(  Integer.toString( (int)((Label) listOfText.get(0)).getFont().getSize() ) );
 
 		doneEditButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -261,8 +267,7 @@ public class MainController {
 					return;
 				}
 
-				if (listOfText.size() == 0)
-					listOfText.add(lastSelectedText);
+				
 				for (int i = 0; i < listOfText.size(); i++) {
 
 					((Label) listOfText.get(i))
@@ -272,13 +277,14 @@ public class MainController {
 									+ fontSize.getText() + "px;");
 
 					if (chkBox.isSelected()) {
-						// ((Label)listOfText.get(i)).setTextFill(cpk.getValue());
+						
 						((Label) listOfText.get(i))
 								.setBackground(new Background(new BackgroundFill(cpk.getValue(), null, null)));
 					}
+					
 
 				}
-				if(!editText.getText().equals( (((Label) listOfText.get(0)).getText())) ) 
+				if(listOfText.size()==1 && !editText.getText().equals( (((Label) listOfText.get(0)).getText())) ) 
 				{
 					
 					for(int i =0; i < counter; i ++) 
@@ -370,10 +376,12 @@ public class MainController {
 	}
 
 	@FXML
-	private void aboutMenu() {
+	private void manualMenu() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 
-		alert.setHeaderText("Press \"CONTROL\" to go into a multi-edit Selection Mode.\n"
+		alert.setHeaderText("How to use Multi Edit function:\n"
+				+ "____________________________\n"
+				+ "Press \"CONTROL\" to go into a multi-edit Selection Mode.\n"
 				+ "Then select the text objects you want to edit.\n"
 				+ "Once selected, right-click on any one of the selected texts.\n"
 				+ "A context menu will pop-up that will let you edit or delete the\n" + "selected text.\n"
@@ -381,6 +389,17 @@ public class MainController {
 		alert.show();
 
 	}
+
+	@FXML
+	private void aboutMenu() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+
+		alert.setHeaderText("About the software:\n"
+				);
+		alert.show();
+
+	}
+
 
 	@FXML
 	private void chkTitleEvnt() {
@@ -826,12 +845,12 @@ public class MainController {
 					// to delete it would use
 					lastSelectedText = arg0.getSource();
 					editWindow();
-					// contextMenu.setStyle("-fx-font-size:14px;");
+					
 
 					contextMenu.show(lbl, arg0.getScreenX(), arg0.getScreenY());
 					// WordBox.getChildren().remove(arg0.getSource());
 				} else if (arg0.getButton() == MouseButton.PRIMARY && selectionMode) {
-
+					
 					if (listOfText.contains(((Label) arg0.getSource()))) {
 						((Label) arg0.getSource()).setBorder(new Border(new BorderStroke(null, null, null, null)));
 						listOfText.remove(((Label) arg0.getSource()));
@@ -841,7 +860,7 @@ public class MainController {
 						((Label) arg0.getSource()).setBorder(new Border(new BorderStroke(Color.RED,
 								BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 						listOfText.add((Label) arg0.getSource());
-
+						
 					}
 
 				}
