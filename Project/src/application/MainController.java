@@ -9,9 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.Optional;
-import java.util.Stack;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -20,7 +18,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -79,9 +76,6 @@ public class MainController {
 	public static Integer colIndex;
 	public static Integer rowIndex;
 
-	Stack<Object> changes = new Stack<Object>();
-	Integer stackInd = 0;
-
 	// refrencing objects from the fxml page via their fx:id
 	// do not edit anything without scenebuilder downloaded, and change their id
 	// from scenebuilder
@@ -127,13 +121,7 @@ public class MainController {
 	@FXML
 	MenuItem manual;
 	@FXML
-	MenuItem undo;
-	@FXML
-	MenuItem redo;
-	@FXML
 	MenuItem about;
-	@FXML
-	MenuItem test;
 	@FXML
 	Label selectionModeLabel;
 	@FXML
@@ -143,8 +131,6 @@ public class MainController {
 	// defaults)
 
 	public void initialize() {
-		
-		changes.add("start");
 
 		int numCols = 7;
 		int numRows = 17;
@@ -205,7 +191,7 @@ public class MainController {
 		pane.setOnMouseEntered(e -> {
 
 			if (dragged == true) {
-				
+
 				draggedObj(colIndex, rowIndex);
 			}
 
@@ -253,7 +239,7 @@ public class MainController {
 
 		Stage stage = new Stage();
 		stage.setScene(popupScene);
-
+		
 		if (listOfText.size() == 0)
 			listOfText.add(lastSelectedText);
 		if(listOfText.size()==1)
@@ -263,11 +249,6 @@ public class MainController {
 			@Override
 			public void handle(ActionEvent e) {
 
-				if(changes.size()>1 && stackInd<changes.size()-1) {
-					for(int i =changes.size(); i > stackInd+1 ;i--)
-						changes.removeElementAt(changes.size()-1);
-				}
-
 				if (Integer.parseInt(fontSize.getText()) < 0 || Integer.parseInt(fontSize.getText()) > 14) {
 					Alert alert = new Alert(AlertType.CONFIRMATION);
 
@@ -276,62 +257,34 @@ public class MainController {
 					return;
 				}
 
-
-
-				boolean a = false;
+				
 				for (int i = 0; i < listOfText.size(); i++) {
 
 					((Label) listOfText.get(i))
-					.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, null)));
-
-
-
-					if( !Integer.toString( (int)((Label) listOfText.get(i)).getFont().getSize() )
-							.equals(fontSize.getText()) ) {
-
-						if(!a) {
-							changes.add("BeginFormatChange");
-
-							a=true;
-						}
-
-						String tempFont=Integer.toString((int)((Label) listOfText.get(i)).getFont().getSize());
-
-						changes.add((Label)listOfText.get(i));
-						((Label) listOfText.get(i))
-						.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
-								+ fontSize.getText() + "px;");
-
-						changes.add( tempFont );
-						
-					}
-
+							.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, null)));
+					((Label) listOfText.get(i))
+							.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
+									+ fontSize.getText() + "px;");
 
 					if (chkBox.isSelected()) {
-
+						
 						((Label) listOfText.get(i))
-						.setBackground(new Background(new BackgroundFill(cpk.getValue(), null, null)));
+								.setBackground(new Background(new BackgroundFill(cpk.getValue(), null, null)));
 					}
-
-
-				}
-				if(a) {
-					changes.add("EndFormatChange");
 					
+
 				}
-
-
 				if(listOfText.size()==1 && !editText.getText().equals( (((Label) listOfText.get(0)).getText())) ) 
 				{
-
+					
 					for(int i =0; i < counter; i ++) 
 					{
-
+						
 						if(textObjects[i].equals((String)(((Label) listOfText.get(0)).getText())) ) {
 							textObjects[i] = (String)editText.getText();
 							break;
 						}
-
+							
 					}
 					((Label) listOfText.get(0)).setText(editText.getText());
 				}
@@ -343,39 +296,37 @@ public class MainController {
 				}
 
 				stage.close();
-				stackInd= changes.size()-1;
-				
 			}
 		});
 
 		cancelEditButton.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 			@Override
 			public void handle(ActionEvent e) {
-
+				
 				listOfText.clear();
 				if (selectionMode) {
 					showSelectionModeLabel();
 					selectionMode = false;
 				}
-
+				
 				stage.close();
 			}
-
-
-
+			
+			
+			
 		});
-		//
-		//		editText.setOnKeyReleased(event -> {
-		//			if (event.getCode() == KeyCode.ENTER) {
-		//
-		//				((Label) lastSelectedText).setText(editText.getText());
-		//				((Label) lastSelectedText)
-		//				.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
-		//						+ fontSize.getText() + "px;");
-		//				stage.close();
-		//			}
-		//		});
+//
+//		editText.setOnKeyReleased(event -> {
+//			if (event.getCode() == KeyCode.ENTER) {
+//
+//				((Label) lastSelectedText).setText(editText.getText());
+//				((Label) lastSelectedText)
+//				.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
+//						+ fontSize.getText() + "px;");
+//				stage.close();
+//			}
+//		});
 
 		edit.setOnAction((event) -> {
 
@@ -384,43 +335,24 @@ public class MainController {
 		});
 
 		delete.setOnAction((event) -> {
-			
-			if(changes.size()>1 && stackInd<changes.size()-1) {
-				for(int i =changes.size(); i > stackInd+1 ;i--)
-					changes.removeElementAt(changes.size()-1);
-			}
-			
-				changes.add("BeginListOfTextDeleted");
-				for (int i = 0; i < listOfText.size(); i++) {
-
-					((Label) ((Label)listOfText.get(i)))
-					.setBorder(new Border(new BorderStroke(null, null, null, null)));
-
-					changes.add( ((Label)listOfText.get(i)) );
-					int row = GridPane.getRowIndex( (Label)listOfText.get(i) );
-					int col = GridPane.getColumnIndex( (Label)listOfText.get(i) );
-					changes.add( row + "," + col );
-					//changes.add( WordBox.getChildren().get( (Label)listOfText.get(i) ) );
+			if (!selectionMode)
+				WordBox.getChildren().remove(lastSelectedText);
+			else {
+				for (int i = 0; i < listOfText.size(); i++)
 					WordBox.getChildren().remove(((Label) listOfText.get(i)));
-
-				}
-				changes.add("EndListOfTextDeleted");
 				listOfText.clear();
 
+			}
 			
-
 			listOfText.clear();
 			if (selectionMode) {
 				showSelectionModeLabel();
 				selectionMode = false;
 			}
-			
-			stackInd= changes.size()-1;
-			
 
 		});
 
-	}//end of editWindow()
+	}
 
 	// shows/hides titles
 
@@ -432,162 +364,6 @@ public class MainController {
 			selectionModeLabel.setDisable(true);
 
 	}
-
-	@FXML
-	private void redo() {
-		if(changes.size() ==1)
-			return;
-		
-		if(stackInd+1<changes.size())
-		stackInd++;
-		
-		if( changes.get(stackInd).equals("BeginListOfTextDeleted") ) {
-
-			stackInd++;
-			
-			while(!changes.get(stackInd).equals("EndListOfTextDeleted")) {
-				
-				//the row/column of text
-				//String str = (String) changes.get(stackInd+1);
-				
-				//String[] arrOfStr = str.split(","); 
-				//stackInd++;
-				
-				WordBox.getChildren().remove(changes.get(stackInd));
-				
-				stackInd++;
-				stackInd++;
-
-			}
-
-
-		}//end if
-		
-		
-		if( changes.get(stackInd).equals("BeginFormatChange") ) {
-			
-			//changes.remove(changes.lastElement());
-			stackInd++;
-
-			//int stackInd = changes.size()-1;
-			while(!changes.get(stackInd).equals("EndFormatChange")) {
-				
-				String str = (String) changes.get(stackInd+1);
-				((Label) changes.get(stackInd))
-				.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
-						+ str + "px;");
-				stackInd++;
-				stackInd++;
-
-			}
-		}//end if
-
-
-
-	}
-	
-	@FXML
-	private void testCode() {
-		System.out.println("=============================" );
-		for(int i =0;i<changes.size(); i++)
-			if(i==stackInd)
-			System.out.println("====>" + changes.get(i));
-			else
-				System.out.println( changes.get(i));
-		
-		
-		
-	}
-
-	@FXML
-	private void undo() {
-		
-		if(changes.size()==0|| changes.get(stackInd).equals("start")) {
-			return;
-		}
-		
-		
-		if( changes.get(stackInd).equals("EndListOfTextDeleted") ) {
-			
-			stackInd--;
-			
-
-			while(!changes.get(stackInd).equals("BeginListOfTextDeleted")) {
-				
-				//the row/column of text
-				String str = (String) changes.get(stackInd);
-				
-				String[] arrOfStr = str.split(","); 
-				stackInd--;
-				//changes.remove(changes.lastElement());
-				
-				WordBox.add((Label) changes.get(stackInd), Integer.parseInt(arrOfStr[1])
-						, Integer.parseInt(arrOfStr[0]));
-				stackInd--;
-				//changes.remove(changes.lastElement());
-
-
-
-			}
-
-
-		}//end if
-	
-
-		if( changes.get(stackInd).equals("EndFormatChange") ) {
-			
-			//changes.remove(changes.lastElement());
-			stackInd--;
-
-			//int stackInd = changes.size()-1;
-			while(!changes.get(stackInd).equals("BeginFormatChange")) {
-				String str = (String) changes.get(stackInd);
-
-				//changes.remove(changes.lastElement());
-				stackInd--;
-
-				((Label) changes.get(stackInd))
-				.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
-						+ str + "px;");
-				//changes.remove(changes.lastElement());
-				stackInd--;
-
-			}
-			
-
-		}
-		
-		if (changes.get(stackInd).equals("EndDrag") ) {
-			
-			stackInd--;
-			
-			while(!changes.get(stackInd).equals("BeginDrag")) {
-				
-				//the row/column of text
-				String str = (String) changes.get(stackInd-2);
-				
-				String[] arrOfStr = str.split(","); 
-				WordBox.getChildren().remove(changes.get(stackInd-1));
-				WordBox.add((Label) changes.get(stackInd-1), Integer.parseInt(arrOfStr[1])
-						, Integer.parseInt(arrOfStr[0]));
-				
-				
-				stackInd--;
-				//changes.remove(changes.lastElement());
-				
-				//.remove((Label) changes.get(stackInd), Integer.parseInt(arrOfStr[1])
-				//		, Integer.parseInt(arrOfStr[0]));
-				stackInd--;
-				//changes.remove(changes.lastElement());
-
-			}
-	
-		}
-		
-		stackInd--;
-
-	}
-
 
 	@FXML
 	private void manualMenu() {
@@ -728,16 +504,6 @@ public class MainController {
 
 	private void draggedObj(int col, int row) {
 		// lbl.getStyle()
-		
-		if(changes.size()>1 && stackInd<changes.size()-1) {
-			for(int i =changes.size(); i > stackInd+1 ;i--)
-				changes.removeElementAt(changes.size()-1);
-		}
-		
-		
-		
-			
-		
 		Label lbl = new Label(lastDraggedText);
 		lbl.setStyle(((Label) lastSelectedText).getStyle());
 		// lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672);
@@ -750,9 +516,6 @@ public class MainController {
 		toDelete = true;
 		WordBox.add(lbl, col, row);
 		coord[lastDragged] = col + "," + row;
-		
-		changes.add(col+","+row);
-		changes.add("EndDrag");
 
 	}
 
@@ -1040,11 +803,7 @@ public class MainController {
 				Label lbl = (Label) arg0.getSource(); // this specifies which label is being dragged
 				lastSelectedText = arg0.getSource();
 				if (toDelete == true) {
-					changes.add("BeginDrag");
-					
-					changes.add(GridPane.getColumnIndex((Label) lastSelectedText)
-							+","+GridPane.getRowIndex((Label) lastSelectedText));
-					changes.add(arg0.getSource());
+
 					WordBox.getChildren().remove(arg0.getSource());
 					toDelete = false;
 				}
@@ -1075,14 +834,13 @@ public class MainController {
 
 					// to delete it would use
 					lastSelectedText = arg0.getSource();
-				
 					editWindow();
-
+					
 
 					contextMenu.show(lbl, arg0.getScreenX(), arg0.getScreenY());
 					// WordBox.getChildren().remove(arg0.getSource());
 				} else if (arg0.getButton() == MouseButton.PRIMARY && selectionMode) {
-
+					
 					if (listOfText.contains(((Label) arg0.getSource()))) {
 						((Label) arg0.getSource()).setBorder(new Border(new BorderStroke(null, null, null, null)));
 						listOfText.remove(((Label) arg0.getSource()));
@@ -1092,7 +850,7 @@ public class MainController {
 						((Label) arg0.getSource()).setBorder(new Border(new BorderStroke(Color.RED,
 								BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 						listOfText.add((Label) arg0.getSource());
-
+						
 					}
 
 				}
@@ -1112,7 +870,7 @@ public class MainController {
 					for (int i = 0; i < listOfText.size(); i++) {
 
 						((Label) listOfText.get(i))
-						.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, null)));
+								.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, null)));
 					}
 					listOfText.clear();
 					selectionMode = false;
@@ -1122,7 +880,7 @@ public class MainController {
 
 				break;
 
-				//
+			//
 			default:
 				break;
 			}
