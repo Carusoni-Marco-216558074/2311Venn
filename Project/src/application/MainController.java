@@ -207,6 +207,15 @@ public class MainController {
 		
 		
 		addKeyEvent();
+		
+		if(OpeningController.openExisting) {
+			try {
+				openEvnt();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void addPane(int colIndex, int rowIndex) {
