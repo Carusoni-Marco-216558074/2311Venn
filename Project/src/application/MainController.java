@@ -31,6 +31,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert.AlertType;
@@ -54,25 +55,32 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class MainController {
 	
 	//The Object used for the edit window pop-up
 	Stage editWindowStage = new Stage();
+	Stage descWindowStage = new Stage();
 	
 	//The Objects used for the context menu (right-click)
 	final ContextMenu contextMenu = new ContextMenu();
 	final MenuItem edit = new MenuItem("Edit");
 	final MenuItem delete = new MenuItem("Delete");
+	final MenuItem desc = new MenuItem("Description");
 
 	//The Objects needed for Multi-edit tool 
 	ArrayList<Object> listOfText = new ArrayList<Object>();
 	
 	ArrayList<Object> listOfElements = new ArrayList<Object>();
 
+	//The descriptions of each object
+	ArrayList<Object> listOfDescriptions = new ArrayList<Object>();
+	
 	// used for tracking dynamic labels
 	public static int counter = 0;
 	static int objCounter = 0;
+	public static int desccounter = 0;
 
 	public static int lastDragged;
 	public static boolean dragged;
@@ -202,7 +210,7 @@ public class MainController {
 		
 		
 		//TextField editText = new TextField();
-		contextMenu.getItems().addAll(edit, delete);
+		contextMenu.getItems().addAll(desc, edit, delete);
 		contextMenu.setStyle("-fx-font-size:14px;");
 		
 		
@@ -216,6 +224,7 @@ public class MainController {
 				e.printStackTrace();
 			}
 		}
+		
 	}
 
 	private void addPane(int colIndex, int rowIndex) {
@@ -265,11 +274,11 @@ public class MainController {
 
 			else
 				v.getChildren().addAll(l, l2, fontSize, l3, cpk, chkBox, h);
-			popupScene = new Scene(v, 200, 250);
+			popupScene = new Scene(v, 200, 235);
 		} else {
 
 			v.getChildren().addAll(l, l2, fontSize, l3, cpk, chkBox, new Label("Enter new text here:"), editText, h);
-			popupScene = new Scene(v, 200, 250);
+			popupScene = new Scene(v, 200, 235);
 		}
 
 		editWindowStage = new Stage();
@@ -411,6 +420,8 @@ public class MainController {
 			editWindowStage.show();
 
 		});
+		
+		
 
 		delete.setOnAction((event) -> {
 			
@@ -448,6 +459,37 @@ public class MainController {
 		});
 
 	}//end of editWindow()
+	
+	public void descriptionWindow() {
+		VBox v2 = new VBox(1);
+		HBox h2 = new HBox(1);
+		TextArea editDesc = new TextArea();
+		int u = listOfElements.indexOf(lastSelectedText);
+		editDesc.setText((String) listOfDescriptions.get(u));
+		editDesc.setMaxHeight(80);
+		editDesc.setWrapText(true);
+		Button doneDescButton = new Button("Save Description");
+		h2.getChildren().addAll(doneDescButton);
+//		Text description = new Text("" + listOfDescriptions.get(listOfElements.indexOf(lastSelectedText)));
+		v2.getChildren().addAll(new Label("Edit description here:"), editDesc, h2);
+		Scene descScene;
+		descScene = new Scene(v2, 200, 130);
+		descWindowStage = new Stage();
+		descWindowStage.setScene(descScene);
+		descWindowStage.initStyle(StageStyle.UTILITY);
+		doneDescButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				descWindowStage.close();
+				listOfDescriptions.add(listOfElements.indexOf(lastSelectedText), (editDesc.getText()));
+			}
+		});
+		desc.setOnAction((event) -> {
+
+			descWindowStage.show();
+
+		});
+	}
 
 	// shows/hides titles
 
@@ -863,6 +905,8 @@ public class MainController {
 		}
 
 		submitText.setText("");
+		
+		listOfDescriptions.add("Add a description");
 
 	}
 
@@ -896,6 +940,7 @@ public class MainController {
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(lastDragged));
 		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
 		listOfElements.add(lbl);
+		listOfDescriptions.add(listOfElements.indexOf(lbl), listOfDescriptions.get(listOfElements.indexOf(lastSelectedText)));
 
 		toDelete = true;
 		WordBox.add(lbl, col, row);
@@ -1012,6 +1057,14 @@ public class MainController {
 			writer.println(cpkVen1.getValue());
 			writer.println(cpkVen2.getValue());
 
+			int j = 0;
+			while(j < listOfDescriptions.size()) {
+				writer.println(listOfDescriptions.get(j));
+				j++;
+			}
+			
+			writer.println("newLine");
+			
 			writer.close();
 
 		}
@@ -1054,6 +1107,14 @@ public class MainController {
 					+ cpkVen1.getValue().getBlue());
 			writer.println(cpkVen2.getValue().getRed() + "," + cpkVen2.getValue().getGreen() + ","
 					+ cpkVen2.getValue().getBlue());
+			
+			int j = 0;
+			while(j < listOfDescriptions.size()) {
+				writer.println(listOfDescriptions.get(j));
+				j++;
+			}
+			
+			writer.println("newLine");
 
 			writer.close();
 
@@ -1114,6 +1175,12 @@ public class MainController {
 					Double.parseDouble(colours[2]), 0.5);
 			Ven2.setFill(colour);
 			cpkVen2.setValue(colour);
+			
+			line = read.readLine();
+			while (!(line.contains("newLine"))) {
+				listOfDescriptions.add(line);
+				line = read.readLine();
+			}
 
 			read.close();
 
@@ -1244,7 +1311,7 @@ public class MainController {
 					lastSelectedText = arg0.getSource();
 				
 					editWindow();
-
+					descriptionWindow();
 
 					contextMenu.show(lbl, arg0.getScreenX(), arg0.getScreenY());
 					// WordBox.getChildren().remove(arg0.getSource());
