@@ -58,25 +58,24 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class MainController {
-	
-	//The Object used for the edit window pop-up
+
+	// The Object used for the edit window pop-up
 	Stage editWindowStage = new Stage();
 	Stage descWindowStage = new Stage();
-	
-	//The Objects used for the context menu (right-click)
+
+	// The Objects used for the context menu (right-click)
 	final ContextMenu contextMenu = new ContextMenu();
 	final MenuItem edit = new MenuItem("Edit");
 	final MenuItem delete = new MenuItem("Delete");
 	final MenuItem desc = new MenuItem("Description");
-
-	//The Objects needed for Multi-edit tool 
+	// The Objects needed for Multi-edit tool
 	ArrayList<Object> listOfText = new ArrayList<Object>();
-	
+
 	ArrayList<Object> listOfElements = new ArrayList<Object>();
 
-	//The descriptions of each object
+	// The descriptions of each object
 	ArrayList<Object> listOfDescriptions = new ArrayList<Object>();
-	
+
 	// used for tracking dynamic labels
 	public static int counter = 0;
 	static int objCounter = 0;
@@ -157,7 +156,7 @@ public class MainController {
 	// defaults)
 
 	public void initialize() {
-		
+
 		changes.add("start");
 
 		int numCols = 7;
@@ -207,16 +206,13 @@ public class MainController {
 		cpkVen1.getStyleClass().add("split-button");
 		cpkVen2.getStyleClass().add("split-button");
 
-		
-		
-		//TextField editText = new TextField();
+		// TextField editText = new TextField();
 		contextMenu.getItems().addAll(desc, edit, delete);
 		contextMenu.setStyle("-fx-font-size:14px;");
-		
-		
+
 		addKeyEvent();
-		
-		if(OpeningController.openExisting) {
+
+		if (OpeningController.openExisting) {
 			try {
 				openEvnt();
 			} catch (IOException e) {
@@ -224,13 +220,12 @@ public class MainController {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	private void addPane(int colIndex, int rowIndex) {
 		Pane pane = new Pane();
-		
-		
+
 		pane.setOnMouseEntered(e -> {
 
 			if (dragged == true) {
@@ -286,16 +281,16 @@ public class MainController {
 
 		if (listOfText.size() == 0)
 			listOfText.add(lastSelectedText);
-		if(listOfText.size()==1)
-			fontSize.setText(  Integer.toString( (int)((Label) listOfText.get(0)).getFont().getSize() ) );
+		if (listOfText.size() == 1)
+			fontSize.setText(Integer.toString((int) ((Label) listOfText.get(0)).getFont().getSize()));
 
 		doneEditButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 
-				if(changes.size()>1 && stackInd<changes.size()-1) {
-					for(int i =changes.size(); i > stackInd+1 ;i--)
-						changes.removeElementAt(changes.size()-1);
+				if (changes.size() > 1 && stackInd < changes.size() - 1) {
+					for (int i = changes.size(); i > stackInd + 1; i--)
+						changes.removeElementAt(changes.size() - 1);
 				}
 
 				if (Integer.parseInt(fontSize.getText()) < 0 || Integer.parseInt(fontSize.getText()) > 14) {
@@ -306,70 +301,59 @@ public class MainController {
 					return;
 				}
 
-
-
 				boolean a = false;
 				for (int i = 0; i < listOfText.size(); i++) {
 
 					((Label) listOfText.get(i))
-					.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, null)));
+							.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, null)));
 
+					if (!Integer.toString((int) ((Label) listOfText.get(i)).getFont().getSize())
+							.equals(fontSize.getText())) {
 
-
-					if( !Integer.toString( (int)((Label) listOfText.get(i)).getFont().getSize() )
-							.equals(fontSize.getText()) ) {
-
-						if(!a) {
+						if (!a) {
 							changes.add("BeginFormatChange");
 
-							a=true;
+							a = true;
 						}
 
-						String tempFont=Integer.toString((int)((Label) listOfText.get(i)).getFont().getSize());
-						
-						
-						changes.add( ((Label)listOfText.get(i)).getId() );
+						String tempFont = Integer.toString((int) ((Label) listOfText.get(i)).getFont().getSize());
+
+						changes.add(((Label) listOfText.get(i)).getId());
 						((Label) listOfText.get(i))
-						.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
-								+ fontSize.getText() + "px;");
+								.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
+										+ fontSize.getText() + "px;");
 
-						changes.add( tempFont + "," + fontSize.getText() );
-						
+						changes.add(tempFont + "," + fontSize.getText());
+
 					}
-
 
 					if (chkBox.isSelected()) {
 
 						((Label) listOfText.get(i))
-						.setBackground(new Background(new BackgroundFill(cpk.getValue(), null, null)));
+								.setBackground(new Background(new BackgroundFill(cpk.getValue(), null, null)));
 					}
 
-
 				}
-				if(a) {
-					
+				if (a) {
+
 					changes.add("EndFormatChange");
-					
+
 				}
 
-
-				if(listOfText.size()==1 && !editText.getText().equals( (((Label) listOfText.get(0)).getText())) ) 
-				{
+				if (listOfText.size() == 1 && !editText.getText().equals((((Label) listOfText.get(0)).getText()))) {
 					changes.add("BeginEditText");
 					changes.add(((Label) listOfText.get(0)).getText());
-					changes.add(((Label)listOfText.get(0)).getId());
-					
+					changes.add(((Label) listOfText.get(0)).getId());
 
-					for(int i =0; i < counter; i ++) 
-					{
+					for (int i = 0; i < counter; i++) {
 
-						if(textObjects[i].equals((String)(((Label) listOfText.get(0)).getText())) ) {
-							textObjects[i] = (String)editText.getText();
+						if (textObjects[i].equals((String) (((Label) listOfText.get(0)).getText()))) {
+							textObjects[i] = (String) editText.getText();
 							break;
 						}
 
 					}
-					
+
 					((Label) listOfText.get(0)).setText(editText.getText());
 					changes.add(editText.getText());
 					changes.add("EndEditText");
@@ -380,10 +364,11 @@ public class MainController {
 					showSelectionModeLabel();
 				}
 
+				desc.setDisable(false);
 				editWindowStage.close();
-				
-				stackInd= changes.size()-1;
-				
+
+				stackInd = changes.size() - 1;
+
 			}
 		});
 
@@ -400,72 +385,73 @@ public class MainController {
 				editWindowStage.close();
 			}
 
-
-
 		});
 		//
-		//		editText.setOnKeyReleased(event -> {
-		//			if (event.getCode() == KeyCode.ENTER) {
+		// editText.setOnKeyReleased(event -> {
+		// if (event.getCode() == KeyCode.ENTER) {
 		//
-		//				((Label) lastSelectedText).setText(editText.getText());
-		//				((Label) lastSelectedText)
-		//				.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
-		//						+ fontSize.getText() + "px;");
-		//				stage.close();
-		//			}
-		//		});
+		// ((Label) lastSelectedText).setText(editText.getText());
+		// ((Label) lastSelectedText)
+		// .setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672);
+		// -fx-font-size:"
+		// + fontSize.getText() + "px;");
+		// stage.close();
+		// }
+		// });
 
 		edit.setOnAction((event) -> {
 
 			editWindowStage.show();
 
 		});
-		
-		
 
 		delete.setOnAction((event) -> {
-			
-			if(changes.size()>1 && stackInd<changes.size()-1) {
-				for(int i =changes.size(); i > stackInd+1 ;i--)
-					changes.removeElementAt(changes.size()-1);
+
+			if (changes.size() > 1 && stackInd < changes.size() - 1) {
+				for (int i = changes.size(); i > stackInd + 1; i--)
+					changes.removeElementAt(changes.size() - 1);
 			}
-			
-				changes.add("BeginListOfTextDeleted");
-				for (int i = 0; i < listOfText.size(); i++) {
 
-					((Label) ((Label)listOfText.get(i)))
-					.setBorder(new Border(new BorderStroke(null, null, null, null)));
+			changes.add("BeginListOfTextDeleted");
+			for (int i = 0; i < listOfText.size(); i++) {
 
-					changes.add( ((Label)listOfText.get(i)) );
-					int row = GridPane.getRowIndex( (Label)listOfText.get(i) );
-					int col = GridPane.getColumnIndex( (Label)listOfText.get(i) );
-					changes.add( row + "," + col );
-					WordBox.getChildren().remove(((Label) listOfText.get(i)));
+				((Label) ((Label) listOfText.get(i))).setBorder(new Border(new BorderStroke(null, null, null, null)));
 
-				}
-				changes.add("EndListOfTextDeleted");
-				listOfText.clear();
+				changes.add(((Label) listOfText.get(i)));
+				int row = GridPane.getRowIndex((Label) listOfText.get(i));
+				int col = GridPane.getColumnIndex((Label) listOfText.get(i));
+				changes.add(row + "," + col);
+				WordBox.getChildren().remove(((Label) listOfText.get(i)));
 
-			
+			}
+			changes.add("EndListOfTextDeleted");
+			listOfText.clear();
 
 			listOfText.clear();
 			if (!selectionModeLabel.isDisable()) {
 				showSelectionModeLabel();
 			}
-			
-			stackInd= changes.size()-1;
-			
+
+			stackInd = changes.size() - 1;
 
 		});
 
-	}//end of editWindow()
-	
+	}// end of editWindow()
+
 	public void descriptionWindow() {
 		VBox v2 = new VBox(1);
 		HBox h2 = new HBox(1);
 		TextArea editDesc = new TextArea();
 		int u = listOfElements.indexOf(lastSelectedText);
-		editDesc.setText((String) listOfDescriptions.get(u));
+
+		if ((String) listOfDescriptions.get(u) == "Add a description") {
+			editDesc.setPromptText((String) listOfDescriptions.get(u));
+			editDesc.setPromptText("test");
+		}
+
+		else
+			editDesc.setText((String) listOfDescriptions.get(u));
+
 		editDesc.setMaxHeight(80);
 		editDesc.setWrapText(true);
 		Button doneDescButton = new Button("Save Description");
@@ -497,7 +483,7 @@ public class MainController {
 	private void showSelectionModeLabel() {
 		if (selectionModeLabel.isDisabled())
 			selectionModeLabel.setDisable(false);
-		
+
 		else
 			selectionModeLabel.setDisable(true);
 
@@ -505,299 +491,262 @@ public class MainController {
 
 	@FXML
 	private void redo() {
-		if(changes.size() ==1)
+		if (changes.size() == 1)
 			return;
-		
-		if(stackInd+1<changes.size())
-		stackInd++;
-		
-		if( changes.get(stackInd).equals("BeginListOfTextDeleted") ) {
+
+		if (stackInd + 1 < changes.size())
+			stackInd++;
+
+		if (changes.get(stackInd).equals("BeginListOfTextDeleted")) {
 
 			stackInd++;
-			
-			while(!changes.get(stackInd).equals("EndListOfTextDeleted")) {
-					
-				
-				WordBox.getChildren().remove(getLabel( (Label)changes.get(stackInd)));
-				
+
+			while (!changes.get(stackInd).equals("EndListOfTextDeleted")) {
+
+				WordBox.getChildren().remove(getLabel((Label) changes.get(stackInd)));
+
 				stackInd++;
 				stackInd++;
 
 			}
 
+		} // end if
 
-		}//end if
-		
-		
-		else if( changes.get(stackInd).equals("BeginFormatChange") ) {
-			
-			//changes.remove(changes.lastElement());
+		else if (changes.get(stackInd).equals("BeginFormatChange")) {
+
+			// changes.remove(changes.lastElement());
 			stackInd++;
 
-			//int stackInd = changes.size()-1;
-			while(!changes.get(stackInd).equals("EndFormatChange")) {
-				
-				String str = (String) changes.get(stackInd+1);
-				
-				String[] arrOfStr = str.split(","); 
-				
-				(getLabelWithID( (String) changes.get(stackInd)))
-				.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
-						+ arrOfStr[1] + "px;");
+			// int stackInd = changes.size()-1;
+			while (!changes.get(stackInd).equals("EndFormatChange")) {
+
+				String str = (String) changes.get(stackInd + 1);
+
+				String[] arrOfStr = str.split(",");
+
+				(getLabelWithID((String) changes.get(stackInd)))
+						.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
+								+ arrOfStr[1] + "px;");
 				stackInd++;
 				stackInd++;
 
 			}
-		}//end if
-		
-		else if(changes.get(stackInd).equals("BeginDrag") ) {
-			
+		} // end if
+
+		else if (changes.get(stackInd).equals("BeginDrag")) {
+
 			stackInd++;
-			
-			while(!changes.get(stackInd).equals("EndDrag")) {
-			
-			String str = (String) changes.get(stackInd+2);
-			String[] arrOfStr = str.split(","); 
 
-			
-			Label l = (Label)getLabelWithID( (String)changes.get(stackInd+1));
-			WordBox.getChildren().remove(getLabel( (Label)getLabelWithID((String)changes.get(stackInd+1))));
+			while (!changes.get(stackInd).equals("EndDrag")) {
 
-		
-			
-			WordBox.add(l, Integer.parseInt(arrOfStr[0])
-					, Integer.parseInt(arrOfStr[1]));
-			
-			
-			stackInd++; stackInd++; stackInd++;
-			
-			}
-			
-			
-		}
-		else if(changes.get(stackInd).equals("BeginEditText")) {
-			
-			stackInd++;
-			
-			while(!changes.get(stackInd).equals("EndEditText")) {
-		
-				
-				Label l = (Label) getLabelWithID( (String) changes.get(stackInd+1));
-						l.setText((String)changes.get(stackInd+2));
+				String str = (String) changes.get(stackInd + 2);
+				String[] arrOfStr = str.split(",");
 
-				
-						stackInd++; stackInd++; stackInd++;
-						
-						for(int i =0; i < counter; i ++) 
-						{
+				Label l = (Label) getLabelWithID((String) changes.get(stackInd + 1));
+				WordBox.getChildren().remove(getLabel((Label) getLabelWithID((String) changes.get(stackInd + 1))));
 
-							if(textObjects[i].equals((String)changes.get(stackInd)) ) {
-								textObjects[i] = (String)changes.get(stackInd+2);
-								break;
-							}
+				WordBox.add(l, Integer.parseInt(arrOfStr[0]), Integer.parseInt(arrOfStr[1]));
 
-						}
-
+				stackInd++;
+				stackInd++;
+				stackInd++;
 
 			}
-			
-			
-			
-			
-		}//end if
 
+		} else if (changes.get(stackInd).equals("BeginEditText")) {
 
+			stackInd++;
+
+			while (!changes.get(stackInd).equals("EndEditText")) {
+
+				Label l = (Label) getLabelWithID((String) changes.get(stackInd + 1));
+				l.setText((String) changes.get(stackInd + 2));
+
+				stackInd++;
+				stackInd++;
+				stackInd++;
+
+				for (int i = 0; i < counter; i++) {
+
+					if (textObjects[i].equals((String) changes.get(stackInd))) {
+						textObjects[i] = (String) changes.get(stackInd + 2);
+						break;
+					}
+
+				}
+
+			}
+
+		} // end if
 
 	}
-	
+
 	private Node getLabel(Label l) {
-		
-		//l = changes.get(stackInd+1);
+
+		// l = changes.get(stackInd+1);
 		ObservableList<Node> childrens = WordBox.getChildren();
-		for(Node node : childrens) {
-			if(node instanceof Label &&
-					((Label)node).toString().equals(l.toString()))
-					 {
+		for (Node node : childrens) {
+			if (node instanceof Label && ((Label) node).toString().equals(l.toString())) {
 
 				Node lbl = node; // use what you want to remove
 				return lbl;
-			
+
 			}
 		}
-		
+
 		return null;
-		
-		
+
 	}
-	
+
 	private Node getLabelWithID(String id) {
-		
-		//l = changes.get(stackInd+1);
+
+		// l = changes.get(stackInd+1);
 		ObservableList<Node> childrens = WordBox.getChildren();
-		for(Node node : childrens) {
-			if(node instanceof Label &&
-					((Label)node).toString().contains("id="+id))
-					 {
+		for (Node node : childrens) {
+			if (node instanceof Label && ((Label) node).toString().contains("id=" + id)) {
 
 				Node lbl = node; // use what you want to remove
 				return lbl;
-			
+
 			}
 		}
-		
+
 		return null;
-		
-		
+
 	}
-	
+
 	@FXML
 	private void testCode() {
-		System.out.println("=============================" );
-		for(int i =0;i<changes.size(); i++)
-			if(i==stackInd)
-			System.out.println("====>" + changes.get(i));
+		System.out.println("=============================");
+		for (int i = 0; i < changes.size(); i++)
+			if (i == stackInd)
+				System.out.println("====>" + changes.get(i));
 			else
-				System.out.println( changes.get(i));
-		
-		
-		
+				System.out.println(changes.get(i));
+
 	}
 
 	@FXML
 	private void undo() {
-		
-		if(changes.size()==0|| changes.get(stackInd).equals("start")) {
+
+		if (changes.size() == 0 || changes.get(stackInd).equals("start")) {
 			return;
 		}
-		
-		
-		else if( changes.get(stackInd).equals("EndListOfTextDeleted") ) {
-			
-			stackInd--;
-			
 
-			while(!changes.get(stackInd).equals("BeginListOfTextDeleted")) {
-				
-				//the row/column of text
+		else if (changes.get(stackInd).equals("EndListOfTextDeleted")) {
+
+			stackInd--;
+
+			while (!changes.get(stackInd).equals("BeginListOfTextDeleted")) {
+
+				// the row/column of text
 				String str = (String) changes.get(stackInd);
-				
-				String[] arrOfStr = str.split(","); 
+
+				String[] arrOfStr = str.split(",");
 				stackInd--;
-				
-				WordBox.add((Label) changes.get(stackInd), Integer.parseInt(arrOfStr[1])
-						, Integer.parseInt(arrOfStr[0]));
+
+				WordBox.add((Label) changes.get(stackInd), Integer.parseInt(arrOfStr[1]),
+						Integer.parseInt(arrOfStr[0]));
 				stackInd--;
 
 			}
 
+		} // end if
 
-		}//end if
-	
+		else if (changes.get(stackInd).equals("EndFormatChange")) {
 
-		else if( changes.get(stackInd).equals("EndFormatChange") ) {
-			
 			stackInd--;
-			
-			while(!changes.get(stackInd).equals("BeginFormatChange")) {
-				String str = (String) changes.get(stackInd);
-				
-				String[] arrOfStr = str.split(","); 
-				//String str = (String) changes.get(stackInd);
 
-				//changes.remove(changes.lastElement());
+			while (!changes.get(stackInd).equals("BeginFormatChange")) {
+				String str = (String) changes.get(stackInd);
+
+				String[] arrOfStr = str.split(",");
+				// String str = (String) changes.get(stackInd);
+
+				// changes.remove(changes.lastElement());
 				stackInd--;
 
-				(getLabelWithID( (String) changes.get(stackInd)) )
-				.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
-						+ arrOfStr[0] + "px;");
-				//changes.remove(changes.lastElement());
+				(getLabelWithID((String) changes.get(stackInd)))
+						.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672); -fx-font-size:"
+								+ arrOfStr[0] + "px;");
+				// changes.remove(changes.lastElement());
 				stackInd--;
 
 			}
-			
 
 		}
-		
-		else if (changes.get(stackInd).equals("EndDrag") ) {
-			
+
+		else if (changes.get(stackInd).equals("EndDrag")) {
+
 			stackInd--;
-			
-			while(!changes.get(stackInd).equals("BeginDrag")) {
-				
-				//the row/column of text
-				String str = (String) changes.get(stackInd-2);
-				String[] arrOfStr = str.split(","); 
 
-			
-				//WordBox.getChildren().remove(getLabelWithID((String) changes.get(stackInd-1)));
-			
-				Label l = (Label)getLabelWithID( (String)changes.get(stackInd-1));
-				WordBox.getChildren().remove(getLabelWithID((String) changes.get(stackInd-1)));
-				WordBox.add(l, Integer.parseInt(arrOfStr[0])
-						, Integer.parseInt(arrOfStr[1]));
-				
-				
-				
-				
-				stackInd--; stackInd--; stackInd--;
+			while (!changes.get(stackInd).equals("BeginDrag")) {
 
+				// the row/column of text
+				String str = (String) changes.get(stackInd - 2);
+				String[] arrOfStr = str.split(",");
+
+				// WordBox.getChildren().remove(getLabelWithID((String)
+				// changes.get(stackInd-1)));
+
+				Label l = (Label) getLabelWithID((String) changes.get(stackInd - 1));
+				WordBox.getChildren().remove(getLabelWithID((String) changes.get(stackInd - 1)));
+				WordBox.add(l, Integer.parseInt(arrOfStr[0]), Integer.parseInt(arrOfStr[1]));
+
+				stackInd--;
+				stackInd--;
+				stackInd--;
 
 			}
-	
-		}//end if
-		
-		else if(changes.get(stackInd).equals("EndEditText")) {
-			
+
+		} // end if
+
+		else if (changes.get(stackInd).equals("EndEditText")) {
+
 			stackInd--;
-			
-			while(!changes.get(stackInd).equals("BeginEditText")) {
-				
-				Label l = (Label) getLabelWithID((String) changes.get(stackInd-1));
-						l.setText((String)changes.get(stackInd-2));
-			
-						for(int i =0; i < counter; i ++) 
-						{
 
-							if(textObjects[i].equals((String)changes.get(stackInd)) ) {
-								textObjects[i] = (String)changes.get(stackInd-2);
-								break;
-							}
+			while (!changes.get(stackInd).equals("BeginEditText")) {
 
-						}		
-				
-				
-				stackInd--; stackInd--; stackInd--;
+				Label l = (Label) getLabelWithID((String) changes.get(stackInd - 1));
+				l.setText((String) changes.get(stackInd - 2));
 
+				for (int i = 0; i < counter; i++) {
+
+					if (textObjects[i].equals((String) changes.get(stackInd))) {
+						textObjects[i] = (String) changes.get(stackInd - 2);
+						break;
+					}
+
+				}
+
+				stackInd--;
+				stackInd--;
+				stackInd--;
 
 			}
-			
-			
-			
-			
-		}//end if
-		
-		
+
+		} // end if
+
 		stackInd--;
 
 	}
-
 
 	@FXML
 	private void aboutMenu() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 
 		alert.setHeaderText("This software makes venn diagrams."
-				
-				);
+
+		);
 		alert.show();
 
 	}
+
 	@FXML
 	private void manualMenu() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 
-		alert.setHeaderText(
-				"The main Title and each of the Subtitles can be changed.\n"
+		alert.setHeaderText("The main Title and each of the Subtitles can be changed.\n"
 				+ "The colour of each venn circle can be changed.\n"
 				+ "Text is entered in the field on the right and by pressing the \"Enter\" key.\n"
 				+ "Text elements can be dragged and dropped around the venn.\n"
@@ -806,13 +755,10 @@ public class MainController {
 				+ "When right-clicking on a text element editing options will be displayed.\n"
 				+ "The software can be operated in dark or light mode.\n"
 				+ "There is an Undo and Redo feature in the Edit option above.\n"
-				+ "The venn can be saved as a txt file and later opened by selecting that file.\n"
-				);
+				+ "The venn can be saved as a txt file and later opened by selecting that file.\n");
 		alert.show();
 
 	}
-	
-
 
 	@FXML
 	private void chkTitleEvnt() {
@@ -905,7 +851,7 @@ public class MainController {
 		}
 
 		submitText.setText("");
-		
+
 		listOfDescriptions.add("Add a description");
 
 	}
@@ -929,9 +875,7 @@ public class MainController {
 
 	private void draggedObj(int col, int row) {
 		// lbl.getStyle()
-		
-			
-		
+
 		Label lbl = new Label(lastDraggedText);
 		lbl.setStyle(((Label) lastSelectedText).getStyle());
 		// lbl.setStyle("-fx-background-color: linear-gradient(#E4EAA2, #9CD672);
@@ -940,15 +884,16 @@ public class MainController {
 		lbl.addEventFilter(MouseEvent.MOUSE_DRAGGED, drag(lastDragged));
 		lbl.addEventFilter(MouseEvent.MOUSE_CLICKED, clicked(counter));
 		listOfElements.add(lbl);
-		listOfDescriptions.add(listOfElements.indexOf(lbl), listOfDescriptions.get(listOfElements.indexOf(lastSelectedText)));
+		listOfDescriptions.add(listOfElements.indexOf(lbl),
+				listOfDescriptions.get(listOfElements.indexOf(lastSelectedText)));
 
 		toDelete = true;
 		WordBox.add(lbl, col, row);
 		coord[lastDragged] = col + "," + row;
 		changes.add(lbl.getId());
-		changes.add(col+","+row);
+		changes.add(col + "," + row);
 		changes.add("EndDrag");
-		stackInd= changes.size()-1;
+		stackInd = changes.size() - 1;
 	}
 
 	// used for showing/reseting the textfields for only separating numbers
@@ -998,10 +943,10 @@ public class MainController {
 
 		if (darkToggle.isSelected() == true) {
 			// dark mode
-			
-			selectionModeLabel.setBackground(new Background(new BackgroundFill(Color.WHITE,
-					CornerRadii.EMPTY, Insets.EMPTY)));
-			
+
+			selectionModeLabel
+					.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+
 			Title.setStyle("-fx-text-inner-color: white;");
 			NumVen1.setStyle("-fx-text-inner-color: white;");
 			NumVen2.setStyle("-fx-text-inner-color: white;");
@@ -1013,10 +958,10 @@ public class MainController {
 
 		else {
 			// light mode
-			
-			selectionModeLabel.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT,
-					CornerRadii.EMPTY, Insets.EMPTY)));
-			
+
+			selectionModeLabel.setBackground(
+					new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+
 			darkToggle.setText("Dark Mode");
 			Title.setStyle("-fx-text-inner-color: black;");
 			NumVen1.setStyle("-fx-text-inner-color: black;");
@@ -1058,13 +1003,13 @@ public class MainController {
 			writer.println(cpkVen2.getValue());
 
 			int j = 0;
-			while(j < listOfDescriptions.size()) {
+			while (j < listOfDescriptions.size()) {
 				writer.println(listOfDescriptions.get(j));
 				j++;
 			}
-			
+
 			writer.println("newLine");
-			
+
 			writer.close();
 
 		}
@@ -1107,13 +1052,13 @@ public class MainController {
 					+ cpkVen1.getValue().getBlue());
 			writer.println(cpkVen2.getValue().getRed() + "," + cpkVen2.getValue().getGreen() + ","
 					+ cpkVen2.getValue().getBlue());
-			
+
 			int j = 0;
-			while(j < listOfDescriptions.size()) {
+			while (j < listOfDescriptions.size()) {
 				writer.println(listOfDescriptions.get(j));
 				j++;
 			}
-			
+
 			writer.println("newLine");
 
 			writer.close();
@@ -1126,7 +1071,7 @@ public class MainController {
 	private void openEvnt() throws IOException {
 		changes.clear();
 		changes.add("start");
-		stackInd=0;
+		stackInd = 0;
 
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Text file", "txt"));
@@ -1175,7 +1120,7 @@ public class MainController {
 					Double.parseDouble(colours[2]), 0.5);
 			Ven2.setFill(colour);
 			cpkVen2.setValue(colour);
-			
+
 			line = read.readLine();
 			while (!(line.contains("newLine"))) {
 				listOfDescriptions.add(line);
@@ -1266,19 +1211,16 @@ public class MainController {
 				Label lbl = (Label) arg0.getSource(); // this specifies which label is being dragged
 				lastSelectedText = arg0.getSource();
 				if (toDelete == true) {
-					
-					if(changes.size()>1 && stackInd<changes.size()-1) {
-						for(int i =changes.size(); i > stackInd+1 ;i--)
-							changes.removeElementAt(changes.size()-1);
+
+					if (changes.size() > 1 && stackInd < changes.size() - 1) {
+						for (int i = changes.size(); i > stackInd + 1; i--)
+							changes.removeElementAt(changes.size() - 1);
 					}
-					
-					
+
 					changes.add("BeginDrag");
-					
-					changes.add(GridPane.getColumnIndex(lbl)+","
-					+GridPane.getRowIndex(lbl));
-					
-					
+
+					changes.add(GridPane.getColumnIndex(lbl) + "," + GridPane.getRowIndex(lbl));
+
 					WordBox.getChildren().remove(arg0.getSource());
 					toDelete = false;
 				}
@@ -1309,7 +1251,7 @@ public class MainController {
 
 					// to delete it would use
 					lastSelectedText = arg0.getSource();
-				
+
 					editWindow();
 					descriptionWindow();
 
@@ -1340,22 +1282,24 @@ public class MainController {
 
 		mainPane.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
 
-			//			if (event.isControlDown() && event.getCode().toString().equals("z")) 
-			//		        undo();
-			//			else if (event.isControlDown() && event.getCode().toString().equals("y")) 
-			//		        redo();
+			// if (event.isControlDown() && event.getCode().toString().equals("z"))
+			// undo();
+			// else if (event.isControlDown() && event.getCode().toString().equals("y"))
+			// redo();
 
-			if(!editWindowStage.isShowing() && !contextMenu.isShowing()) {
-				
-				
+			if (!editWindowStage.isShowing() && !contextMenu.isShowing()) {
+
 				switch (event.getCode()) {
 				case CONTROL:
+
+					desc.setDisable(!desc.isDisable());
+
 					showSelectionModeLabel();
 					if (listOfText.size() > 0) {
 						for (int i = 0; i < listOfText.size(); i++) {
 
 							((Label) listOfText.get(i))
-							.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, null)));
+									.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, null)));
 						}
 						listOfText.clear();
 						break;
@@ -1363,19 +1307,16 @@ public class MainController {
 
 					break;
 
-				
-				//default case
+				// default case
 				default:
 					break;
 				}
 
+			} else {
+
 			}
-
-
 		});
 
 	}
-	
-
 
 }
