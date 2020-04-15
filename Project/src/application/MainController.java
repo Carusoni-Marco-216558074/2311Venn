@@ -1057,6 +1057,14 @@ public class MainController {
 			writer.println(cpkVen1.getValue());
 			writer.println(cpkVen2.getValue());
 
+			int j = 0;
+			while(j < listOfDescriptions.size()) {
+				writer.println(listOfDescriptions.get(j));
+				j++;
+			}
+			
+			writer.println("newLine");
+			
 			writer.close();
 
 		}
@@ -1099,6 +1107,14 @@ public class MainController {
 					+ cpkVen1.getValue().getBlue());
 			writer.println(cpkVen2.getValue().getRed() + "," + cpkVen2.getValue().getGreen() + ","
 					+ cpkVen2.getValue().getBlue());
+			
+			int j = 0;
+			while(j < listOfDescriptions.size()) {
+				writer.println(listOfDescriptions.get(j));
+				j++;
+			}
+			
+			writer.println("newLine");
 
 			writer.close();
 
@@ -1159,6 +1175,12 @@ public class MainController {
 					Double.parseDouble(colours[2]), 0.5);
 			Ven2.setFill(colour);
 			cpkVen2.setValue(colour);
+			
+			line = read.readLine();
+			while (!(line.contains("newLine"))) {
+				listOfDescriptions.add(line);
+				line = read.readLine();
+			}
 
 			read.close();
 
